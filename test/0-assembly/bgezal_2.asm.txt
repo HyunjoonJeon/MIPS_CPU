@@ -1,0 +1,11 @@
+addiu $s1,$0,0x1111
+bgezal $s1,Label1
+addiu $v0, $0,0x0001
+
+Label1:
+addiu $s2,$0,0x0000
+bgezal $s2,Label2
+or $v0,$s1,$s2
+
+Label2:
+addu $v0,$ra,$0

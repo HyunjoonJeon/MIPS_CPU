@@ -1,0 +1,7 @@
+addiu $s1,$0,32
+addiu $s2,$0,132
+beq $s1,$s2,Label1
+addiu $v0,$0,999
+
+Label1:
+addiu $v0,$0,111

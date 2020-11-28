@@ -1,0 +1,8 @@
+addiu $s1 $0 0x1234
+subu $s2 $s1 0x4567
+bgtz $s2 Label1
+addiu $v0 $0 0xFFFF
+
+Label1:
+addiu $v0 $0 0x1111
+

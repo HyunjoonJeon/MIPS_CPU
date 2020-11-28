@@ -1,0 +1,8 @@
+addiu $s1,$s1,0x0102
+addiu $s2,$s2,0x0304
+sll $s1,$s1,16
+addu $s3,$s1,$s2
+lui $s4,0x0a0b
+ori $v0,$s4,0x0c0d
+sw $s3,0($0)
+lwl $v0,1($0)

@@ -1,0 +1,3 @@
+addiu $s1,$0,0xAABC
+mtlo $s1
+mflo $v0

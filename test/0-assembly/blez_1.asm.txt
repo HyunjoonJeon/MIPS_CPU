@@ -1,0 +1,11 @@
+addiu $s1,$0,0x0000
+blez  $s1,Label1
+addiu $v0,$0,0x9999
+
+Label1:
+subu $s2,$0,0x0001
+blez $s2,Label2
+addiu $v0,$0,0x8888
+
+Label2:
+addu $v0,$0,0x1111

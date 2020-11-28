@@ -1,0 +1,7 @@
+addiu $s1,$0,0xFFFF
+addiu $s2,$0,0xFFFF
+bne $s1,$s2,Label1
+addiu $v0,$0,0x8264
+
+Label1:
+addiu $v0,$0,0x0573
