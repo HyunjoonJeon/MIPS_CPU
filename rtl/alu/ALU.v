@@ -1,13 +1,13 @@
 module ALU(
 	input logic[31:0] A,
-	input logic[32:0] B,
+	input logic[31:0] B,
 	input logic[3:0] alu_control,
-	input logic[3:0] branch_cond,
+	input logic[2:0] branch_cond,
 	output logic[31:0] alu_result,
 	output logic Z,
 	// output logic V,
-	output logic C
-	output logic branch_cond_true;
+	// output logic C,
+	output logic branch_cond_true
 	);
 
 	typedef enum logic[3:0] {
@@ -28,16 +28,16 @@ module ALU(
 		CONTROL_BRANCH = 4'b1110
 	} control_t;
 
-	logic[31:0] adder_B; // converted into negative if subtraction
-	logic[31:0] bitwise_and;
-	logic[31:0] bitwise_or;
-	logic[31:0] bitwise_xor;
-	logic[32:0] adder_result; // 1 extra bit to store the carry out
-	logic[31:0] less_than_unsigned;
-	logic[31:0] less_than_signed;
-	logic[31:0] shift_left_logical;
-	logic[31:0] shift_right_logical;
-	logic[31:0] shift_right_arithmetic;
+	wire[31:0] adder_B; // converted into negative if subtraction
+	wire[31:0] bitwise_and;
+	wire[31:0] bitwise_or;
+	wire[31:0] bitwise_xor;
+	wire[31:0] adder_result;
+	wire[31:0] less_than_unsigned;
+	wire[31:0] less_than_signed;
+	wire[31:0] shift_left_logical;
+	wire[31:0] shift_right_logical;
+	wire[31:0] shift_right_arithmetic;
 
 	assign bitwise_and = A & B;
 	assign bitwise_or = A | B;
@@ -48,15 +48,15 @@ module ALU(
 	assign adder_result = A + adder_B;
 	assign shift_left_logical = A << B;
 	assign shift_right_logical = A >> B;
-	assign shift_right_arithmetic = A >>> B;
+	assign shift_right_arithmetic = $signed(A) >>> B;
 
 	always_comb begin
 		case (alu_control)
 			CONTROL_ADD: begin
-				alu_result = adder_result[31:0];
+				alu_result = adder_result;
 			end
 			CONTROL_SUB: begin
-				alu_result = adder_result[31:0];
+				alu_result = adder_result;
 			end
 			CONTROL_AND: begin
 				alu_result = bitwise_and;
@@ -83,7 +83,7 @@ module ALU(
 				alu_result = shift_right_arithmetic;
 			end
 			CONTROL_BRANCH: begin
-				// no need to update the alu result
+				alu_result = adder_result;
 			end
 		endcase
 
@@ -106,17 +106,15 @@ module ALU(
 			3'b110: begin
 				branch_cond_true = $signed(A) >= 0 ? 1'b1: 1'b0;
 			end
-			default:
+			default: begin
 				branch_cond_true = 1'b0;
 			end
 		endcase
-
 	end
-	
 
-	assign Z = (alu_result == 0) ? 1 : 0;
+	assign Z = (alu_result == 0) ? 1'b1 : 1'b0;
 	/* assign V = (alu_control == CONTROL_ADD || alu_control == CONTROL_SUB) ? ((A[31] && adder_B[31] && !alu_result[31]) || (!A[31] && !adder_B[31] && alu_result[31])) : 0; */
 	// The overflow flag V commented out as it is not required for this project
-	assign C = (alu_control == CONTROL_ADD || alu_control == CONTROL_SUB) ? adder_result[32] : 0;
+	// assign C = (alu_control == CONTROL_ADD || alu_control == CONTROL_SUB) ? adder_result[32] : 0;
 
 endmodule
