@@ -1,0 +1,1 @@
+Harvard memory module with asynchronous debug port that allows the testbench to read memory data independent from CPU operations 
