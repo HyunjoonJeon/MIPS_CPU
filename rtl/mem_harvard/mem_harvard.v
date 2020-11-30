@@ -5,7 +5,7 @@ module mem_harvard(     //async output, readdata output maintains value when rea
     //Instruction port
     input logic[31:0] ip_address,
     input logic read_ip,
-    output logic[31:0] ip_data,
+    output logic[31:0] ip_readdata,
 
     //Data port
     input logic[31:0] dp_address,
@@ -13,7 +13,7 @@ module mem_harvard(     //async output, readdata output maintains value when rea
     input logic[3:0] byteenable,
     input logic read_dp,
     input logic write_dp,
-    output logic[31:0] dp_data,
+    output logic[31:0] dp_readdata,
 
     output logic stall
 );
@@ -69,15 +69,15 @@ module mem_harvard(     //async output, readdata output maintains value when rea
     assign td3 = tmp_ddata[31:24];
 
     always_comb begin
-        ip_data[7:0] = read_ip ? block2[ip_offset_address] : ti0;
-        ip_data[15:8] = read_ip ? block2[ip_offset_address+1] : ti1;
-        ip_data[23:16] = read_ip ? block2[ip_offset_address+2] : ti2;
-        ip_data[31:24] = read_ip ? block2[ip_offset_address+3] : ti3;
+        ip_readdata[7:0] = read_ip ? block2[ip_offset_address] : ti0;
+        ip_readdata[15:8] = read_ip ? block2[ip_offset_address+1] : ti1;
+        ip_readdata[23:16] = read_ip ? block2[ip_offset_address+2] : ti2;
+        ip_readdata[31:24] = read_ip ? block2[ip_offset_address+3] : ti3;
 
-        dp_data[7:0] = read_dp ? (ben0 ? block1[dp_address] : 8'h00) : td0;
-        dp_data[15:8] = read_dp ? (ben1 ? block1[dp_address+1] : 8'h00) : td1;
-        dp_data[23:16] = read_dp ? (ben2 ? block1[dp_address+2] : 8'h00) : td2;
-        dp_data[31:24] = read_dp ? (ben3 ? block1[dp_address+3] : 8'h00) : td3;        
+        dp_readdata[7:0] = read_dp ? (ben0 ? block1[dp_address] : 8'h00) : td0;
+        dp_readdata[15:8] = read_dp ? (ben1 ? block1[dp_address+1] : 8'h00) : td1;
+        dp_readdata[23:16] = read_dp ? (ben2 ? block1[dp_address+2] : 8'h00) : td2;
+        dp_readdata[31:24] = read_dp ? (ben3 ? block1[dp_address+3] : 8'h00) : td3;        
     end
 
     always_ff @(posedge clk) begin
