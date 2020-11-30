@@ -34,15 +34,35 @@ module mips_cpu_harvard(
     logic [31:0] alu_input, aluout, reg_write_data, reg_data_a, reg_data_b;
     logic [3:0] alu_control;
     logic [1:0] pc_sel, reg_addr_sel, reg_data_sel, branch_cond;
-    logic reg_write_enable, signextend_sel, branch_is_true, alu_sel;
+    logic reg_write_enable, signextend_sel, branch_is_true, alu_sel, clken, act;
+
+    // Initial settings
+    initial begin
+        act = 0;
+    end
+
+    // active logic (use clk_enable to halt the execution of instructions when the program ends)
+    always_comb begin
+        clken = act & clk_enable & !(instr_address==0);
+        active = act;
+    end
+
+    always_ff @(posedge clk) begin
+        if(reset) begin
+            act <= 1;
+        end
+        else if(instr_address==0) begin
+            act <= 0;
+        end
+    end
 
     // Connecting to all modules
     pc pc(
-        .clk(clk)
-        .reset(reset)
-        .clk_enable(clk_enable)
+        .clk(clk),
+        .reset(reset),
+        .clk_enable(clken),    //changed clk_enable to clken
         .new_pc(next_pc),
-        .pc(curr_pc),
+        .pc(curr_pc)
     );
 
     pcnext pcnext(
@@ -58,7 +78,7 @@ module mips_cpu_harvard(
 
     decoder decoder(
         .instr_readdata(instr_readdata),
-        .clk_enable(clk_enable),
+        .clk_enable(clken),    //changed clk_enable to clken
         .reset(reset),
         .active(active),
         .is_true(branch_is_true),
@@ -120,7 +140,7 @@ module mips_cpu_harvard(
         .branch_cond_true(branch_is_true)
     );
 
-    register_file register_file(
+    register_file register_file(    // need to add reg_v0 output? and also need a clk_enable?
         .clk(clk),
         .reset(reset),
         .read_reg1(rs),
