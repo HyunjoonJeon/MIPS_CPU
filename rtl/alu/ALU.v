@@ -1,32 +1,48 @@
 module ALU(
 	input logic[31:0] A,
 	input logic[31:0] B,
-	input logic[3:0] alu_control,
+	input logic[4:0] alu_control,
 	input logic[2:0] branch_cond,
+	input logic[31:0] LO_input,
+	input logic[31:0] HI_input,
 	output logic[31:0] alu_result,
-	output logic Z,
+	// output logic Z,
 	// output logic V,
 	// output logic C,
-	output logic branch_cond_true
+	output logic branch_cond_true,
+	output logic[31:0] LO_output,
+	output logic[31:0] HI_output
 	);
 
-	typedef enum logic[3:0] {
-		CONTROL_ADD = 4'b0000,
-		CONTROL_SUB = 4'b0001,
-		CONTROL_AND = 4'b0010,
-		CONTROL_OR = 4'b0011,
-		CONTROL_XOR = 4'b0100,
-		CONTROL_SLT = 4'b0101,
-		CONTROL_SLTU = 4'b0110,
-		CONTROL_SLL = 4'b0111,
-		CONTROL_SRL = 4'b1000,
-		CONTROL_SRA = 4'b1001,
-		CONTROL_MULT = 4'b1010,
-		CONTROL_MULTU = 4'b1011,
-		CONTROL_DIV = 4'b1100,
-		CONTROL_DIVU = 4'b1101,
-		CONTROL_BRANCH = 4'b1110
+	typedef enum logic[4:0] {
+		CONTROL_ADD = 5'b00000,
+		CONTROL_SUB = 5'b00001,
+		CONTROL_AND = 5'b00010,
+		CONTROL_OR = 5'b00011,
+		CONTROL_XOR = 5'b00100,
+		CONTROL_SLT = 5'b00101,
+		CONTROL_SLTU = 5'b00110,
+		CONTROL_SLL = 5'b00111,
+		CONTROL_SRL = 5'b01000,
+		CONTROL_SRA = 5'b01001,
+		CONTROL_MULT = 5'b01010,
+		CONTROL_MULTU = 5'b01011,
+		CONTROL_DIV = 5'b01100,
+		CONTROL_DIVU = 5'b01101,
+		CONTROL_LUI = 5'b01110,
+		CONTROL_MTLO = 5'b01111,
+		CONTROL_MTHI = 5'b10000
 	} control_t;
+
+	typedef enum logic[2:0] {
+		BRANCH_NOTHING = 3'b000,
+		BRANCH_EQUAL = 3'b001,
+		BRANCH_NOT_EQUAL = 3'b010,
+		BRANCH_LTZ = 3'b011,
+		BRANCH_GTZ = 3'b100,
+		BRANCH_LTEZ = 3'b101,
+		BRANCH_GTEZ = 3'b110
+	} branch_cond_t;
 
 	wire[31:0] adder_B; // converted into negative if subtraction
 	wire[31:0] bitwise_and;
@@ -38,6 +54,12 @@ module ALU(
 	wire[31:0] shift_left_logical;
 	wire[31:0] shift_right_logical;
 	wire[31:0] shift_right_arithmetic;
+	wire unsigned [63:0] unsigned_product;
+	wire [31:0] product_hi;
+	wire [31:0] product_lo;
+	wire signed [63:0] signed_product;
+	wire [31:0] quotient; // register LO
+	wire [31:0] remainder; // register HI
 
 	assign bitwise_and = A & B;
 	assign bitwise_or = A | B;
@@ -49,6 +71,12 @@ module ALU(
 	assign shift_left_logical = A << B;
 	assign shift_right_logical = A >> B;
 	assign shift_right_arithmetic = $signed(A) >>> B;
+	assign signed_product = $signed(A) * $signed(B);
+	assign unsigned_product = $unsigned(A) * $unsigned(B);
+	assign product_hi = (alu_control == CONTROL_MULT) ? signed_product[63:32] : unsigned_product[63:32];
+	assign product_lo = (alu_control == CONTROL_MULT) ? signed_product[31:0] : unsigned_product[31:0];
+	assign quotient = (alu_control == CONTROL_DIV) ? $signed($signed(A) / $signed(B)) : $unsigned(A) / $unsigned(B);
+	assign remainder = (alu_control == CONTROL_DIV) ? $signed($signed(A) % $signed(B)) : $unsigned(A) % $unsigned(B);
 
 	always_comb begin
 		case (alu_control)
@@ -82,39 +110,58 @@ module ALU(
 			CONTROL_SRA: begin
 				alu_result = shift_right_arithmetic;
 			end
-			CONTROL_BRANCH: begin
+			CONTROL_LUI: begin
+				alu_result = B << 16;
+			end
+			default: begin // for BRANCH, MULT/MULTU, DIV/DIVU, MTLO, MTHI
 				alu_result = adder_result;
 			end
 		endcase
 
 		case (branch_cond)
-			3'b001: begin
+			BRANCH_EQUAL: begin
 				branch_cond_true = A == B ? 1'b1 : 1'b0;
 			end
-			3'b010: begin
+			BRANCH_NOT_EQUAL: begin
 				branch_cond_true = A != B ? 1'b1 : 1'b0;
 			end
-			3'b011: begin
+			BRANCH_LTZ: begin
 				branch_cond_true = $signed(A) < 0 ? 1'b1: 1'b0;
 			end
-			3'b100: begin
+			BRANCH_GTZ: begin
 				branch_cond_true = $signed(A) > 0 ? 1'b1: 1'b0;
 			end
-			3'b101: begin
+			BRANCH_LTEZ: begin
 				branch_cond_true = $signed(A) <= 0 ? 1'b1: 1'b0;
 			end
-			3'b110: begin
+			BRANCH_GTEZ: begin
 				branch_cond_true = $signed(A) >= 0 ? 1'b1: 1'b0;
 			end
 			default: begin
 				branch_cond_true = 1'b0;
 			end
 		endcase
+
+		if (alu_control == CONTROL_MTLO) begin
+			LO_output = B;
+			HI_output = product_hi;
+		end
+		else if (alu_control == CONTROL_MTHI) begin
+			LO_output = product_lo;
+			HI_output = B;
+		end
+		else if (alu_control == CONTROL_DIV || alu_control == CONTROL_DIVU) begin
+			LO_output = quotient;
+			HI_output = remainder;
+		end
+		else begin
+			LO_output = product_lo;
+			HI_output = product_hi;
+		end
 	end
 
-	assign Z = (alu_result == 0) ? 1'b1 : 1'b0;
-	/* assign V = (alu_control == CONTROL_ADD || alu_control == CONTROL_SUB) ? ((A[31] && adder_B[31] && !alu_result[31]) || (!A[31] && !adder_B[31] && alu_result[31])) : 0; */
-	// The overflow flag V commented out as it is not required for this project
+	//assign Z = (alu_result == 0) ? 1'b1 : 1'b0;
+	// assign V = (alu_control == CONTROL_ADD || alu_control == CONTROL_SUB) ? ((A[31] && adder_B[31] && !alu_result[31]) || (!A[31] && !adder_B[31] && alu_result[31])) : 0;
 	// assign C = (alu_control == CONTROL_ADD || alu_control == CONTROL_SUB) ? adder_result[32] : 0;
 
 endmodule
