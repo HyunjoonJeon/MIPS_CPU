@@ -1,4 +1,4 @@
-module mem_harvard_tb();
+module mem_harvard_dbg_tb();
     logic clk;
     logic rst;
     
@@ -13,6 +13,9 @@ module mem_harvard_tb();
     logic write_dp;
     logic[31:0] dp_data;
     logic stall;
+
+    logic[31:0] dbg_address;
+    logic[31:0] dbg_readdata;
 
     parameter INSTR_INIT_FILE = "";
     parameter DATA_INIT_FILE = "";
@@ -39,25 +42,43 @@ module mem_harvard_tb();
         byteenable=4'b1111;
         read_dp=0;
         write_dp=0;
-        
+        dbg_address=0;
+
+        #4;
+        $display("reading data block");
+        repeat (5) begin
+            $display("%h",dbg_readdata);
+            dbg_address=dbg_address+4;
+            #1;
+        end
+
+        $display("\nreading instruction block");
+        dbg_address=32'hbfc00000;
         #1;
-        read_ip=1;
-        read_dp=0;
-        $display("read instr port");
-        repeat (7) begin
-            @(negedge clk);
-            $display("instr port: %h",ip_data);
-            ip_address=ip_address+4;
+        repeat (5) begin
+            $display("%h",dbg_readdata);
+            dbg_address=dbg_address+4;
+            #1;
         end
-        $display("\nread data port");
-        read_ip=0;
-        read_dp=1;
-        repeat (7) begin
-            @(negedge clk);
-            $display("data port: %h",dp_data);
-            dp_address=dp_address+4;
-        end
-        read_dp=0;
+        
+        // #1;
+        // read_ip=1;
+        // read_dp=0;
+        // $display("read instr port");
+        // repeat (7) begin
+        //     @(negedge clk);
+        //     $display("instr port: %h",ip_data);
+        //     ip_address=ip_address+4;
+        // end
+        // $display("\nread data port");
+        // read_ip=0;
+        // read_dp=1;
+        // repeat (7) begin
+        //     @(negedge clk);
+        //     $display("data port: %h",dp_data);
+        //     dp_address=dp_address+4;
+        // end
+        // read_dp=0;
 
         // read_dp=1;
         // dp_address=32'h00000ac0;
@@ -105,19 +126,21 @@ module mem_harvard_tb();
 
     end
 
-    mem_harvard #(.INSTR_INIT_FILE("test_data_1_20.txt"), .DATA_INIT_FILE("test_data_1_20.txt")) mem(  //instruction mem, data mem
-        clk,
-        rst,
-        ip_address,
-        read_ip,
-        ip_data,
-        dp_address,
-        writedata,
-        byteenable,
-        read_dp,
-        write_dp,
-        dp_data,
-        stall
+    mem_harvard_dbg #(.INSTR_INIT_FILE("test_data_1_20.txt"), .DATA_INIT_FILE("test_data_1_20.txt")) mem(  //instruction mem, data mem
+        .clk(clk),
+        .rst(rst),
+        .ip_address(ip_address),
+        .read_ip(read_ip),
+        .ip_readdata(ip_data),
+        .dp_address(dp_address),
+        .writedata(writedata),
+        .byteenable(byteenable),
+        .read_dp(read_dp),
+        .write_dp(write_dp),
+        .dp_readdata(dp_data),
+        .stall(stall),
+        .dbg_address(dbg_address),
+        .dbg_readdata(dbg_readdata)
     );
 
 
