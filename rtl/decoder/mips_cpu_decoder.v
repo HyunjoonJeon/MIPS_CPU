@@ -78,8 +78,22 @@ module decoder(
                     reg_addr_sel = 2'b01;
                     // sel alu out unless JALR
                     reg_data_sel = (funct_code == 6'b001001) ?  2'b11 : 2'b00;
-                    // write unless funct code == JR
-                    reg_write_enable = (funct_code == 6'b001000) ? 1'b0:1'b1;
+                    // write unless funct code == JR or starts with 01 -> uses HI and LO
+                    reg_write_enable = (funct_code == 6'b001000 || funct_code[5] == 1'b0 && funct_code[4] == 1'b1) ? 1'b0:1'b1;
+                    // if its JR or uses HI & LO
+                    if (funct_code == 6'b001000 || funct_code[5] == 1'b0 && funct_code[4] == 1'b1) begin 
+                        // if its not MFHI or MFLO
+                        if (funct_code != 6'b010000 && funct_code != 6'b010010) begin
+                            reg_write_enable = 1'b0;
+                        end
+                        // if it is MFHI or MFLO then write
+                        else begin
+                            reg_write_enable = 1'b1;
+                        end
+                    end
+                    else begin
+                        reg_write_enable = 1'b1;
+                    end
                     // pc_sel JR if JR or JALR else pc + 4
                     pc_sel = (funct_code == 6'b001000 || funct_code == 6'b001001) ? 2'b11 : 2'b00;
                     byte_enable = 4'b1111;
