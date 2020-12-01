@@ -17,7 +17,7 @@ if [ 2 -eq "$#" ];then
     if [ 1 -eq ${SUB} ];then
     echo "Testcase not exist for ${INSTR}"
     else
-    ./3.sh ${ADR} ${INSTR} ${TESTNAME}
+    ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
     fi
     done
 
@@ -39,7 +39,7 @@ else
     # Dispatch to the main test-case script
     if [ ${INSTR} != 'lui' ] && [ ${INSTR} != 'addiu' ] && [ ${INSTR} != 'lw' ] && [ ${INSTR} != 'sw' ] && [ ${INSTR} != 'jr' ];
     then
-    ./test_one_instr_mips_cpu_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
+    ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
     fi
 
     done
