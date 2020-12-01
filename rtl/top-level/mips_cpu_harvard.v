@@ -131,7 +131,7 @@ module mips_cpu_harvard(
         .branch_cond(branch_cond)
     );
 
-    ALU ALU(
+    ALU ALU( // not yet added HI and LO
         .A(reg_data_a),
         .B(alu_input),
         .alu_control(alu_control),
@@ -140,7 +140,7 @@ module mips_cpu_harvard(
         .branch_cond_true(branch_is_true)
     );
 
-    register_file register_file(    // need to add reg_v0 output? and also need a clk_enable?
+    register_file register_file(
         .clk(clk),
         .reset(reset),
         .read_reg1(rs),
@@ -150,6 +150,8 @@ module mips_cpu_harvard(
         .write_reg(reg_write_addr),
         .write_enable(reg_write_enable),
         .write_data(reg_write_data)
+        .clk_enable(clken),
+        .register_v0(register_v0)
     );
 
 endmodule
