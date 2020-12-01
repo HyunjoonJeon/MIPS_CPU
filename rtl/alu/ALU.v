@@ -5,6 +5,7 @@ module ALU(
 	input logic[2:0] branch_cond,
 	input logic[31:0] LO_input,
 	input logic[31:0] HI_input,
+	input logic[4:0] sa,
 	output logic[31:0] alu_result,
 	// output logic Z,
 	// output logic V,
@@ -18,20 +19,26 @@ module ALU(
 		CONTROL_ADD = 5'b00000,
 		CONTROL_SUB = 5'b00001,
 		CONTROL_AND = 5'b00010,
-		CONTROL_OR = 5'b00011,
-		CONTROL_XOR = 5'b00100,
-		CONTROL_SLT = 5'b00101,
-		CONTROL_SLTU = 5'b00110,
-		CONTROL_SLL = 5'b00111,
-		CONTROL_SRL = 5'b01000,
-		CONTROL_SRA = 5'b01001,
-		CONTROL_MULT = 5'b01010,
-		CONTROL_MULTU = 5'b01011,
-		CONTROL_DIV = 5'b01100,
-		CONTROL_DIVU = 5'b01101,
-		CONTROL_LUI = 5'b01110,
-		CONTROL_MTLO = 5'b01111,
-		CONTROL_MTHI = 5'b10000
+		CONTROL_ANDI = 5'b00011,
+		CONTROL_OR = 5'b00100,
+		CONTROL_ORI = 5'b00101,
+		CONTROL_XOR = 5'b00110,
+		CONTROL_XORI = 5'b00111,
+		CONTROL_SLT = 5'b01000,
+		CONTROL_SLTU = 5'b01001,
+		CONTROL_SLL = 5'b01010,
+		CONTROL_SLLV = 5'b01011,
+		CONTROL_SRL = 5'b01100,
+		CONTROL_SRLV = 5'b01101,
+		CONTROL_SRA = 5'b01110,
+		CONTROL_SRAV = 5'b01111,
+		CONTROL_MULT = 5'b10000,
+		CONTROL_MULTU = 5'b10001,
+		CONTROL_DIV = 5'b10010,
+		CONTROL_DIVU = 5'b10011,
+		CONTROL_LUI = 5'b10100,
+		CONTROL_MTLO = 5'b10101,
+		CONTROL_MTHI = 5'b10110
 	} control_t;
 
 	typedef enum logic[2:0] {
@@ -60,17 +67,19 @@ module ALU(
 	wire signed [63:0] signed_product;
 	wire [31:0] quotient; // register LO
 	wire [31:0] remainder; // register HI
+	wire [31:0] immediate_zero_extend; // zero extend the immediate for logical operations
 
-	assign bitwise_and = A & B;
-	assign bitwise_or = A | B;
-	assign bitwise_xor = A ^ B;
+	assign immediate_zero_extend = {16'd0,B[15:0]};
+	assign bitwise_and = (alu_control == CONTROL_ANDI) ? A & immediate_zero_extend : A & B;
+	assign bitwise_or = (alu_control == CONTROL_ORI) ? A & immediate_zero_extend : A | B;
+	assign bitwise_xor = (alu_control == CONTROL_XORI) ? A ^ immediate_zero_extend : A ^ B;
 	assign less_than_unsigned = (A < B) ? 32'd1 : 32'd0;
 	assign less_than_signed = $signed(A) < $signed(B) ? 32'd1 : 32'd0;
 	assign adder_B = (alu_control == CONTROL_SUB) ? ~B+1 : B;
 	assign adder_result = A + adder_B;
-	assign shift_left_logical = A << B;
-	assign shift_right_logical = A >> B;
-	assign shift_right_arithmetic = $signed(A) >>> B;
+	assign shift_left_logical = (alu_control == CONTROL_SLL) ? B << sa : B << A;
+	assign shift_right_logical = (alu_control == CONTROL_SRL) ? B >> sa : B >> A;
+	assign shift_right_arithmetic = (alu_control == CONTROL_SRA) ? $signed(B) >>> sa : $signed(B) >>> A;
 	assign signed_product = $signed(A) * $signed(B);
 	assign unsigned_product = $unsigned(A) * $unsigned(B);
 	assign product_hi = (alu_control == CONTROL_MULT) ? signed_product[63:32] : unsigned_product[63:32];
@@ -101,13 +110,13 @@ module ALU(
 			CONTROL_SLTU: begin
 				alu_result = less_than_unsigned;
 			end
-			CONTROL_SLL: begin
+			CONTROL_SLLV: begin
 				alu_result = shift_left_logical;
 			end
-			CONTROL_SRL: begin
+			CONTROL_SRLV: begin
 				alu_result = shift_right_logical;
 			end
-			CONTROL_SRA: begin
+			CONTROL_SRAV: begin
 				alu_result = shift_right_arithmetic;
 			end
 			CONTROL_LUI: begin
@@ -143,12 +152,12 @@ module ALU(
 		endcase
 
 		if (alu_control == CONTROL_MTLO) begin
-			LO_output = B;
+			LO_output = A;
 			HI_output = product_hi;
 		end
 		else if (alu_control == CONTROL_MTHI) begin
 			LO_output = product_lo;
-			HI_output = B;
+			HI_output = A;
 		end
 		else if (alu_control == CONTROL_DIV || alu_control == CONTROL_DIVU) begin
 			LO_output = quotient;
