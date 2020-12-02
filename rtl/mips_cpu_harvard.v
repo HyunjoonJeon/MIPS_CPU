@@ -46,21 +46,23 @@ module mips_cpu_harvard(
 
     // active logic (use clk_enable to halt the execution of instructions when the program ends)
     always_comb begin
-        clken = act & clk_enable & !(instr_address==0);
+        clken = act & clk_enable & !(instr_readdata==32'h00000008); //!(instr_address==0);
         active = act;
+        instr_address = curr_pc;
+        instr_read=1;
     end
 
     always_ff @(posedge clk) begin
         if(reset) begin
             act <= 1;
         end
-        else if(instr_address==0) begin
+        else if(instr_readdata==32'h00000008) begin
             act <= 0;
         end
     end
 
     // Connecting to all modules
-    pc pc(
+    pc pc_1(
         .clk(clk),
         .reset(reset),
         .clk_enable(clken),    //changed clk_enable to clken
@@ -68,7 +70,7 @@ module mips_cpu_harvard(
         .pc(curr_pc)
     );
 
-    pcnext pcnext(
+    pcnext pcnext_1(
         .pc(curr_pc),
         .extended_imm(extended_imm),
         .j_addr(j_addr),
@@ -79,7 +81,7 @@ module mips_cpu_harvard(
         .pcnext(next_pc)
     );
 
-    decoder decoder(
+    decoder decoder_1(
         .instr_readdata(instr_readdata),
         .clk_enable(clken),    //changed clk_enable to clken
         .reset(reset),
@@ -96,7 +98,7 @@ module mips_cpu_harvard(
         .signextend_sel(signextend_sel)
     );
 
-    signextend signextend(
+    signextend signextend_1(
         .immediate(imm),
         .data_readdata(data_readdata),
         .select(signextend_sel),
@@ -104,21 +106,21 @@ module mips_cpu_harvard(
         .extended_data(extended_data)
     );
 
-    mux1 mux1(
+    mux1 mux1_1(
         .rt(rt),
         .rd(rd),
         .select(reg_addr_sel),
         .reg_write_addr(reg_write_addr)
     );
 
-    mux2 mux2(
+    mux2 mux2_1(
         .reg_data_b(reg_data_b),
         .extended_imm(extended_imm),
         .select(alu_sel),
         .alu_input(alu_input)
     );
 
-    mux3 mux3(
+    mux3 mux3_1(
         .aluout(aluout),
         .data_readdata(data_readdata),
         .signextend_data(extended_data),
@@ -127,7 +129,7 @@ module mips_cpu_harvard(
         .reg_write_data(reg_write_data)
     );
 
-    ALU_decoder ALU_decoder(
+    ALU_decoder ALU_decoder_1(
         .instr_readdata(instr_readdata),
         .alu_control(alu_control),
         .branch_cond(branch_cond),
@@ -136,7 +138,7 @@ module mips_cpu_harvard(
         .HI_write_enable(HI_write_enable)
     );
 
-    ALU ALU(
+    ALU ALU_1(
         .A(reg_data_a),
         .B(alu_input),
         .alu_control(alu_control),
@@ -150,7 +152,7 @@ module mips_cpu_harvard(
         .HI_output(HI_alu2reg)
     );
 
-    reg_file_hi_lo reg_file_hi_lo(
+    reg_file_hi_lo reg_file_hi_lo_1(
         .clk(clk),
         .reset(reset),
         .clk_enable(clken),
@@ -162,15 +164,15 @@ module mips_cpu_harvard(
         .HI_output(HI_reg2alu)
     );
 
-    register_file register_file(    // need to add reg_v0 output? and also need a clk_enable?
+    register_file register_file_1(    // need to add reg_v0 output? and also need a clk_enable?
         .clk(clk),
-	.clk_enable(clken),
+	    .clk_enable(clken),
         .reset(reset),
         .read_reg1(rs),
         .read_reg2(rt),
         .read_data_a(reg_data_a),
         .read_data_b(reg_data_b),
-	.register_v0(register_v0),
+	    .register_v0(register_v0),
         .write_reg(reg_write_addr),
         .write_enable(reg_write_enable),
         .write_data(reg_write_data)

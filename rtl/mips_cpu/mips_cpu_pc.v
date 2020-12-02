@@ -7,9 +7,13 @@ module pc (
     input logic clk_enable
     );
 
+    initial begin
+        pc = 32'hbfc00000;
+    end
+
     always_ff @(posedge clk) begin
         if (reset) begin
-            pc <= 32'hBFC00000;
+            pc <= 32'hbfc00000;
         end
         else if (clk_enable) begin
             pc <= new_pc;

@@ -42,6 +42,10 @@ module mem_harvard(     //async output, readdata output maintains value when rea
             block1[i]=0;
             block2[i]=0;
         end
+        for(i=0;i<(BLOCK_SIZE/4);i++) begin
+            init_b1[i]=0;
+            init_b2[i]=0;
+        end
         if(INSTR_INIT_FILE!="") begin
             $display("loading instruction mem with %s",INSTR_INIT_FILE);
             $readmemh(INSTR_INIT_FILE,init_b2);
