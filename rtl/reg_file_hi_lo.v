@@ -1,6 +1,6 @@
 //`timescale 1ns/100ps
 
-module reg_file_hi_lo_test(
+module reg_file_hi_lo(
     input logic clk,
     input logic reset,
     input logic clk_enable,
