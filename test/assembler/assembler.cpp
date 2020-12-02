@@ -7,7 +7,7 @@
 #include <iomanip> 
 
 int main(){
-    vector<pair<string, string, string, string>> instruction_set;
+    vector<<string, string, string, string>> instruction_set;
     map<string, int> labels;
 
 //Collecting the instructions from the .txt file
@@ -16,7 +16,7 @@ int main(){
         if(mips_is_label_decl(head)){
             head.pop_back();
             assert(labels.find(head)==labels.end());
-            labels[head]=data_and_instr.size();
+            labels[head]=instru.size();
 
         }else if(mips_is_instruction(head)){
             if(mips_instruction_is_function(head)){
@@ -98,19 +98,19 @@ int main(){
                 cin >> rs;
                 assert(!cin.fail());
                 instruction_set.push_back({head, rs, rt, rd});
-            }else if("jalr" == head)){
+            }else if(head == "jalr")){
                 string rd;
                 string rs;
                 cin >> rd;
                 cin >> rs;
                 assert(!cin.fail());
                 instruction_set.push_back({head, rd, rs, '0'});
-            }else if("jr" == head){
+            }else if(head == "jr"){
                 string rs;
                 cin >> rs;
                 assert(!cin.fail());
                 instruction_set.push_back({head, rs, '0', '0'});
-            }else if("lui" == head){
+            }else if(head == "lui"){
                 string rt;
                 string im;
                 cin >> rt;
@@ -124,4 +124,46 @@ int main(){
         }
 }
 //Working with the data
+    cout << hex;    
+    cout << setw(8); 
+    cout << setfill('0'); 
+
+    for(int i = 0; i < instruction_set.size(); i++){
+        if(mu0_is_instruction(instruction_set[i][0])){
+            string opname = instruction_set[i][0];
+            uint16_t opcode = mips_opname_to_opcode(opname);
+            if(mips_instruction_is_function(opname)){
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 2) + mips_regname_to_regcode(instruction_set[i][3], 3)) << endl;
+            }else if(mips_instruction_is_function_immediate(opname)){
+                string temp1 = to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 2));
+                string temp2 = instruction_set[i][3];
+                cout << temp1.substr(0, 15) + temp2.substr(2) << endl;
+            }else if(mips_instruction_is_branch(opname)){
+                //TO-DO Incorporate Labels
+            }else if(mips_instruction_is_branch_comparison(opname)){
+                //TO-DO Incorporate Labels
+            }else if(mips_instruction_is_jump(opname)){
+                //TO-DO Incorporate Labels
+            }else if(mips_instruction_is_memory_using_offset(opname)){
+                //TO-DO Incorporate memory offsets
+            }else if(mips_instruction_is_HiLo(opname){
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1)) << endl;
+            }else if(mips_instruction_is_MulDiv(opname)){
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 2)) << endl;
+            }else if(mips_instruction_is_shift(opname)){
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 2) + mips_regname_to_regcode(instruction_set[i][2], 3) + stoi(instruction_set[i][3])) << endl;
+            }else if(mips_instruction_is_shift_variable(opname)){
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 2) + mips_regname_to_regcode(instruction_set[i][3], 3)) << endl;
+            }else if(opname == "jalr")){
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 3)) << endl;
+            }else if(opname == 'jr'){
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1)) << endl;
+            }else if(opname == 'lui'){
+                string temp1 = to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 2));
+                string temp2 = instruction_set[i][2];
+                cout << temp1.substr(0, 15) + temp2.substr(2) << endl;
+            }
+
+    }
+}
 }

@@ -223,12 +223,12 @@ uint32_t mips_opname_to_opcode(const string &s)
     if(s=="and") return opcode + 100100;
     if(s=="andi") return opcode + 001100<<26;
     if(s=="beq") return opcode + 000100<<26;
-    if(s=="bgez") return opcode + 00001<<15;
-    if(s=="bgezal") return opcode + 10001<<15;
+    if(s=="bgez") return opcode + 00001<<16;
+    if(s=="bgezal") return opcode + 10001<<16;
     if(s=="bgtz") return opcode + 000111<<26;
     if(s=="blez") return opcode + 000110<<26;
-    if(s=="bltz") return opcode + 00000<<15;
-    if(s=="bltzal") return opcode + 10000<<15;
+    if(s=="bltz") return opcode + 00000<<16;
+    if(s=="bltzal") return opcode + 10000<<16;
     if(s=="bne") return opcode + 000101<<26;
     if(s=="div") return opcode + 011010;
     if(s=="divu") return opcode + 011011;
@@ -267,6 +267,46 @@ uint32_t mips_opname_to_opcode(const string &s)
     if(s=="xor") return opcode + 100110;
     if(s=="xori") return opcode + 001110<<26;
 }
+
+uint32_t mips_regname_to_regcode(const string &s, int loc)
+{
+    assert(mips_is_register(s));
+    int x = 26-5*loc;
+    uint32_t regno = 00000000000000000000000000000000;
+    if(s=="$0") return regno + 000000<<x;
+    if(s=="$1") return regno + 000001<<x;
+    if(s=="$2") return regno + 000010<<x;
+    if(s=="$3") return regno + 000011<<x;
+    if(s=="$4") return regno + 000100<<x;
+    if(s=="$5") return regno + 000101<<x;
+    if(s=="$6") return regno + 000110<<x;
+    if(s=="$7") return regno + 000111<<x;
+    if(s=="$8") return regno + 001000<<x;
+    if(s=="$9") return regno + 001001<<x;
+    if(s=="$10") return regno + 001010<<x;
+    if(s=="$11") return regno + 001011<<x;
+    if(s=="$12") return regno + 001100<<x;
+    if(s=="$13") return regno + 001101<<x;
+    if(s=="$14") return regno + 001110<<x;
+    if(s=="$15") return regno + 001111<<x;
+    if(s=="$16") return regno + 010000<<x;
+    if(s=="$17") return regno + 010001<<x;
+    if(s=="$18") return regno + 010010<<x;
+    if(s=="$19") return regno + 010011<<x;
+    if(s=="$20") return regno + 010100<<x;
+    if(s=="$21") return regno + 010101<<x;
+    if(s=="$22") return regno + 010110<<x;
+    if(s=="$23") return regno + 010111<<x;
+    if(s=="$24") return regno + 011000<<x;
+    if(s=="$25") return regno + 011001<<x;
+    if(s=="$26") return regno + 011010<<x;
+    if(s=="$27") return regno + 011011<<x;
+    if(s=="$28") return regno + 011100<<x;
+    if(s=="$29") return regno + 011101<<x;
+    if(s=="$30") return regno + 011110<<x;
+    if(s=="$31") return regno + 011111<<x;
+}
+
 
 string to_hex8(uint32_t x)
 {

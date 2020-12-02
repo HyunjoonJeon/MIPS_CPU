@@ -52,6 +52,9 @@ bool mips_instruction_is_shift_variable(const string &s);
 // Takes a multi-letter opname and turns it into the numeric opcode
 uint32_t mips_opname_to_opcode(const string &s);
 
+//Takes the string representation of the register and converts it to binary for calculating instructions
+uint32_t mips_regname_to_regcode(const string &s, int loc);
+
 // Converts 32 bit binary integer into it's hex equivalent
 string to_hex8(uint32_t x);
 
