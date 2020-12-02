@@ -7,7 +7,7 @@
 #include <iomanip> 
 
 int main(){
-    vector<<string, string, string, string>> instruction_set;
+    vector<vector<string> > instruction_set;
     map<string, int> labels;
 
 //Collecting the instructions from the .txt file
@@ -16,7 +16,7 @@ int main(){
         if(mips_is_label_decl(head)){
             head.pop_back();
             assert(labels.find(head)==labels.end());
-            labels[head]=instru.size();
+            labels[head]=instruction_set.size();
 
         }else if(mips_is_instruction(head)){
             if(mips_instruction_is_function(head)){
@@ -79,7 +79,6 @@ int main(){
                 cin >> rt;
                 assert(!cin.fail());
                 instruction_set.push_back({head, rs, rt, '0'});
-                
             }else if(mips_instruction_is_shift(head)){
                 string rd;
                 string rt;
@@ -98,7 +97,7 @@ int main(){
                 cin >> rs;
                 assert(!cin.fail());
                 instruction_set.push_back({head, rs, rt, rd});
-            }else if(head == "jalr")){
+            }else if(head == "jalr"){
                 string rd;
                 string rs;
                 cin >> rd;
@@ -120,7 +119,7 @@ int main(){
             }
         }else{
             cerr<<"Couldn't parse '"<<head<<"'\n";
-            exit(1)
+            exit(1);
         }
 }
 //Working with the data
@@ -129,7 +128,7 @@ int main(){
     cout << setfill('0'); 
 
     for(int i = 0; i < instruction_set.size(); i++){
-        if(mu0_is_instruction(instruction_set[i][0])){
+        if(mips_is_instruction(instruction_set[i][0])){
             string opname = instruction_set[i][0];
             uint16_t opcode = mips_opname_to_opcode(opname);
             if(mips_instruction_is_function(opname)){
@@ -146,7 +145,7 @@ int main(){
                 //TO-DO Incorporate Labels
             }else if(mips_instruction_is_memory_using_offset(opname)){
                 //TO-DO Incorporate memory offsets
-            }else if(mips_instruction_is_HiLo(opname){
+            }else if(mips_instruction_is_HiLo(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1)) << endl;
             }else if(mips_instruction_is_MulDiv(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 2)) << endl;
@@ -154,11 +153,11 @@ int main(){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 2) + mips_regname_to_regcode(instruction_set[i][2], 3) + stoi(instruction_set[i][3])) << endl;
             }else if(mips_instruction_is_shift_variable(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 2) + mips_regname_to_regcode(instruction_set[i][3], 3)) << endl;
-            }else if(opname == "jalr")){
+            }else if(opname == "jalr"){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 3)) << endl;
-            }else if(opname == 'jr'){
+            }else if(opname == "jr"){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1)) << endl;
-            }else if(opname == 'lui'){
+            }else if(opname == "lui"){
                 string temp1 = to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 2));
                 string temp2 = instruction_set[i][2];
                 cout << temp1.substr(0, 15) + temp2.substr(2) << endl;
