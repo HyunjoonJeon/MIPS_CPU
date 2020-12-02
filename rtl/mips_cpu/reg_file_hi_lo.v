@@ -17,6 +17,11 @@ module reg_file_hi_lo(
 	logic [31:0] LO_reg;
 	logic [31:0] HI_reg;
 
+	initial begin 
+		LO_reg = 0;
+		HI_reg = 0;
+	end
+
 	always @(posedge clk) begin
 		if (clk_enable == 1) begin
 			if(reset == 1) begin
