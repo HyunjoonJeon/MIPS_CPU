@@ -10,6 +10,7 @@ module mips_cpu_harvard(
     input logic [31:0] instr_readdata,
     output logic [31:0] instr_address,
     output logic [3:0] byte_enable,
+    output logic instr_read,
 
     output logic [31:0] data_address,
     output logic data_write,
@@ -91,7 +92,7 @@ module mips_cpu_harvard(
         .reg_write_enable(reg_write_enable),
         .reg_addr_sel(reg_addr_sel),
         .reg_data_sel(reg_data_sel),
-        .alu_sel(alu_sel)
+        .alu_sel(alu_sel),
         .signextend_sel(signextend_sel)
     );
 
@@ -163,11 +164,13 @@ module mips_cpu_harvard(
 
     register_file register_file(    // need to add reg_v0 output? and also need a clk_enable?
         .clk(clk),
+	.clk_enable(clken),
         .reset(reset),
         .read_reg1(rs),
         .read_reg2(rt),
         .read_data_a(reg_data_a),
         .read_data_b(reg_data_b),
+	.register_v0(register_v0),
         .write_reg(reg_write_addr),
         .write_enable(reg_write_enable),
         .write_data(reg_write_data)
