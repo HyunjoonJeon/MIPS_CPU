@@ -126,7 +126,7 @@ module mem_harvard_dbg_tb();
 
     end
 
-    mem_harvard_dbg #(.INSTR_INIT_FILE("test_data_2.txt"), .DATA_INIT_FILE("test_data_2.txt"), .BLOCK_SIZE(8192)) mem(  //instruction mem, data mem
+    mem_harvard_dbg #(.INSTR_INIT_FILE("test_data_1_20.txt"), .DATA_INIT_FILE("test_data_1_20.txt")) mem(  //instruction mem, data mem
         .clk(clk),
         .rst(rst),
         .ip_address(ip_address),
@@ -142,5 +142,6 @@ module mem_harvard_dbg_tb();
         .dbg_address(dbg_address),
         .dbg_readdata(dbg_readdata)
     );
+
 
 endmodule

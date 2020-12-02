@@ -1,0 +1,6 @@
+TOPMOD=mem_harvard_tb
+
+FILE=mem_harvard_tb.v
+FILE=mem_harvard.v
+
+#hehe

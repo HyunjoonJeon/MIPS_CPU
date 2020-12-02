@@ -1,0 +1,5 @@
+TOPMOD=mem_harvard_dbg_tb
+
+FILE=mem_harvard_dbg_tb.v
+FILE=mem_harvard_dbg.v
+#

@@ -1,4 +1,4 @@
-module mem_harvard_dbg(     //async output, readdata output maintains value when read is not asserted
+module mem_harvard(     //async output, readdata output maintains value when read is not asserted
     input logic clk,
     input logic rst,
     
@@ -14,10 +14,6 @@ module mem_harvard_dbg(     //async output, readdata output maintains value when
     input logic read_dp,
     input logic write_dp,
     output logic[31:0] dp_readdata,
-
-    //Debug port (fully async)
-    input logic[31:0] dbg_address,
-    output logic[31:0] dbg_readdata,
 
     output logic stall
 );
@@ -36,10 +32,6 @@ module mem_harvard_dbg(     //async output, readdata output maintains value when
     wire ben0, ben1, ben2, ben3;
     wire[31:0] ip_offset_address;
 
-    //tmp blocks for mem initialisation
-    logic[31:0] init_b1 [(BLOCK_SIZE/4)-1:0];
-    logic[31:0] init_b2 [(BLOCK_SIZE/4)-1:0];
-
     initial begin
         integer i;
         for(i=0;i<BLOCK_SIZE;i++) begin   //init values set to non-zero for testing, remember to change them back to 0
@@ -48,23 +40,11 @@ module mem_harvard_dbg(     //async output, readdata output maintains value when
         end
         if(INSTR_INIT_FILE!="") begin
             $display("loading instruction mem with %s",INSTR_INIT_FILE);
-            $readmemh(INSTR_INIT_FILE,init_b2);
-            for(i=0;i<(BLOCK_SIZE/4);i++) begin
-                block2[4*i]=init_b2[i];
-                block2[4*i+1]=init_b2[i]>>8;
-                block2[4*i+2]=init_b2[i]>>16;
-                block2[4*i+3]=init_b2[i]>>24;
-            end
+            $readmemh(INSTR_INIT_FILE,block2);
         end
         if(DATA_INIT_FILE!="") begin
             $display("loading data mem with %s",DATA_INIT_FILE);
-            $readmemh(DATA_INIT_FILE,init_b1);
-            for(i=0;i<(BLOCK_SIZE/4);i++) begin
-                block1[4*i]=init_b1[i];
-                block1[4*i+1]=init_b1[i]>>8;
-                block1[4*i+2]=init_b1[i]>>16;
-                block1[4*i+3]=init_b1[i]>>24;
-            end
+            $readmemh(DATA_INIT_FILE,block1);
         end
         tmp_idata=0;
         tmp_ddata=0;
@@ -98,12 +78,6 @@ module mem_harvard_dbg(     //async output, readdata output maintains value when
         dp_readdata[15:8] = read_dp ? (ben1 ? block1[dp_address+1] : 8'h00) : td1;
         dp_readdata[23:16] = read_dp ? (ben2 ? block1[dp_address+2] : 8'h00) : td2;
         dp_readdata[31:24] = read_dp ? (ben3 ? block1[dp_address+3] : 8'h00) : td3;        
-
-        //Debug port
-        dbg_readdata[7:0] = (dbg_address<32'hbfc00000) ? block1[dbg_address] : block2[dbg_address-32'hbfc00000];
-        dbg_readdata[15:8] = (dbg_address<32'hbfc00000) ? block1[dbg_address+1] : block2[dbg_address-32'hbfc00000+1];
-        dbg_readdata[23:16] = (dbg_address<32'hbfc00000) ? block1[dbg_address+2] : block2[dbg_address-32'hbfc00000+2];
-        dbg_readdata[31:24] = (dbg_address<32'hbfc00000) ? block1[dbg_address+3] : block2[dbg_address-32'hbfc00000+3];
     end
 
     always_ff @(posedge clk) begin
