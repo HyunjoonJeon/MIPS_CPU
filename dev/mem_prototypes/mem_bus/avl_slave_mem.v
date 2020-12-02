@@ -24,10 +24,6 @@ module avl_slave_mem(
     reg[7:0] data[BLOCK_SIZE-1:0];
     reg[7:0] instr[BLOCK_SIZE-1:0];
 
-    //tmp blocks for mem initialisation
-    logic[31:0] init_b1 [(BLOCK_SIZE/4)-1:0];
-    logic[31:0] init_b2 [(BLOCK_SIZE/4)-1:0];
-
     initial begin
         integer i;
         for(i=0; i<BLOCK_SIZE; i++) begin     //change initial values back to 0 after testing
@@ -35,22 +31,10 @@ module avl_slave_mem(
             instr[i]=0;
         end
         if(INSTR_INIT_FILE!="") begin
-            $readmemh(INSTR_INIT_FILE,init_b2);
-            for(i=0;i<(BLOCK_SIZE/4);i++) begin
-                instr[4*i]=init_b2[i];
-                instr[4*i+1]=init_b2[i]>>8;
-                instr[4*i+2]=init_b2[i]>>16;
-                instr[4*i+3]=init_b2[i]>>24;
-            end
+            readmemh(INSTR_INIT_FILE,instr);
         end
         if(DATA_INIT_FILE!="") begin
-            $readmemh(DATA_INIT_FILE,init_b1);
-            for(i=0;i<(BLOCK_SIZE/4);i++) begin
-                data[4*i]=init_b1[i];
-                data[4*i+1]=init_b1[i]>>8;
-                data[4*i+2]=init_b1[i]>>16;
-                data[4*i+3]=init_b1[i]>>24;
-            end
+            readmemh(DATA_INIT_FILE,data);
         end
         readdata=0;
         waitrequest=0;

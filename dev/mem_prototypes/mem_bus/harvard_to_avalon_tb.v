@@ -63,12 +63,11 @@ module harvard_to_avalon_tb();
         #2;
         $display("");
         read_dp=1;
-        byteenable=4'b1111;
-        repeat (8) begin
+        byteenable=4'b1000;
+        repeat (4) begin
             @(negedge stall);
             $display("%h",dp_data);
-            // byteenable=byteenable>>1;
-            dp_address=dp_address+4;
+            byteenable=byteenable>>1;
         end
         read_dp=0;
         #2;
@@ -129,7 +128,7 @@ module harvard_to_avalon_tb();
         avl_write
     );
 
-    avl_slave_mem #(.INSTR_INIT_FILE("test_data_1_20.txt"), .DATA_INIT_FILE("test_data_1_20.txt"), .BLOCK_SIZE(8192)) memDev(
+    avl_slave_mem memDev(
         clk,
         rst,
         avl_address,

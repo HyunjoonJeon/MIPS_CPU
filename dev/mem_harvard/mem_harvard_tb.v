@@ -105,7 +105,7 @@ module mem_harvard_tb();
 
     end
 
-    mem_harvard #(.INSTR_INIT_FILE("test_data_1_20.txt"), .DATA_INIT_FILE("test_data_1_20.txt")) mem(  //instruction mem, data mem
+    mem_harvard #(.INSTR_INIT_FILE("test_data_1_20.txt"), .DATA_INIT_FILE("test_data_1_20.txt"), .BLOCK_SIZE(8192)) mem(  //instruction mem, data mem
         clk,
         rst,
         ip_address,
@@ -119,6 +119,5 @@ module mem_harvard_tb();
         dp_data,
         stall
     );
-
 
 endmodule
