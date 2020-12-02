@@ -50,7 +50,7 @@ module mips_cpu_harvard(
         active = act;
         instr_address = curr_pc;
         instr_read=1;
-        data_writedata = read_data_b;
+        data_writedata = reg_data_b;
         data_address = aluout;
     end
 
