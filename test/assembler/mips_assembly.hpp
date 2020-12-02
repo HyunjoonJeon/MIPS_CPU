@@ -96,7 +96,7 @@ bool mips_is_register(const string &s)
 
     for(int i=1; i<s.size()-1; i++)
     {
-        if(!(isalnum(s[i]) || s[i]=='_'))
+        if(!isdigit(s[i]))
         {
             return false;
         }
@@ -105,30 +105,27 @@ bool mips_is_register(const string &s)
     return true;   
 }
 
-bool mips_instruction_has_function(const string &s)
+bool mips_instruction_is_function(const string &s)
 {
     assert(mips_is_instruction(s));
     if(s=="addu") return true;
     if(s=="and") return true;
-    if(s=="div") return true;
-    if(s=="divu") return true;
-    if(s=="jalr") return true;
-    if(s=="jr") return true;
-    if(s=="mthi") return true;
-    if(s=="mtlo") return true;
-    if(s=="mult") return true;
-    if(s=="multu") return true;
     if(s=="or") return true;
-    if(s=="sll") return true;
-    if(s=="sllv") return true;
+    if(s=="subu") return true;
     if(s=="slt") return true;
     if(s=="sltu") return true;
-    if(s=="sra") return true;
-    if(s=="srav") return true;
-    if(s=="srl") return true;
-    if(s=="srlv") return true;
-    if(s=="subu") return true;
     if(s=="xor") return true;
+    return false;
+}
+
+bool mips_instruction_is_function_immediate(const string &s)
+{
+    assert(mips_is_instruction(s));
+    if(s=="addiu") return true;
+    if(s=="andi") return true;
+    if(s=="ori") return true;
+    if(s=="slti") return true;
+    if(s=="sltiu") return true;
     if(s=="xori") return true;
     return false;
 }
@@ -136,55 +133,80 @@ bool mips_instruction_has_function(const string &s)
 bool mips_instruction_is_branch(const string &s)
 {
     assert(mips_is_instruction(s));
-    if(s=="bgez") return true;
-    if(s=="bgezal") return true;
-    if(s=="bltz") return true;
-    if(s=="bltzal") return true;
+    if(s=="beq") return true;
+    if(s=="bne") return true;
     return false;
 }
 
-bool mips_instruction_has_immediate(const string &s)
+bool mips_instruction_is_branch_comparison(const string &s)
 {
     assert(mips_is_instruction(s));
-    if(s=="addiu") return true;
-    if(s=="andi") return true;
-    if(s=="beq") return true;
     if(s=="bgez") return true;
     if(s=="bgezal") return true;
     if(s=="bgtz") return true;
     if(s=="blez") return true;
     if(s=="bltz") return true;
     if(s=="bltzal") return true;
-    if(s=="bne") return true;
-    if(s=="ori") return true;
-    if(s=="slti") return true;
-    if(s=="sltiu") return true;
-    if(s=="subu") return true;
-    if(s=="xori") return true;
     return false;
 }
 
-bool mips_instruction_has_offset(const string &s)
+bool mips_instruction_is_jump(const string &s)
+{
+    assert(mips_is_instruction(s));
+    if(s=="j") return true;
+    if(s=="jal") return true;
+    return false;
+}
+
+bool mips_instruction_is_memory_using_offset(const string &s)
 {
     assert(mips_is_instruction(s));
     if(s=="lb") return true;
     if(s=="lbu") return true;
     if(s=="lh") return true;
     if(s=="lhu") return true;
-    if(s=="lui") return true;
     if(s=="lw") return true;
     if(s=="lwl") return true;
     if(s=="lwr") return true;
     if(s=="sb") return true;
     if(s=="sh") return true;
+    if(s=="sw") return true;
     return false;
 }
 
-bool mips_instruction_has_jump_field(const string &s)
+bool mips_instruction_is_HiLo(const string &s)
 {
     assert(mips_is_instruction(s));
-    if(s=="j") return true;
-    if(s=="jal") return true;
+    if(s=="mthi") return true;
+    if(s=="mtlo") return true;
+    return false;
+}
+
+bool mips_instruction_is_MulDiv(const string &s)
+{
+    assert(mips_is_instruction(s));
+    if(s=="mult") return true;
+    if(s=="multu") return true;
+    if(s=="div") return true;
+    if(s=="divu") return true;
+    return false; 
+}
+
+bool mips_instruction_is_shift(const string &s)
+{
+    assert(mips_is_instruction(s));
+    if(s=="sll") return true;
+    if(s=="sra") return true;
+    if(s=="srl") return true;
+    return false;
+}
+
+bool mips_instruction_is_shift_variable(const string &s)
+{
+    assert(mips_is_instruction(s));
+    if(s=="sllv") return true;
+    if(s=="srav") return true;
+    if(s=="srlv") return true;
     return false;
 }
 
