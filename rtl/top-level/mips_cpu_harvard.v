@@ -10,6 +10,7 @@ module mips_cpu_harvard(
     input logic [31:0] instr_readdata,
     output logic [31:0] instr_address,
     output logic [3:0] byte_enable,
+    output logic instr_read,
 
     output logic [31:0] data_address,
     output logic data_write,
@@ -32,9 +33,11 @@ module mips_cpu_harvard(
     // Intermediate signals
     logic [31:0] curr_pc, next_pc, link_pc, extended_imm, extended_data;
     logic [31:0] alu_input, aluout, reg_write_data, reg_data_a, reg_data_b;
-    logic [3:0] alu_control;
-    logic [1:0] pc_sel, reg_addr_sel, reg_data_sel, branch_cond;
-    logic reg_write_enable, signextend_sel, branch_is_true, alu_sel, clken, act;
+    logic [31:0] LO_alu2reg, LO_reg2alu, HI_alu2reg, HI_reg2alu;
+    logic [4:0] alu_control, shamt;
+    logic [2:0] branch_cond;
+    logic [1:0] pc_sel, reg_addr_sel, reg_data_sel;
+    logic reg_write_enable, signextend_sel, branch_is_true, alu_sel, clken, act, LO_write_enable, HI_write_enable;
 
     // Initial settings
     initial begin
@@ -89,7 +92,7 @@ module mips_cpu_harvard(
         .reg_write_enable(reg_write_enable),
         .reg_addr_sel(reg_addr_sel),
         .reg_data_sel(reg_data_sel),
-        .alu_sel(alu_sel)
+        .alu_sel(alu_sel),
         .signextend_sel(signextend_sel)
     );
 
@@ -126,9 +129,11 @@ module mips_cpu_harvard(
 
     ALU_decoder ALU_decoder(
         .instr_readdata(instr_readdata),
-        .clk(clk),
         .alu_control(alu_control),
-        .branch_cond(branch_cond)
+        .branch_cond(branch_cond),
+        .sa(shamt),
+        .LO_write_enable(LO_write_enable),
+        .HI_write_enable(HI_write_enable)
     );
 
     ALU ALU( // not yet added HI and LO
@@ -136,17 +141,36 @@ module mips_cpu_harvard(
         .B(alu_input),
         .alu_control(alu_control),
         .branch_cond(branch_cond),
+        .sa(shamt),
+        .LO_input(LO_reg2alu),
+        .HI_input(HI_reg2alu),
         .alu_result(aluout),
-        .branch_cond_true(branch_is_true)
+        .branch_cond_true(branch_is_true),
+        .LO_output(LO_alu2reg),
+        .HI_output(HI_alu2reg)
+    );
+
+    reg_file_hi_lo reg_file_hi_lo(
+        .clk(clk),
+        .reset(reset),
+        .clk_enable(clken),
+        .LO_input(LO_alu2reg),
+        .HI_input(HI_alu2reg),
+        .LO_write_enable(LO_write_enable),
+        .HI_write_enable(HI_write_enable),
+        .LO_output(LO_reg2alu),
+        .HI_output(HI_reg2alu)
     );
 
     register_file register_file(
         .clk(clk),
+	.clk_enable(clken),
         .reset(reset),
         .read_reg1(rs),
         .read_reg2(rt),
         .read_data_a(reg_data_a),
         .read_data_b(reg_data_b),
+	.register_v0(register_v0),
         .write_reg(reg_write_addr),
         .write_enable(reg_write_enable),
         .write_data(reg_write_data)

@@ -1,9 +1,9 @@
 module mips_cpu_harvard_tb;
     timeunit 1ns / 100ps; //time unit and precision
 
-    parameter INSTR_INIT_FILE = "test/01-binary/addiu.hex.txt";
+    parameter INSTR_INIT_FILE = "test/1-binary/addiu.hex.txt";
     parameter DATA_INIT_FILE = "";
-    parameter TIMEOUT_CYCLES = 10000;
+    parameter TIMEOUT_CYCLES = 300;
 
     logic clk;
     logic rst;
@@ -30,16 +30,14 @@ module mips_cpu_harvard_tb;
     // Generate clock
     initial begin
         clk=0;
-
+	clk_enable = 1;
         repeat (TIMEOUT_CYCLES) begin
-            if(clk_enable != 0) begin
-                #10;
-                clk = !clk;
-            end
-            if(clk_enable != 0) begin
-                #10;
-                clk = !clk;
-            end
+            #10;
+            clk = !clk;
+            
+            #10;
+            clk = !clk;
+	    
         end
 
         $fatal(2, "Simulation did not finish within %d cycles.", TIMEOUT_CYCLES);
@@ -57,13 +55,13 @@ module mips_cpu_harvard_tb;
         @(posedge clk);
         assert(active==1) //make sure it is running
         else $display("TB : CPU did not set running=1 after reset.");
-
+	
         while (active) begin
             @(posedge clk);
         end
 
         $display("TB : finished; active=0");
-        
+        $display("register_v0:%d", register_v0);
     
         $finish;
         
