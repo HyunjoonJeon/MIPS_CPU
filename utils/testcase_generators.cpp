@@ -43,7 +43,7 @@ int main()
     if (instr == "lui") //this instruction should be tested first
     // the immediate should not be signed, so only positive value allowed
     {
-        outfile.open(position + instr + ".asm.txt", ios::trunc);
+        outfile.open(position + instr + "/"+ instr + ".asm.txt", ios::trunc);
         outfile << instr << " $v0," << rand() % 65535 << endl;
         outfile.close();
     }
@@ -54,13 +54,13 @@ int main()
         for (int i = 1; i <= 2; i++)
         {
             int r1 = rand() % 7;
-            outfile.open(position + instr + "_" + to_string(i) + ".asm.txt", ios::trunc);
+            outfile.open(position + instr + "/" + instr + "_" + to_string(i) + ".asm.txt", ios::trunc);
             outfile << assign_reg(i, "upper", r1) << endl;
             outfile << assign_reg(i, "lower", r1) << endl;
             outfile << instr << " $s" << r1 << ",$s" << r1 << "," << rand() % 32767 << endl;
             outfile << "addiu $v0,$s" << r1 << ",0" << endl;
             outfile.close();
-            outfile.open(position + instr + "_" + to_string(i + 2) + ".asm.txt", ios::trunc);
+            outfile.open(position + instr + "/" + instr + "_" + to_string(i + 2) + ".asm.txt", ios::trunc);
             outfile << assign_reg(i, "upper", r1) << endl;
             outfile << assign_reg(i, "lower", r1) << endl;
             outfile << instr << " $s" << r1 << ",$s" << r1 << "," << (rand() % 32767) * -1 - 1 << endl;
@@ -73,13 +73,13 @@ int main()
     {
         int r1 = rand() % 7;
         int r2 = rand() % 7;
-        outfile.open(position + instr + "_1.asm.txt", ios::trunc);
+        outfile.open(position+ instr + "/" + instr + "_1.asm.txt", ios::trunc);
         outfile << assign_reg(1, "upper", r1) << endl;
         outfile << assign_reg(1, "lower", r1) << endl;
         outfile << instr << " $s" << r1 << ",$s" << r1 << "," << rand() % 32767 << endl;
         outfile << "addiu $v0,$s" << r1 << ",0" << endl;
         outfile.close();
-        outfile.open(position + instr + "_2.asm.txt", ios::trunc);
+        outfile.open(position+ instr + "/" + instr + "_2.asm.txt", ios::trunc);
         outfile << assign_reg(2, "upper", r2) << endl;
         outfile << assign_reg(2, "lower", r2) << endl;
         outfile << instr << " $s" << r2 << ",$s" << r2 << "," << (rand() % 32767) * -1 - 1 << endl;
@@ -91,7 +91,7 @@ int main()
     {
         int r1 = rand() % 7;
         int r2 = rand() % 7;
-        outfile.open(position + instr + ".asm.txt", ios::trunc);
+        outfile.open(position+ instr + "/" + instr + ".asm.txt", ios::trunc);
         outfile << assign_reg(1, "upper", r1) << endl;
         outfile << assign_reg(1, "lower", r1) << endl;
         outfile << assign_reg(2, "upper", r2) << endl;
@@ -106,7 +106,7 @@ int main()
         for (int i = 1; i <= 4; i++)
         {
             //11,12,21,22
-            outfile.open(position + instr + "_" + to_string(i) + ".asm.txt", ios::trunc);
+            outfile.open(position+ instr + "/" + instr + "_" + to_string(i) + ".asm.txt", ios::trunc);
             int r1 = rand() % 7;
             int r2 = rand() % 7;
             int c1,c2;
@@ -135,7 +135,7 @@ int main()
             if(i == 2){c1 = 1; c2 = 2;}
             if(i == 3){c1= 2;c2 = 1;}
             if(i == 4){c1 = c2 = 2;}
-            outfile.open(position + instr + "_" + to_string(i) + ".asm.txt", ios::trunc);
+            outfile.open(position + instr + "/"+ instr + "_" + to_string(i) + ".asm.txt", ios::trunc);
             outfile << assign_reg(1, "upper", r1) << endl;
             outfile << assign_reg(c1, "lower", r1) << endl;
             outfile << assign_reg(1, "upper", r2) << endl;
@@ -143,7 +143,7 @@ int main()
             outfile << instr << " $s" << r1 << ",$s" << r2 << endl;
             outfile << "mfhi $v0" << endl;
             outfile.close();
-            outfile.open(position + instr + "_" + to_string(i+4) + ".asm.txt", ios::trunc);
+            outfile.open(position+ instr + "/" + instr + "_" + to_string(i+4) + ".asm.txt", ios::trunc);
             outfile << assign_reg(1, "upper", r1) << endl;
             outfile << assign_reg(c1, "lower", r1) << endl;
             outfile << assign_reg(1, "upper", r2) << endl;
