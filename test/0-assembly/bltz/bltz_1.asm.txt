@@ -1,0 +1,7 @@
+addiu $s1,$0,0x0000
+bltz  $s1,Label1
+addiu $v0,$0,0x1000
+jr $0
+
+Label1:
+addiu $v0,$0,0x9657

@@ -1,0 +1,4 @@
+addiu $s1,$s1,0xF000
+sw $s1,0($s1)
+lhu $v0,0($s1)
+jr $0
