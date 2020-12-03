@@ -1,7 +1,7 @@
 module mips_cpu_harvard_tb;
     timeunit 1ns / 100ps; //time unit and precision
 
-    parameter INSTR_INIT_FILE = "test/1-binary/addiu.hex.txt";
+    parameter INSTR_INIT_FILE = "test/1-binary/addiu/addiu1.hex.txt";
     parameter DATA_INIT_FILE = "";
     parameter TIMEOUT_CYCLES = 40;
 
@@ -53,9 +53,6 @@ module mips_cpu_harvard_tb;
         @(posedge clk);
         #2;
         rst = 0;
-        $display("instr address: %h",instr_address);
-        $display("instr: %h", instr_readdata);
-        $display("v0: %h",register_v0);
         
         assert(active==1) //make sure it is running
         else $display("TB : CPU did not set running=1 after reset.");
