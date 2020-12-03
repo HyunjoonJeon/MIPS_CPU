@@ -1,9 +1,9 @@
-lui $s1,0xFFFF
-ori $s1,$s1,0x10CC
-lui $s2,0xDEF1
-mult $s1,$s2
-mfhi $s3
-mtlo $s3
-mflo $s4
-addu $v0,$s4,$0
+lui $17,0xFFFF
+ori $17,$17,0x10CC
+lui $18,0xDEF1
+mult $17,$18
+mfhi $19
+mtlo $19
+mflo $20
+addu $2,$20,$0
 jr $0

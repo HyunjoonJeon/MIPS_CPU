@@ -1,4 +1,4 @@
-addiu $s1,$0,0xAABC
-mtlo $s1
-mflo $v0
+addiu $17,$0,0xAABC
+mtlo $17
+mflo $2
 jr $0

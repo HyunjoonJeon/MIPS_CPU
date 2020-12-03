@@ -1,9 +1,9 @@
-addiu $s1, $0,100
-addiu $s2, $0,100
-beq $s1,$s2,Label1
-addiu $v0,$0, 21
-jr $0
+addiu $17, $0,100
+addiu $18, $0,100
+beq $17,$18,Label1
+addiu $2,$0, 21
 
 Label1: 
-addiu $v0,$0,123
+addiu $2,$0,123
+jr $0
 

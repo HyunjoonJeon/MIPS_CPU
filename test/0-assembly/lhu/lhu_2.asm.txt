@@ -1,5 +1,5 @@
-addiu $s1,$0,0x1000
-addiu $s2,$0,0xFFFF
-sh $s2,120($s1)
-lhu $v0,120($s1)
+addiu $17,$0,0x1000
+addiu $18,$0,0xFFFF
+sh $18,120($17)
+lhu $2,120($17)
 jr $0

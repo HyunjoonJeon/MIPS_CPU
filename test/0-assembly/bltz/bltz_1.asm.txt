@@ -1,7 +1,7 @@
-addiu $s1,$0,0x0000
-bltz  $s1,Label1
-addiu $v0,$0,0x1000
+addiu $17,$0,0x0000
+bltz  $17,Label1
+addiu $2,$0,0x1000
 jr $0
 
 Label1:
-addiu $v0,$0,0x9657
+addiu $2,$0,0x9657

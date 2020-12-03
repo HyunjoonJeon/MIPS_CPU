@@ -35,7 +35,7 @@ else
     # Extract just the testcase name from the filename. See `man basename` for what this command does.
     TESTNAME=$(basename ${i} .asm.txt)
     INSTR=${TESTNAME%%_*}
-    echo "${TESTNAME} ${INSTR}"
+    #echo "${TESTNAME} ${INSTR}"
     # Dispatch to the main test-case script
     if [ ${INSTR} != 'lui' ] && [ ${INSTR} != 'addiu' ] && [ ${INSTR} != 'lw' ] && [ ${INSTR} != 'sw' ] && [ ${INSTR} != 'jr' ];
     then

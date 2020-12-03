@@ -1,4 +1,4 @@
-addiu $s1,$0,0xFF00
-sw $s1,0($s1)
-lw $v0,0($s1)
+addiu $17,$0,0xFF00
+sw $17,0($s1)
+lw $2,0($s1)
 jr $0
