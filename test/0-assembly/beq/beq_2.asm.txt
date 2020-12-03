@@ -1,8 +1,8 @@
-addiu $s1,$0,32
-addiu $s2,$0,132
-beq $s1,$s2,Label1
-addiu $v0,$0,999
+addiu $17,$0,32
+addiu $18,$0,132
+beq $17,$18,Label1
+addiu $2,$0,999
 jr $0
 
 Label1:
-addiu $v0,$0,111
+addiu $2,$0,111

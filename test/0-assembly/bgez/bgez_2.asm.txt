@@ -1,12 +1,12 @@
-addiu $s1,$0,0
-bgez $s1,Label1
-jr $0
+addiu $17,$0,0
+bgez $18,Label1
 
 Label1:
-addiu $v0,$0,0xFFFF
-bgez $v0,Label2
+addiu $2,$0,0xFFFF
+bgez $2,Label2
 
 Label2:
-addiu $v0,$0,0x1119
+addiu $2,$0,0x1119
+jr $0
 
 

@@ -1,8 +1,8 @@
-lui $s1,0xFFEE
-ori $s1,$s1,0xDDCC
-lui $s2,0x0a0b
-ori $v0,$s2,0x0c0d
-addiu $s3,$0,0xFF00
-sw $s1,0($s3)
-lwr $v0,1($s3)
+lui $17,0xFFEE
+ori $17,$17,0xDDCC
+lui $18,0x0a0b
+ori $2,$18,0x0c0d
+addiu $19,$0,0xFF00
+sw $17,0($19)
+lwr $2,1($19)
 jr $0

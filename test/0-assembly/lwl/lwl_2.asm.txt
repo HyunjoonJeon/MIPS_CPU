@@ -1,9 +1,9 @@
-addiu $s1,$s1,0x0102
-addiu $s2,$s2,0x0304
-sll $s1,$s1,16
-addu $s3,$s1,$s2
-lui $s4,0x0a0b
-ori $v0,$s4,0x0c0d
-sw $s3,0($0)
-lwl $v0,1($0)
+addiu $17,$17,0x0102
+addiu $18,$18,0x0304
+sll $17,$17,16
+addu $19,$17,$18
+lui $20,0x0a0b
+ori $2,$20,0x0c0d
+sw $19,0($0)
+lwl $2,1($0)
 jr $0

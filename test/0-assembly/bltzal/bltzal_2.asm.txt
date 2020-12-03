@@ -1,13 +1,13 @@
-addiu $s1,$0,0x9999
-subu $s2,$0,$s1
-bltzal  $s2,Label1
-addiu $v0,$0,0x9999
+addiu $17,$0,0x9999
+subu $18,$0,$s1
+bltzal $18,Label1
+addiu $2,$0,0x9999
 jr $0
 
 Label1:
-addiu $s3,$s1,0x1111
-bltzal $s3,Label2
-addu $v0,$ra,$0
+addiu $19,$17,0x1111
+bltzal $19,Label2
+addu $2,$31,$0
 
 Label2:
-addu $v0,$ra,$0
+addu $2,$31,$0
