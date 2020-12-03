@@ -46,7 +46,7 @@ module mips_cpu_harvard(
 
     // active logic (use clk_enable to halt the execution of instructions when the program ends)
     always_comb begin
-        clken = act & clk_enable & !(instr_readdata==32'h00000008); //!(instr_address==0);
+        clken = act & clk_enable | reset;   //& !(instr_readdata==32'h00000008); //!(instr_address==0);
         active = act;
         instr_address = curr_pc;
         instr_read=1;
@@ -58,7 +58,7 @@ module mips_cpu_harvard(
         if(reset) begin
             act <= 1;
         end
-        else if(instr_readdata==32'h00000008) begin
+        else if(instr_address==0) begin
             act <= 0;
         end
     end
