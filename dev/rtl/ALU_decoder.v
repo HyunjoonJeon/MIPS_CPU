@@ -95,7 +95,14 @@ module ALU_decoder (
     opcode_t instr_opcode;
     func_t func_code;
     branch_t branch_field;
-    wire [4:0] shamt;
+
+    initial begin
+        alu_control = 5'd0;
+        branch_cond = 3'd0;
+        sa = 5'd0;
+        LO_write_enable = 1'b0;
+        HI_write_enable = 1'b0;
+    end
 
     assign instr_opcode = instr_readdata[31:26];
     assign func_code = instr_readdata[5:0];

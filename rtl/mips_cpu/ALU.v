@@ -69,6 +69,13 @@ module ALU(
 	wire [31:0] remainder; // register HI
 	wire [31:0] immediate_zero_extend; // zero extend the immediate for logical operations
 
+	initial begin // initialise all values to zero
+		alu_result = 32'd0;
+		branch_cond_true = 1'd0;
+		LO_output = 32'd0;
+		HI_output = 32'd0;
+	end
+
 	assign immediate_zero_extend = {16'd0,B[15:0]};
 	assign bitwise_and = (alu_control == CONTROL_ANDI) ? A & immediate_zero_extend : A & B;
 	assign bitwise_or = (alu_control == CONTROL_ORI) ? A & immediate_zero_extend : A | B;
