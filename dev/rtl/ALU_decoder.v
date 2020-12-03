@@ -99,7 +99,6 @@ module ALU_decoder (
     initial begin
         alu_control = 5'd0;
         branch_cond = 3'd0;
-        sa = 5'd0;
         LO_write_enable = 1'b0;
         HI_write_enable = 1'b0;
     end
