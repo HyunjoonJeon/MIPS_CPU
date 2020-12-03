@@ -12,21 +12,12 @@ module mips_cpu_harvard_tb;
     logic active;
     logic[31:0] register_v0;
 
-    logic[31:0] instr_address;
-    logic instr_read;
-    logic[31:0] instr_readdata;
-    
-    logic[31:0] data_address;
-    logic[31:0] data_writedata;
-    logic[3:0] byte_enable;
-    logic data_read;
-    logic data_write;
-    logic[31:0] data_readdata;
+    // Avalon bus connections
+    logic[31:0] address, writedata, readdata;
+    logic[3:0] byteenable;
+    logic read, write, waitrequest;
 
     integer counter;
-
-    mem_harvard #(.INSTR_INIT_FILE(INSTR_INIT_FILE), .DATA_INIT_FILE(DATA_INIT_FILE), .BLOCK_SIZE(8192)) instrInst(.clk(clk), .rst(rst), .ip_address(instr_address), .read_ip(instr_read), .ip_readdata(instr_readdata),.dp_address(data_address), .writedata(data_writedata), .byteenable(byte_enable), .read_dp(data_read), .write_dp(data_write)); //input the INSTR_INIT_FILE
-    mips_cpu_harvard cpuInst(.clk(clk), .clk_enable(clk_enable), .reset(rst), .active(active), .register_v0(register_v0), .instr_readdata(instr_readdata), .instr_address(instr_address), .instr_read(instr_read), .byte_enable(byte_enable), .data_address(data_address), .data_write(data_write), .data_read(data_read), .data_writedata(data_writedata), .data_readdata(data_readdata));
 
     // Generate clock
     initial begin
@@ -65,6 +56,29 @@ module mips_cpu_harvard_tb;
         
     end
 
-    
+    avl_slave_mem #(.INSTR_INIT_FILE(INSTR_INIT_FILE), .DATA_INIT_FILE(DATA_INIT_FILE), .BLOCK_SIZE(8192)) avlMem(
+        .clk(clk),
+        .rst(rst),
+        .address(address),
+        .byteenable(byteenable),
+        .writedata(writedata),
+        .read(read),
+        .write(write),
+        .readdata(readdata),
+        .waitrequest(waitrequest)
+    );
 
+    mips_cpu_bus CPU(
+        .clk(clk),
+        .reset(rst),
+        .active(active),
+        .register_v0(register_v0),
+        .address(address),
+        .write(write),
+        .read(read),
+        .waitrequest(waitrequest),
+        .writedata(writedata),
+        .byteenable(byteenable),
+        .readdata(readdata)
+    );    
 endmodule
