@@ -1,0 +1,8 @@
+lui $s1,0xFFEE
+ori $s1,$s1,0xDDCC
+lui $s2,0x0a0b
+ori $v0,$s2,0x0c0d
+addiu $s3,$0,0xFF00
+sw $s1,0($s3)
+lwr $v0,1($s3)
+jr $0

@@ -1,0 +1,13 @@
+addiu $s1,$0,0
+bgtz $s1,Label1
+addiu $v0,$0,0xFFFF
+bgtz $v0,Label2
+jr $0
+
+Label1:
+addiu $v0,$0,0x9888
+
+Label2:
+addiu $v0,$0,0x1877
+
+

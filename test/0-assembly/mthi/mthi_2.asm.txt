@@ -1,0 +1,4 @@
+addiu $s1,$0,0xFFFF
+mthi $s1
+mfhi $v0
+jr $0

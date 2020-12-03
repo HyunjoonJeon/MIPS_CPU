@@ -1,0 +1,8 @@
+addiu $s1,$s1,0x1122
+addiu $s2,$s2,0x3344
+sll $s1,$s1,16
+addu $s3,$s1,$s2
+addu $v0,$s1,$s2
+sw $s3,0($0)
+lwr $v0,2($0)
+jr $0
