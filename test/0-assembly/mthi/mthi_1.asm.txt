@@ -1,5 +1,5 @@
-lui $17 0xF100
-lui $18 0x10CC
+lui $17 0xf100
+lui $18 0x10cc
 mult $17 $18
 mthi $18
 mfhi $19

@@ -1,5 +1,6 @@
 addiu $17 $0 0x1000
-addiu $18 $0 0xFFFF
+lui $18 0xf192
+ori $18 $18 0xff23
 sh $18 120($17)
 lhu $2 120($17)
 jr $0

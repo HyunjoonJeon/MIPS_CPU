@@ -1,8 +1,8 @@
 addiu $17 $0 0x2578
-subu $18 $0 $s1
+subu $18 $0 $17
 bne $17 $18 Label1
 addiu $2 $0 0x1234
-jr $0
 
 Label1:
+jr $0
 addiu $2 $0 0x9876

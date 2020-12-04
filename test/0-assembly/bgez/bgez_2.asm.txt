@@ -2,7 +2,7 @@ bgez $17 Label1
 addiu $17 $0 0
 
 Label1:
-addiu $2 $0 0xFFFF
+addiu $2 $0 0xffff
 bgez $2 Label2
 
 Label2:

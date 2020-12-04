@@ -39,8 +39,11 @@ bool mips_instruction_is_jump(string s);
 //Returns true if the given opname is a memory instruction which uses an offset immediate with a base register value
 bool mips_instruction_is_memory_using_offset(string s);
 
-//Returns true if the given opname is a Hi or Lo related instruction
-bool mips_instruction_is_HiLo(string s);
+//Returns true if the given opname is a move to Hi or Lo related instruction
+bool mips_instruction_is_HiLo_mt(string s);
+
+//Returns true if the given opname is a move from Hi or Lo related instruction
+bool mips_instruction_is_HiLo_mf(string s);
 
 //Returns true if the given opname is a mulitplication or division instruction
 bool mips_instruction_is_MulDiv(string s);

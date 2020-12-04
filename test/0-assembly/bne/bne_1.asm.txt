@@ -1,5 +1,5 @@
-addiu $17 $0 0xFFFF
-addiu $18 $0 0xFFFF
+addiu $17 $0 0xffff
+addiu $18 $0 0xffff
 bne $17 $18 Label1
 addiu $2 $0 0x8264
 jr $0
