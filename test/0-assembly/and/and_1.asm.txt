@@ -1,0 +1,4 @@
+addiu $t5, $zero, 0xfaef
+addiu $t6, $zero, 0xffff
+and $v0, $t6, $t5
+jr $zero

@@ -1,0 +1,4 @@
+addiu $s1, $zero, 0x0a12
+addiu $s2, $zero, 0x00bc
+subu $v0, $s1, $s2
+jr $zero
