@@ -2,5 +2,5 @@ addiu $8,$8,10
 j 0xbfc00010
 addiu $8,$8,10
 addiu $8,$8,10
-addu $2,$8,0
+addiu $2,$8,0
 jr $0
