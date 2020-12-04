@@ -11,7 +11,7 @@ TESTCASE="$3"
 >&2 echo "Test CPU in directory ${DIRECTORY} of instruction ${INSTR}"
 
 >&2 echo "1 - Assembling input file"
- #bin/assembler <test/0-assembly/${INSTR}/${TESTCASE}.asm.txt >test/1-binary/${INSTR}/${TESTCASE}.hex.txt
+ bin/assembler <test/0-assembly/${INSTR}/${TESTCASE}.asm.txt >test/1-binary/${INSTR}/${TESTCASE}.hex.txt
 
 >&2 echo "2 - Compiling test-bench"
 # Compile the cpu under specific directory and instructions.
