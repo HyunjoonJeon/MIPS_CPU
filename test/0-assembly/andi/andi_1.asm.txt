@@ -1,0 +1,3 @@
+addiu $t8, $zero, 0xffff
+andi $v0, $t8, 0x1c21
+jr $zero
