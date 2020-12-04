@@ -1,9 +1,9 @@
-module mips_cpu_harvard_tb;
+module mips_cpu_bus_tb();
     timeunit 1ns / 100ps; //time unit and precision
 
-    parameter INSTR_INIT_FILE = "test/1-binary/subu/subu_2.hex.txt";
+    parameter INSTR_INIT_FILE = "test/1-binary/sll/sll_3.hex.txt";
     parameter DATA_INIT_FILE = "";
-    parameter TIMEOUT_CYCLES = 40;
+    parameter TIMEOUT_CYCLES = 500;
 
     logic clk;
     logic rst;
