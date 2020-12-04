@@ -60,11 +60,12 @@ int main(){
                 instruction_set.push_back({head, la, '0', '0'});
             }else if(mips_instruction_is_memory_using_offset(head)){
                 string rt;
-                string of;
-                string ba;
+                string operand;
                 cin >> rt;
-                cin >> of;
-                cin >> ba;
+                cin >> operand;
+                int pos = operand.find("(");
+                string of = operand.substr(0, pos - 1);
+                string ba = operand.substr(pos + 1, operand.length() - 1);
                 assert(!cin.fail());
                 instruction_set.push_back({head, ba, rt, of});
             }else if(mips_instruction_is_HiLo(head)){
@@ -130,7 +131,7 @@ int main(){
     for(int i = 0; i < instruction_set.size(); i++){
         if(mips_is_instruction(instruction_set[i][0])){
             string opname = instruction_set[i][0];
-            uint16_t opcode = mips_opname_to_opcode(opname);
+            uint32_t opcode = mips_opname_to_opcode(opname);
             if(mips_instruction_is_function(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 2) + mips_regname_to_regcode(instruction_set[i][3], 3)) << endl;
             }else if(mips_instruction_is_function_immediate(opname)){
@@ -138,13 +139,19 @@ int main(){
                 string temp2 = instruction_set[i][3];
                 cout << temp1.substr(0, 15) + temp2.substr(2) << endl;
             }else if(mips_instruction_is_branch(opname)){
-                //TO-DO Incorporate Labels
+                assert(labels.find(instruction_set[i][3])!=labels.end());
+                uint32_t address=labels[instruction_set[i][3]];
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 2) + address) << endl;
             }else if(mips_instruction_is_branch_comparison(opname)){
-                //TO-DO Incorporate Labels
+                assert(labels.find(instruction_set[i][2])!=labels.end());
+                uint32_t address=labels[instruction_set[i][2]];
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + address) << endl;
             }else if(mips_instruction_is_jump(opname)){
-                //TO-DO Incorporate Labels
+                assert(labels.find(instruction_set[i][1])!=labels.end());
+                uint32_t address=labels[instruction_set[i][1]];
+                cout << to_hex8(opcode + address);
             }else if(mips_instruction_is_memory_using_offset(opname)){
-                //TO-DO Incorporate memory offsets
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1) + mips_regname_to_regcode(instruction_set[i][2], 2) + stoi(instruction_set[i][3])) << endl;
             }else if(mips_instruction_is_HiLo(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i][1], 1)) << endl;
             }else if(mips_instruction_is_MulDiv(opname)){
