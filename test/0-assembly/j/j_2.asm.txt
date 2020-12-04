@@ -1,4 +1,5 @@
-addiu $8 $8 10
+addiu $8 $8 1
 j 0xbfc0004
+addiu $8 $8 1
 addiu $2 $8 0
 jr $0
