@@ -13,7 +13,7 @@ fi
 
 >&2 echo "Test CPU In Folder: $1"
 if [ 2 -eq "$#" ];then
-    ./test/no_init_test_mips_cpu.sh $1 "harvard" $2 
+    ./test/no_init_test_mips_cpu.sh $1 "bus" $2
 else
-    ./test/no_init_test_mips_cpu.sh $1 "harvard"
+    ./test/no_init_test_mips_cpu.sh $1 "bus"
 fi
