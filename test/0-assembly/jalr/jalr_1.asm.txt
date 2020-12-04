@@ -1,0 +1,12 @@
+addiu $9 $9 0xbfc0001c
+addiu $10 $10 20
+jalr $9
+addiu $10 $10 2
+addiu $10 $10 2
+j 0xbfc00028
+addiu $10 $10 2
+jr $31
+addiu $10 $10 2
+addiu $10 $10 2
+addiu $2 $10 0
+jr $0
