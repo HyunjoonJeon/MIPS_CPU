@@ -1,7 +1,7 @@
 bgtz $17 Label1
 addiu $17 $0 0
 bgtz $2 Label2
-addiu $2 $0 0xFFFF
+addiu $2 $0 0xffff
 
 Label1:
 addiu $2 $0 0x9888
