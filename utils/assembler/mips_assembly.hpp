@@ -36,6 +36,8 @@ bool mips_is_instruction(string s)
     if(s=="lw") return true;
     if(s=="lwl") return true;
     if(s=="lwr") return true;
+    if(s=="mfhi") return true;
+    if(s=="mflo") return true;
     if(s=="mthi") return true;
     if(s=="mtlo") return true;
     if(s=="mult") return true;
@@ -180,11 +182,19 @@ bool mips_instruction_is_memory_using_offset(string s)
     return false;
 }
 
-bool mips_instruction_is_HiLo(string s)
+bool mips_instruction_is_HiLo_mt(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="mthi") return true;
     if(s=="mtlo") return true;
+    return false;
+}
+
+bool mips_instruction_is_HiLo_mf(string s)
+{
+    assert(mips_is_instruction(s));
+    if(s=="mfhi") return true;
+    if(s=="mflo") return true;
     return false;
 }
 
@@ -250,6 +260,8 @@ uint32_t mips_opname_to_opcode(string s)
     if(s=="lw") return opcode + (35<<26);
     if(s=="lwl") return opcode + (34<<26);
     if(s=="lwr") return opcode + (38<<26);
+    if(s=="mfhi") return opcode + 16;
+    if(s=="mflo") return opcode + 18;
     if(s=="mthi") return opcode + 17;
     if(s=="mtlo") return opcode + 19;
     if(s=="mult") return opcode + 24;

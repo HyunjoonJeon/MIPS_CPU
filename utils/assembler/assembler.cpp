@@ -81,11 +81,17 @@ int main(){
                 assert(!cin.fail());
                 instruction temp = {head, ba, rt, of};
                 instruction_set.push_back(temp);
-            }else if(mips_instruction_is_HiLo(head)){
+            }else if(mips_instruction_is_HiLo_mt(head)){
                 string rs;
                 cin >> rs;
                 assert(!cin.fail());
                 instruction temp = {head, rs, "0", "0"};
+                instruction_set.push_back(temp);
+            }else if(mips_instruction_is_HiLo_mf(head)){
+                string rd;
+                cin >> rd;
+                assert(!cin.fail());
+                instruction temp = {head, rd, "0", "0"};
                 instruction_set.push_back(temp);
             }else if(mips_instruction_is_MulDiv(head)){
                 string rs;
@@ -175,8 +181,10 @@ int main(){
                 cout << to_hex8(opcode + address);
             }else if(mips_instruction_is_memory_using_offset(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2) + stoi(instruction_set[i].s3)) << endl;
-            }else if(mips_instruction_is_HiLo(opname)){
+            }else if(mips_instruction_is_HiLo_mt(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1)) << endl;
+            }else if(mips_instruction_is_HiLo_mf(opname)){
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 3)) << endl;
             }else if(mips_instruction_is_MulDiv(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2)) << endl;
             }else if(mips_instruction_is_shift(opname)){
