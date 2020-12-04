@@ -1,8 +1,14 @@
+#ifndef mips_assembly_hpp
+#define mips_assembly_hpp
+
 #include "mips.hpp"
 #include <cctype>
 #include <cassert>
+#include <string>
 
-bool mips_is_instruction(const string &s)
+using namespace std;
+
+bool mips_is_instruction(string s)
 {
     if(s=="addiu") return true;
     if(s=="addu") return true;
@@ -55,7 +61,7 @@ bool mips_is_instruction(const string &s)
     return false;
 }
 
-bool mips_is_label_decl(const string &s)
+bool mips_is_label_decl(string s)
 {
     if(s.size()<2)
     {
@@ -82,7 +88,7 @@ bool mips_is_label_decl(const string &s)
     return true;
 }
 
-bool mips_is_register(const string &s)
+bool mips_is_register(string s)
 {
      if(s.size()<2)
     {
@@ -105,7 +111,7 @@ bool mips_is_register(const string &s)
     return true;   
 }
 
-bool mips_instruction_is_function(const string &s)
+bool mips_instruction_is_function(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="addu") return true;
@@ -118,7 +124,7 @@ bool mips_instruction_is_function(const string &s)
     return false;
 }
 
-bool mips_instruction_is_function_immediate(const string &s)
+bool mips_instruction_is_function_immediate(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="addiu") return true;
@@ -130,7 +136,7 @@ bool mips_instruction_is_function_immediate(const string &s)
     return false;
 }
 
-bool mips_instruction_is_branch(const string &s)
+bool mips_instruction_is_branch(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="beq") return true;
@@ -138,7 +144,7 @@ bool mips_instruction_is_branch(const string &s)
     return false;
 }
 
-bool mips_instruction_is_branch_comparison(const string &s)
+bool mips_instruction_is_branch_comparison(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="bgez") return true;
@@ -150,7 +156,7 @@ bool mips_instruction_is_branch_comparison(const string &s)
     return false;
 }
 
-bool mips_instruction_is_jump(const string &s)
+bool mips_instruction_is_jump(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="j") return true;
@@ -158,7 +164,7 @@ bool mips_instruction_is_jump(const string &s)
     return false;
 }
 
-bool mips_instruction_is_memory_using_offset(const string &s)
+bool mips_instruction_is_memory_using_offset(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="lb") return true;
@@ -174,7 +180,7 @@ bool mips_instruction_is_memory_using_offset(const string &s)
     return false;
 }
 
-bool mips_instruction_is_HiLo(const string &s)
+bool mips_instruction_is_HiLo(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="mthi") return true;
@@ -182,7 +188,7 @@ bool mips_instruction_is_HiLo(const string &s)
     return false;
 }
 
-bool mips_instruction_is_MulDiv(const string &s)
+bool mips_instruction_is_MulDiv(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="mult") return true;
@@ -192,7 +198,7 @@ bool mips_instruction_is_MulDiv(const string &s)
     return false; 
 }
 
-bool mips_instruction_is_shift(const string &s)
+bool mips_instruction_is_shift(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="sll") return true;
@@ -201,7 +207,7 @@ bool mips_instruction_is_shift(const string &s)
     return false;
 }
 
-bool mips_instruction_is_shift_variable(const string &s)
+bool mips_instruction_is_shift_variable(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="sllv") return true;
@@ -210,13 +216,13 @@ bool mips_instruction_is_shift_variable(const string &s)
     return false;
 }
 
-uint32_t mips_opname_to_opcode(const string &s)
+uint32_t mips_opname_to_opcode(string s)
 {
     assert(mips_is_instruction(s));
     uint32_t opcode = 0;
     if(mips_instruction_is_branch(s))
     {
-        opcode + (1<<26);
+        opcode += (1<<26);
     }
     if(s=="addiu") return opcode + (9<<26);
     if(s=="addu") return opcode + 33;
@@ -266,9 +272,10 @@ uint32_t mips_opname_to_opcode(const string &s)
     if(s=="sw") return opcode + (43<<26);
     if(s=="xor") return opcode + 38;
     if(s=="xori") return opcode + (14<<26);
+    return 0;
 }
 
-uint32_t mips_regname_to_regcode(const string &s, int loc)
+uint32_t mips_regname_to_regcode(string s, int loc)
 {
     assert(mips_is_register(s));
     int x = 26-5*loc;
@@ -305,6 +312,7 @@ uint32_t mips_regname_to_regcode(const string &s, int loc)
     if(s=="$29") return regno + (29<<x);
     if(s=="$30") return regno + (30<<x);
     if(s=="$31") return regno + (31<<x);
+    return 0;
 }
 
 
@@ -322,3 +330,5 @@ string to_hex8(uint32_t x)
     res.push_back(tmp[(x>>0)&0xF]);
     return res;
 }
+
+#endif

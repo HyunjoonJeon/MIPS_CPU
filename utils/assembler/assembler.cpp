@@ -157,7 +157,10 @@ int main(){
             }else if(mips_instruction_is_function_immediate(opname)){
                 string temp1 = to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2));
                 string temp2 = instruction_set[i].s3;
-                cout << temp1.substr(0, 15) + temp2.substr(2) << endl;
+                if(temp2[0] == '0' && temp2[1] == 'x'){
+                    cout << temp1.substr(0, 15) + temp2.substr(2) << endl;
+                }
+                cout << temp1.substr(0, 15) + to_hex8(stoi(temp2.substr(0))) << endl;
             }else if(mips_instruction_is_branch(opname)){
                 assert(labels.find(instruction_set[i].s3)!=labels.end());
                 uint32_t address=labels[instruction_set[i].s3];
