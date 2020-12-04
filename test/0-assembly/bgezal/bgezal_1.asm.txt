@@ -1,5 +1,5 @@
 addiu $17 $0 0x1111
-subu $18 $17 0xFFFF
+subu $18 $17 0xffff
 bgezal $18 Label1
 addiu $2 $0 0x1111
 jr $0
