@@ -135,7 +135,7 @@ int main()
         }
     }
 
-    if (/*instr == "mult" || instr == "multu"  ||*/instr == "div" || instr == "divu"){
+    if (instr == "mult" ||  instr == "div" || instr == "divu" /*||instr == "multu"*/){
         for (int i = 1; i <= 4; i++)
         {
             //11 12 21 22

@@ -17,7 +17,7 @@ using namespace std;
 //div 000000    f=011010 DONE
 //divu 000000 f= 011011 DONE
 
-//mult 000000 f=011000 CANNOT DO HERE
+//mult 000000 f=011000 
 //multu 000000 f=011001 CANNOT DO HERE
 
 //jr 000000 f = 001000
@@ -199,7 +199,7 @@ int main()
                 if(regs.find(rt)!= regs.end())
                     val_rt = regs.find(rt)->second;
                 long sum = val_rs+val_rt;
-                cout << "sum" << sum << endl;
+                //cout << "sum" << sum << endl;
 
                 if(sum > 2147483647) sum -= pow(2,32);
                 if(sum < -214783648) sum += pow(2,32);
@@ -422,6 +422,34 @@ int main()
                         cout << "default value" << "00000000" << endl;
                     }
                 break;
+                }
+            }
+            if (func == "011000"){//mult
+                //cout << "mult" << endl;
+                long val_rs = 0;
+                if(regs.find(rs)!= regs.end())
+                    val_rs = regs.find(rs)->second;
+                long val_rt = 0;
+                if(regs.find(rt)!= regs.end())
+                    val_rt = regs.find(rt)->second;
+                long pro = val_rs*val_rt;
+
+                string hex = int_to_hex(pro,64);
+                string hi = hex.substr(0,8);
+                string lo = hex.substr(8,8);
+                long hi_val = bin_to_int(hex_to_bin(hi));
+                long lo_val = bin_to_int(hex_to_bin(lo));
+
+                //puting value in regs
+                if(regs.find("hi")!= regs.end()){
+                    regs.at("hi") = hi_val;
+                }else{
+                    regs.insert(pair<string, long>("hi",hi_val));
+                }
+                if(regs.find("lo")!= regs.end()){
+                    regs.at("lo") = lo_val;
+                }else{
+                    regs.insert(pair<string, long>("lo",lo_val));
                 }
             }
         }

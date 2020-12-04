@@ -1,0 +1,11 @@
+addiu $8 $s1 10
+jal 0xbfc0001c
+addiu $8 $8 10
+jal 0xbfc00028
+addiu $8 $8 10
+addiu $8 $8 10
+addiu $8 $8 10
+jr $31
+addiu $8 $8 10
+addiu $2 $8 0
+jr $0
