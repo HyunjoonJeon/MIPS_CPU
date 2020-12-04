@@ -7,8 +7,8 @@
 #include <cassert>
 using namespace std;
 
-//ADDIU ANDI ORI LUI
-//ADDU AND DIV DIVU OR
+//ADDIU ANDI ORI LUI XOR 
+//ADDU AND DIV DIVU OR XOR SUBU
 
 string assign_reg(int n ,string side,int R)
 { 

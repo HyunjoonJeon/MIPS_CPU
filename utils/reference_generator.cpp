@@ -190,7 +190,8 @@ int main()
         if (op == "000000"){
             string func = bin_instr.substr(26, 6);
             string rd = bin_instr.substr(16,5);
-            if (func == "100001"){//addu // not yet considered edge case
+            if (func == "100001"){//addu
+                //cout << "addu" << endl;
                 long val_rs = 0;
                 if(regs.find(rs)!= regs.end())
                     val_rs = regs.find(rs)->second;
@@ -198,8 +199,10 @@ int main()
                 if(regs.find(rt)!= regs.end())
                     val_rt = regs.find(rt)->second;
                 long sum = val_rs+val_rt;
-                if(sum > 2147483647) sum -= pow(2,32);
+                cout << "sum" << sum << endl;
 
+                if(sum > 2147483647) sum -= pow(2,32);
+                if(sum < -214783648) sum += pow(2,32);
                 //puting value in regs
                 if(regs.find(rd)!= regs.end()){
                     regs.at(rd) = sum;
@@ -207,15 +210,43 @@ int main()
                     regs.insert(pair<string, long>(rd,sum));
                 }
             }
+            if (func == "100011"){//subu
+                //cout << "subu" << endl;
+                long val_rs = 0;
+                if(regs.find(rs)!= regs.end())
+                    val_rs = regs.find(rs)->second;
+                long val_rt = 0;
+                if(regs.find(rt)!= regs.end())
+                    val_rt = regs.find(rt)->second;
+                long dif = val_rs - val_rt;
+                //cout << "dif" << dif << endl;
+
+                if(dif > 2147483647) dif -= pow(2,32);
+                if(dif < -214783648) dif += pow(2,32);
+                //puting value in regs
+                if(regs.find(rd)!= regs.end()){
+                    regs.at(rd) = dif;
+                }else{
+                    regs.insert(pair<string, long>(rd,dif));
+                }
+            }
             if (func == "100100"){//and
                 //cout << "and" << endl;
                 string val_rs = "";
                 if(regs.find(rs)!= regs.end())
                     val_rs = hex_to_bin(int_to_hex(regs.find(rs)->second,32));
+                //extend to 32 bit in case
+                while(val_rs.size()<32){
+                    val_rs = "0" + val_rs;
+                }
                 string val_rt = "";
                 if(regs.find(rt)!= regs.end())
                     val_rt = hex_to_bin(int_to_hex(regs.find(rt)->second,32));
-                
+                //extend to 32 bit in case
+                while(val_rt.size()<32){
+                    val_rt = "0" + val_rt;
+                }
+
                 assert(val_rs.size()==32 && val_rt.size()==32);
                 string res = "";
                 for(int i = 0; i<32;i++){
@@ -233,13 +264,21 @@ int main()
                 }
             }
             if (func == "100101"){//or
-                cout << "or" << endl;
+                //cout << "or" << endl;
                 string val_rs = "";
                 if(regs.find(rs)!= regs.end())
                     val_rs = hex_to_bin(int_to_hex(regs.find(rs)->second,32));
+                //extend to 32 bit in case
+                while(val_rs.size()<32){
+                    val_rs = "0" + val_rs;
+                }
                 string val_rt = "";
                 if(regs.find(rt)!= regs.end())
                     val_rt = hex_to_bin(int_to_hex(regs.find(rt)->second,32));
+                //extend to 32 bit in case
+                while(val_rt.size()<32){
+                    val_rt = "0" + val_rt;
+                }
                 
                 assert(val_rs.size()==32 && val_rt.size()==32);
                 string res = "";
@@ -257,8 +296,42 @@ int main()
                     regs.insert(pair<string, long>(rd,bin_to_int(res)));
                 }
             }
+            if (func == "100110"){//xor
+                //cout << "xor" << endl;
+                string val_rs = "";
+                if(regs.find(rs)!= regs.end())
+                    val_rs = hex_to_bin(int_to_hex(regs.find(rs)->second,32));
+                //extend to 32 bit in case
+                while(val_rs.size()<32){
+                    val_rs = "0" + val_rs;
+                }
+                string val_rt = "";
+                if(regs.find(rt)!= regs.end())
+                    val_rt = hex_to_bin(int_to_hex(regs.find(rt)->second,32));
+                //extend to 32 bit in case
+                while(val_rt.size()<32){
+                    val_rt = "0" + val_rt;
+                }
+                
+                assert(val_rs.size()==32 && val_rt.size()==32);
+                string res = "";
+                for(int i = 0; i<32;i++){
+                    if(val_rs.at(i)=='0'&& val_rt.at(i)=='0'){
+                        res = res + "0";
+                    }else{
+                        res = res + "1";
+                    }
+                }
+                //puting value in regs
+                if(regs.find(rd)!= regs.end()){
+                    regs.at(rd) = bin_to_int(res);
+                }else{
+                    regs.insert(pair<string, long>(rd,bin_to_int(res)));
+                }
+
+            }
             if (func == "010010"){//mflo
-                cout << "mflo" << endl;
+                //cout << "mflo" << endl;
                 long data = 0;
                 if (regs.find("lo") != regs.end()){
                     data = regs.find("lo")->second;
@@ -271,6 +344,7 @@ int main()
                 }
             }
             if (func == "010000"){//mfhi
+                //cout << "mfhi" << endl;
                 long data = 0;
                 if (regs.find("hi") != regs.end()){
                     data = regs.find("hi")->second;
@@ -390,12 +464,18 @@ int main()
                 }
             }
             if(op == "001100"){//andi
+            //cout << "andi" << endl;
                 im = "0000000000000000" + im;
                 //looking for val in rs
                 string val_rs = "00000000000000000000000000000000";
                 if(regs.find(rs)!= regs.end())
                     val_rs = hex_to_bin(int_to_hex(regs.find(rs)->second,32));
                 //cout << "val_rs = " << val_rs << endl;
+                //extend it to 32 bits incase
+                while(val_rs.size()<32){
+                    val_rs = "0" + val_rs;
+                }
+                //cout << "im = " << im << endl;
                 string ands = "";  
                 for(int i = 0; i < 32;i++){
                     if(val_rs.at(i)=='1' && im.at(i)=='1'){
@@ -419,6 +499,10 @@ int main()
                 if(regs.find(rs)!= regs.end())
                     val_rs = hex_to_bin(int_to_hex(regs.find(rs)->second,32));
                 //cout << "val_rs = " << val_rs << endl;
+                //extend to 32 bit in case
+                while(val_rs.size()<32){
+                    val_rs = "0" + val_rs;
+                }
                 string ori = "";  
                 for(int i = 0; i < 32;i++){
                     if(val_rs.at(i)=='0' && im.at(i)=='0'){
@@ -427,7 +511,7 @@ int main()
                         ori = ori + "1";
                     }
                 }
-                //cout << "and = " << ands << endl;
+                //cout << "ori = " << ands << endl;
                 //puting value in regs
                 if(regs.find(rt)!= regs.end()){
                     regs.at(rt) = bin_to_int(ori);
@@ -436,6 +520,33 @@ int main()
                 }
 
             } 
+            if(op == "001110"){//xori
+                im = "0000000000000000" + im;
+                //looking for val in rs
+                string val_rs = "00000000000000000000000000000000";
+                if(regs.find(rs)!= regs.end())
+                    val_rs = hex_to_bin(int_to_hex(regs.find(rs)->second,32));
+                //cout << "val_rs = " << val_rs << endl;
+                //extend to 32 bit in case
+                while(val_rs.size()<32){
+                    val_rs = "0" + val_rs;
+                }
+                string xori = "";  
+                for(int i = 0; i < 32;i++){
+                    if((val_rs.at(i)=='0' && im.at(i)=='0')||(val_rs.at(i)=='1' && im.at(i)=='1')){
+                        xori = xori + "0"; 
+                    }else{
+                        xori = xori + "1";
+                    }
+                }
+                //cout << "xori = " << ands << endl;
+                //puting value in regs
+                if(regs.find(rt)!= regs.end()){
+                    regs.at(rt) = bin_to_int(xori);
+                }else{
+                    regs.insert(pair<string, long>(rt, bin_to_int(xori)));
+                }
+            }
         }
     }
 }
