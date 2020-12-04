@@ -43,8 +43,11 @@ int main()
     if (instr == "lui") //this instruction should be tested first
     // the immediate should not be signed, so only positive value allowed
     {
-        outfile.open(position + instr + "/"+ instr + ".asm.txt", ios::trunc);
-        outfile << instr << " $2," << rand() % 65535 << endl;
+        outfile.open(position + instr + "/"+ instr + "_1.asm.txt", ios::trunc);
+        outfile << instr << " $2," << rand() % 32767 << endl;
+        outfile.close();
+        outfile.open(position + instr + "/"+ instr + "_2.asm.txt", ios::trunc);
+        outfile << instr << " $2," << to_string((rand() % 32767)+32768) << endl;
         outfile.close();
     }
 
@@ -91,7 +94,7 @@ int main()
     {
         int r1 = rand() % 17 + 8;
         int r2 = rand() % 17 + 8;
-        outfile.open(position+ instr + "/" + instr + ".asm.txt", ios::trunc);
+        outfile.open(position+ instr + "/" + instr + "_1.asm.txt", ios::trunc);
         outfile << assign_reg(1, "upper", r1) << endl;
         outfile << assign_reg(1, "lower", r1) << endl;
         outfile << assign_reg(2, "upper", r2) << endl;
