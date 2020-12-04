@@ -21,7 +21,8 @@ iverilog -g 2012 \
    ${DIRECTORY}/mips_cpu_harvard.v ${DIRECTORY}/mips_cpu_harvard_tb.v ${DIRECTORY}/mem_harvard.v ${DIRECTORY}/mips_cpu/*.v \
    -s mips_cpu_harvard_tb \
    -P mips_cpu_harvard_tb.INSTR_INIT_FILE=\"test/1-binary/${INSTR}/${TESTCASE}.hex.txt\" \
-   -o test/2-simulator/mips_cpu_harvard_tb_${TESTCASE}
+   -o test/2-simulator/mips_cpu_harvard_tb_${TESTCASE} \
+   2>/dev/null
 
 >&2 echo "3 - Running test-bench"
 # Run the simulator, and capture all output to a file
@@ -52,7 +53,7 @@ sed -e "s/${PATTERN}/${NOTHING}/g" test/3-output/${INSTR}/mips_cpu_harvard_tb_${
 
 >&2 echo "5 - Running reference simulator"
 # not complete, do not know how to come up with reference outputs
-#bin/reference <test/1-binary/${TESTCASE}.hex.txt >test/4-reference/${TESTCASE}.out
+bin/ref <test/1-binary/${INSTR}/${TESTCASE}.hex.txt >test/4-reference/${INSTR}/${TESTCASE}.out
 
 
 >&2 echo "6 - Comparing output"
