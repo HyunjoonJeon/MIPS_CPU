@@ -1,9 +1,9 @@
-lui $17,0xFFFF
-ori $17,$17,0x10CC
-lui $18,0xDEF1
-mult $17,$18
+lui $17 0xFFFF
+ori $17 $17 0x10CC
+lui $18 0xDEF1
+mult $17 $18
 mfhi $19
 mtlo $19
 mflo $20
-addu $2,$20,$0
+addu $2 $20 $0
 jr $0

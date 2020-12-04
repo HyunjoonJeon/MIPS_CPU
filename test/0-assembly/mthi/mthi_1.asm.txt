@@ -1,7 +1,7 @@
-lui $17,0xF100
-lui $18,0x10CC
-mult $17,$18
+lui $17 0xF100
+lui $18 0x10CC
+mult $17 $18
 mthi $18
 mfhi $19
-addu $2,$19,$0
+addu $2 $19 $0
 jr $0

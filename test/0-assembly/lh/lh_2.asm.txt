@@ -1,5 +1,5 @@
-addiu $s1,$0,0xFFF8
-addiu $s2,$0,0x1459
-sh $s1,200($s2)
-lh $v0,200($s2)
+addiu $s1 $0 0xFFF8
+addiu $s2 $0 0x1459
+sh $s1 200($s2)
+lh $v0 200($s2)
 jr $0
