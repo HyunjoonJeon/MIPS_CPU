@@ -1,4 +1,7 @@
-addiu $t1, $zero, 0xfffe
-addiu $t2, $zero, 93
-addu $v0, $t1, $t2
-jr $zero
+lui $16 32124
+addiu $16 $16 -4676
+lui $10 40301
+addiu $10 $10 26312
+addu $16 $16 $10
+addiu $2 $16 0
+jr $0

@@ -1,3 +1,5 @@
-addiu $t8, $zero, 0xffff
-andi $v0, $t8, 0x1c21
-jr $zero
+lui $19 3832
+addiu $19 $19 2101
+andi $19 $19 4311
+addiu $2 $19 0
+jr $0

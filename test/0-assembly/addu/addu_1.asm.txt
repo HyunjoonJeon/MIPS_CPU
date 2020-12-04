@@ -1,4 +1,7 @@
-addiu $t1, $zero, 43
-addiu $t2, $zero, 52
-addu $v0, $t1, $t2
-jr $zero
+lui $9 28227
+addiu $9 $9 7670
+lui $23 9066
+addiu $23 $23 -13027
+addu $9 $9 $23
+addiu $2 $9 0
+jr $0

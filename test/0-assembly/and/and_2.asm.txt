@@ -1,6 +1,0 @@
-addiu $s3, $zero, 0xffff
-and $v0, $zero, $s3
-addiu $v0, $zero, 0x03a5
-addiu $s5 $zero, 0x0ff0
-and $v0, $v0, $s5
-jr $zero

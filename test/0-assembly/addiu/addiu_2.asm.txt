@@ -1,3 +1,5 @@
-addiu $2,$0,10
-addiu $2,$2,15
+lui $9 33541
+addiu $9 $9 16578
+addiu $9 $9 10568
+addiu $2 $9 0
 jr $0

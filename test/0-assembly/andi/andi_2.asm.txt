@@ -1,3 +1,5 @@
-addiu $t5, $zero, 0xfaef
-andi $v0, $t5, 0xffff
-jr $zero
+lui $16 55704
+addiu $16 $16 -20490
+andi $16 $16 -26274
+addiu $2 $16 0
+jr $0
