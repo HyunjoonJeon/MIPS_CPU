@@ -46,9 +46,6 @@ int main(){
                 assert(!cin.fail());
                 instruction temp = {head, rs, rt, im};
                 instruction_set.push_back(temp);
-                cout << "rt equals to: "<< rt << endl;
-                cout << "rs equals to: "<< rs << endl;
-                cout << "im equals to: "<< im << endl;
             }else if(mips_instruction_is_branch(head)){
                 string rs;
                 string rt;
@@ -140,8 +137,6 @@ int main(){
                 assert(!cin.fail());
                 instruction temp = {head, rt, im, "0"};
                 instruction_set.push_back(temp);
-                cout << "rt equals to: "<< rt << endl;
-                cout << "im equals to: "<< im << endl;
             }
         }else{
             cerr<<"Couldn't parse '"<<head<<"'\n";
@@ -161,9 +156,7 @@ int main(){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2) + mips_regname_to_regcode(instruction_set[i].s3, 3)) << endl;
             }else if(mips_instruction_is_function_immediate(opname)){
                 string temp1 = to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2));
-                cout << "first 4 bits: " << temp1 << endl;
                 string temp2 = instruction_set[i].s3;
-                cout << "last 4 bits: " << temp2 << endl;
                 if(temp2[0] == '0' && temp2[1] == 'x'){
                     cout << temp1.substr(0, 4) + temp2.substr(2) << endl;
                 }
@@ -196,9 +189,7 @@ int main(){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1)) << endl;
             }else if(opname == "lui"){
                 string temp1 = to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 2));
-                cout << "first 4 bits: " << temp1 << endl;
                 string temp2 = instruction_set[i].s2;
-                cout << "last 4 bits: " << temp2 << endl;
                 if(temp2[0] == '0' && temp2[1] == 'x'){
                     cout << temp1.substr(0, 4) + temp2.substr(2) << endl;
                 }
