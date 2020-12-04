@@ -102,7 +102,7 @@ bool mips_is_register(string s)
 
     for(int i=1; i<s.size()-1; i++)
     {
-        if(!isdigit(s[i]))
+        if(!isalnum(s[i]))
         {
             return false;
         }
@@ -312,6 +312,39 @@ uint32_t mips_regname_to_regcode(string s, int loc)
     if(s=="$29") return regno + (29<<x);
     if(s=="$30") return regno + (30<<x);
     if(s=="$31") return regno + (31<<x);
+    // Register nicknames
+    if(s=="$zero") return regno + (0<<x);
+    if(s=="$at") return regno + (1<<x);
+    if(s=="$v0") return regno + (2<<x);
+    if(s=="$v1") return regno + (3<<x);
+    if(s=="$a0") return regno + (4<<x);
+    if(s=="$a1") return regno + (5<<x);
+    if(s=="$a2") return regno + (6<<x);
+    if(s=="$a3") return regno + (7<<x);
+    if(s=="$t0") return regno + (8<<x);
+    if(s=="$t1") return regno + (9<<x);
+    if(s=="$t2") return regno + (10<<x);
+    if(s=="$t3") return regno + (11<<x);
+    if(s=="$t4") return regno + (12<<x);
+    if(s=="$t5") return regno + (13<<x);
+    if(s=="$t6") return regno + (14<<x);
+    if(s=="$t7") return regno + (15<<x);
+    if(s=="$s0") return regno + (16<<x);
+    if(s=="$s1") return regno + (17<<x);
+    if(s=="$s2") return regno + (18<<x);
+    if(s=="$s3") return regno + (19<<x);
+    if(s=="$s4") return regno + (20<<x);
+    if(s=="$s5") return regno + (21<<x);
+    if(s=="$s6") return regno + (22<<x);
+    if(s=="$s7") return regno + (23<<x);
+    if(s=="$t8") return regno + (24<<x);
+    if(s=="$t9") return regno + (25<<x);
+    if(s=="$k0") return regno + (26<<x);
+    if(s=="$k1") return regno + (27<<x);
+    if(s=="$gp") return regno + (28<<x);
+    if(s=="$sp") return regno + (29<<x);
+    if(s=="$fp") return regno + (30<<x);
+    if(s=="$ra") return regno + (31<<x);
     return 0;
 }
 
