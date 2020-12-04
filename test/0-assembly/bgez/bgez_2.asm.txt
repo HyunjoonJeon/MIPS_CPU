@@ -1,5 +1,5 @@
 addiu $17,$0,0
-bgez $18,Label1
+bgez $17,Label1
 
 Label1:
 addiu $2,$0,0xFFFF
