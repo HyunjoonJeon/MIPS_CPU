@@ -105,10 +105,19 @@ module ALU(
 			CONTROL_AND: begin
 				alu_result = bitwise_and;
 			end
+			CONTROL_ANDI: begin
+				alu_result = bitwise_and;
+			end
 			CONTROL_OR: begin
 				alu_result = bitwise_or;
 			end
+			CONTROL_ORI: begin
+				alu_result = bitwise_or;
+			end
 			CONTROL_XOR: begin
+				alu_result = bitwise_xor;
+			end
+			CONTROL_XORI: begin
 				alu_result = bitwise_xor;
 			end
 			CONTROL_SLT: begin
@@ -117,11 +126,20 @@ module ALU(
 			CONTROL_SLTU: begin
 				alu_result = less_than_unsigned;
 			end
+			CONTROL_SLL: begin
+				alu_result = shift_left_logical;
+			end
 			CONTROL_SLLV: begin
 				alu_result = shift_left_logical;
 			end
+			CONTROL_SRL: begin
+				alu_result = shift_right_logical;
+			end
 			CONTROL_SRLV: begin
 				alu_result = shift_right_logical;
+			end
+			CONTROL_SRA: begin
+				alu_result = shift_right_arithmetic;
 			end
 			CONTROL_SRAV: begin
 				alu_result = shift_right_arithmetic;

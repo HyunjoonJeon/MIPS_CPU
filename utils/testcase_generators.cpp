@@ -43,8 +43,13 @@ int main()
     if (instr == "lui") //this instruction should be tested first
     // the immediate should not be signed, so only positive value allowed
     {
-        outfile.open(position + instr + "/"+ instr + ".asm.txt", ios::trunc);
-        outfile << instr << " $2," << rand() % 65535 << endl;
+        outfile.open(position + instr + "/"+ instr + "_1.asm.txt", ios::trunc);
+        outfile << instr << " $2," << rand() % 32767 << endl;
+        outfile << "jr $0" << endl;
+        outfile.close();
+        outfile.open(position + instr + "/"+ instr + "_2.asm.txt", ios::trunc);
+        outfile << instr << " $2," << to_string((rand() % 32767)+32768) << endl;
+        outfile << "jr $0" << endl;
         outfile.close();
     }
 
@@ -59,12 +64,14 @@ int main()
             outfile << assign_reg(i, "lower", r1) << endl;
             outfile << instr << " $" << r1 << ",$" << r1 << "," << rand() % 32767 << endl;
             outfile << "addiu $2,$" << r1 << ",0" << endl;
+            outfile << "jr $0" << endl;
             outfile.close();
             outfile.open(position + instr + "/" + instr + "_" + to_string(i + 2) + ".asm.txt", ios::trunc);
             outfile << assign_reg(i, "upper", r1) << endl;
             outfile << assign_reg(i, "lower", r1) << endl;
             outfile << instr << " $" << r1 << ",$" << r1 << "," << (rand() % 32767) * -1 - 1 << endl;
             outfile << "addiu $2,$" << r1 << ",0" << endl;
+            outfile << "jr $0" << endl;
             outfile.close();
         }
     }
@@ -78,12 +85,14 @@ int main()
         outfile << assign_reg(1, "lower", r1) << endl;
         outfile << instr << " $" << r1 << ",$" << r1 << "," << rand() % 32767 << endl;
         outfile << "addiu $2,$" << r1 << ",0" << endl;
+        outfile << "jr $0" << endl;
         outfile.close();
         outfile.open(position+ instr + "/" + instr + "_2.asm.txt", ios::trunc);
         outfile << assign_reg(2, "upper", r2) << endl;
         outfile << assign_reg(2, "lower", r2) << endl;
         outfile << instr << " $" << r2 << ",$" << r2 << "," << (rand() % 32767) * -1 - 1 << endl;
         outfile << "addiu $2,$" << r2 << ",0" << endl;
+        outfile << "jr $0" << endl;
         outfile.close();
     }
 
@@ -91,13 +100,14 @@ int main()
     {
         int r1 = rand() % 17 + 8;
         int r2 = rand() % 17 + 8;
-        outfile.open(position+ instr + "/" + instr + ".asm.txt", ios::trunc);
+        outfile.open(position+ instr + "/" + instr + "_1.asm.txt", ios::trunc);
         outfile << assign_reg(1, "upper", r1) << endl;
         outfile << assign_reg(1, "lower", r1) << endl;
         outfile << assign_reg(2, "upper", r2) << endl;
         outfile << assign_reg(2, "lower", r2) << endl;
         outfile << instr << " $" << r1 << ",$" << r1 << ",$" << r2 << endl;
         outfile << "addiu $2,$" << r1 << ",0" << endl;
+        outfile << "jr $0" << endl;
         outfile.close();
     }
 
@@ -120,6 +130,7 @@ int main()
             outfile << assign_reg(c2, "lower", r2) << endl;
             outfile << instr << " $" << r1 << ",$" << r1 << ",$" << r2 << endl;
             outfile << "addiu $2,$" << r1 << ",0" << endl;
+            outfile << "jr $0" << endl;
             outfile.close();
         }
     }
@@ -142,6 +153,7 @@ int main()
             outfile << assign_reg(c2, "lower", r2) << endl;
             outfile << instr << " $" << r1 << ",$" << r2 << endl;
             outfile << "mfhi $2" << endl;
+            outfile << "jr $0" << endl;
             outfile.close();
             outfile.open(position+ instr + "/" + instr + "_" + to_string(i+4) + ".asm.txt", ios::trunc);
             outfile << assign_reg(c1, "upper", r1) << endl;
@@ -150,6 +162,7 @@ int main()
             outfile << assign_reg(c2, "lower", r2) << endl;
             outfile << instr << " $" << r1 << ",$" << r2 << endl;
             outfile << "mflo $2" << endl;
+            outfile << "jr $0" << endl;
             outfile.close();
         }
     }
