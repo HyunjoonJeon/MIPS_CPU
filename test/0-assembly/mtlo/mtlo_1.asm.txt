@@ -1,6 +1,6 @@
-lui $17 0xFFFF
-ori $17 $17 0x10CC
-lui $18 0xDEF1
+lui $17 0xffff
+ori $17 $17 0x10cc
+lui $18 0xdef1
 mult $17 $18
 mfhi $19
 mtlo $19
