@@ -102,7 +102,7 @@ bool mips_is_register(string s)
 
     for(int i=1; i<s.size()-1; i++)
     {
-        if(!isdigit(s[i]))
+        if(!isalnum(s[i]))
         {
             return false;
         }
