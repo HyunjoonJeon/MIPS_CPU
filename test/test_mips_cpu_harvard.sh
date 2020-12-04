@@ -1,7 +1,6 @@
 #!/bin/bash
 set -eou pipefail
 #input is address + optional instruction
-# can be used for both harvard and bus tests
 
 >&2 echo "Checking if initialisation required..."
 if [ -e bin/tc ] && [ -e bin/assembler ] && [ -e bin/reference ] ;then
@@ -14,7 +13,7 @@ fi
 
 >&2 echo "Test CPU In Folder: $1"
 if [ 2 -eq "$#" ];then
-    ./test/no_init_test_mips_cpu.sh $1 $2 "harvard"
+    ./test/no_init_test_mips_cpu.sh $1 "harvard" $2 
 else
     ./test/no_init_test_mips_cpu.sh $1 "harvard"
 fi

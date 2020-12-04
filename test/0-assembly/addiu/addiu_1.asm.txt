@@ -1,5 +1,5 @@
-lui $9 24437
-addiu $9 $9 9587
-addiu $9 $9 30128
-addiu $2 $9 0
+lui $20 2581
+addiu $20 $20 -25033
+addiu $20 $20 12929
+addiu $2 $20 0
 jr $0
