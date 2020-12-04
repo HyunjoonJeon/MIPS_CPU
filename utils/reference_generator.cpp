@@ -20,6 +20,8 @@ using namespace std;
 //mult 000000 f=011000 CANNOT DO HERE
 //multu 000000 f=011001 CANNOT DO HERE
 
+//jr 000000 f = 001000
+
 
 string hex_to_bin(string long_hex)
 {
@@ -333,6 +335,21 @@ int main()
                     regs.insert(pair<string, long>("lo",div_val));
                 }
             }
+            if (func == "001000"){//jr $0 which will be the end
+                if(rs == "00000"){
+                    //OUTPUT
+                    if (regs.find("00010") != regs.end()){
+                        string out = int_to_hex(regs.find("00010")->second,32);
+                        while(out.size()<8){
+                            out = "0" + out;
+                        }
+                        cout << out << endl;
+                    }else{
+                        cout << "default value" << "00000000" << endl;
+                    }
+                break;
+                }
+            }
         }
         else{
             string im = bin_instr.substr(16, 16);
@@ -420,15 +437,5 @@ int main()
 
             } 
         }
-    }
-    //OUTPUT
-    if (regs.find("00010") != regs.end()){
-        string out = int_to_hex(regs.find("00010")->second,32);
-        while(out.size()<8){
-            out = "0" + out;
-        }
-        cout << out << endl;
-    }else{
-        cout << "default value" << "00000000" << endl;
     }
 }
