@@ -351,16 +351,16 @@ uint32_t mips_regname_to_regcode(string s, int loc)
 
 string to_hex8(uint32_t x)
 {
-    char tmp[16]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+    char tmp[16]={'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
     string res;
-    res.push_back(tmp[(x>>28)&0xF]);
-    res.push_back(tmp[(x>>24)&0xF]);
-    res.push_back(tmp[(x>>20)&0xF]);
-    res.push_back(tmp[(x>>16)&0xF]);
-    res.push_back(tmp[(x>>12)&0xF]);
-    res.push_back(tmp[(x>>8)&0xF]);
-    res.push_back(tmp[(x>>4)&0xF]);
-    res.push_back(tmp[(x>>0)&0xF]);
+    res.push_back(tmp[(x>>28)&0xf]);
+    res.push_back(tmp[(x>>24)&0xf]);
+    res.push_back(tmp[(x>>20)&0xf]);
+    res.push_back(tmp[(x>>16)&0xf]);
+    res.push_back(tmp[(x>>12)&0xf]);
+    res.push_back(tmp[(x>>8)&0xf]);
+    res.push_back(tmp[(x>>4)&0xf]);
+    res.push_back(tmp[(x>>0)&0xf]);
     return res;
 }
 
