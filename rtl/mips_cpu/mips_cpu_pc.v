@@ -1,3 +1,5 @@
+//`timescale 1ns/100ps
+
 module pc (
     input logic [31:0] new_pc,
     output logic [31:0] pc,

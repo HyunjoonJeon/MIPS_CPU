@@ -89,13 +89,14 @@ module ALU_decoder (
     	CONTROL_DIVU = 5'b10011,
     	CONTROL_LUI = 5'b10100,
     	CONTROL_MTLO = 5'b10101,
-    	CONTROL_MTHI = 5'b10110
+    	CONTROL_MTHI = 5'b10110,
+		CONTROL_LWLR = 5'b10111
     } alu_control_t;
 
     opcode_t instr_opcode;
     func_t func_code;
     branch_t branch_field;
-
+	
     initial begin
         alu_control = 5'd0;
         branch_cond = 3'd0;
@@ -179,6 +180,9 @@ module ALU_decoder (
     	else if (instr_opcode == OPCODE_ADDIU || instr_opcode == OPCODE_LB || instr_opcode == OPCODE_LBU || instr_opcode == OPCODE_LH || instr_opcode == OPCODE_LHU || instr_opcode == OPCODE_LW || instr_opcode == OPCODE_LWL || instr_opcode == OPCODE_LWR || instr_opcode == OPCODE_SB || instr_opcode == OPCODE_SH || instr_opcode == OPCODE_SW) begin
     		alu_control = CONTROL_ADD;
     	end
+		else if (instr_opcode == OPCODE_LWL || instr_opcode == OPCODE_LWR) begin
+			alu_control = CONTROL_LWLR;
+		end
     	else if (instr_opcode == OPCODE_ANDI) begin
     		alu_control = CONTROL_ANDI;
     	end

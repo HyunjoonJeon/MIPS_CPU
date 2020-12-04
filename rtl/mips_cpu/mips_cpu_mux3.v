@@ -1,10 +1,12 @@
 module mux3 (
     input logic [31:0] aluout,
     input logic [31:0] data_readdata,
+    input logic [31:0] lwlr_data,
     input logic [31:0] signextend_data,
     // pc + 8 value from pcnext
     input logic [31:0] link_pc,
     input logic [1:0] select,
+    input logic islwlr,
 
     output logic [31:0] reg_write_data
     );
@@ -17,7 +19,7 @@ module mux3 (
                 reg_write_data = aluout;
             end
             2'b01: begin
-                reg_write_data = data_readdata;
+                reg_write_data = islwlr ? lwlr_data : data_readdata;
             end
             2'b10: begin
                 reg_write_data = signextend_data;

@@ -1,3 +1,5 @@
+//`timescale 1ns/100ps
+
 module signextend (
     input logic [15:0] immediate,
     input logic [31:0] data_readdata,
