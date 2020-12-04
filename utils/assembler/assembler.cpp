@@ -160,7 +160,7 @@ int main(){
                 if(temp2[0] == '0' && temp2[1] == 'x'){
                     cout << temp1.substr(0, 3) + temp2.substr(2) << endl;
                 }
-                cout << temp1.substr(0, 3) + to_hex8(stoi(temp2.substr(0))) << endl;
+                cout << temp1.substr(0, 3) + to_hex8(stoi(temp2.substr(0))).substr(4, 8) << endl;
             }else if(mips_instruction_is_branch(opname)){
                 assert(labels.find(instruction_set[i].s3)!=labels.end());
                 uint32_t address=labels[instruction_set[i].s3];
