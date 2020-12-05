@@ -1,3 +1,5 @@
+//`timescale 1ns/100ps
+
 module ALU(
 	input logic[31:0] A,
 	input logic[31:0] B,
@@ -12,7 +14,8 @@ module ALU(
 	// output logic C,
 	output logic branch_cond_true,
 	output logic[31:0] LO_output,
-	output logic[31:0] HI_output
+	output logic[31:0] HI_output,
+	output logic[1:0] byte_offset
 	);
 
 	typedef enum logic[4:0] {
@@ -38,7 +41,10 @@ module ALU(
 		CONTROL_DIVU = 5'b10011,
 		CONTROL_LUI = 5'b10100,
 		CONTROL_MTLO = 5'b10101,
-		CONTROL_MTHI = 5'b10110
+		CONTROL_MTHI = 5'b10110,
+		CONTROL_LWLR = 5'b10111,
+		CONTROL_MFLO = 5'b11000,
+		CONTROL_MFHI = 5'b11001
 	} control_t;
 
 	typedef enum logic[2:0] {
@@ -68,6 +74,7 @@ module ALU(
 	wire [31:0] quotient; // register LO
 	wire [31:0] remainder; // register HI
 	wire [31:0] immediate_zero_extend; // zero extend the immediate for logical operations
+	wire [31:0] lwlr_addr;
 
 	initial begin // initialise all values to zero
 		alu_result = 32'd0;
@@ -93,6 +100,8 @@ module ALU(
 	assign product_lo = (alu_control == CONTROL_MULT) ? signed_product[31:0] : unsigned_product[31:0];
 	assign quotient = (alu_control == CONTROL_DIV) ? $signed($signed(A) / $signed(B)) : $unsigned(A) / $unsigned(B);
 	assign remainder = (alu_control == CONTROL_DIV) ? $signed($signed(A) % $signed(B)) : $unsigned(A) % $unsigned(B);
+	assign lwlr_addr = {adder_result[31:2], 2'b00};
+	assign byte_offset = adder_result[1:0];
 
 	always_comb begin
 		case (alu_control)
@@ -146,6 +155,15 @@ module ALU(
 			end
 			CONTROL_LUI: begin
 				alu_result = B << 16;
+			end
+			CONTROL_LWLR: begin
+				alu_result = lwlr_addr;
+			end
+			CONTROL_MFLO: begin
+				alu_result = LO_input;
+			end
+			CONTROL_MFHI: begin
+				alu_result = HI_input;
 			end
 			default: begin // for BRANCH, MULT/MULTU, DIV/DIVU, MTLO, MTHI
 				alu_result = adder_result;

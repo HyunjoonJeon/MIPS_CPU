@@ -42,7 +42,9 @@ module ALU(
 		CONTROL_LUI = 5'b10100,
 		CONTROL_MTLO = 5'b10101,
 		CONTROL_MTHI = 5'b10110,
-		CONTROL_LWLR = 5'b10111
+		CONTROL_LWLR = 5'b10111,
+		CONTROL_MFLO = 5'b11000,
+		CONTROL_MFHI = 5'b11001
 	} control_t;
 
 	typedef enum logic[2:0] {
@@ -156,6 +158,12 @@ module ALU(
 			end
 			CONTROL_LWLR: begin
 				alu_result = lwlr_addr;
+			end
+			CONTROL_MFLO: begin
+				alu_result = LO_input;
+			end
+			CONTROL_MFHI: begin
+				alu_result = HI_input;
 			end
 			default: begin // for BRANCH, MULT/MULTU, DIV/DIVU, MTLO, MTHI
 				alu_result = adder_result;
