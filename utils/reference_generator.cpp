@@ -16,12 +16,9 @@ using namespace std;
 //mflo 000000 f=010010 DONE
 //div 000000    f=011010 DONE
 //divu 000000 f= 011011 DONE
-
-//mult 000000 f=011000 
+//mult 000000 f=011000 DONE
+//jr 000000 f = 001000 DONE
 //multu 000000 f=011001 CANNOT DO HERE
-
-//jr 000000 f = 001000
-
 
 string hex_to_bin(string long_hex)
 {
@@ -162,7 +159,7 @@ string int_to_hex(long n,int len){
         else if(hex.at(0) == '5'){hex.insert(1,"d");}
         else if(hex.at(0) == '6'){hex.insert(1,"e");}
         else if(hex.at(0) == '7'){hex.insert(1,"f");}
-        else{ cout << "error in int_to_hex func" << endl;}
+        else{hex = "1"+ hex;}
         hex = hex.substr(1,hex.size()-1);
     }
     return hex;
@@ -357,7 +354,7 @@ int main()
                 }
             }
             if (func == "011010"){//div
-                cout << "div" << endl;
+                //cout << "div" << endl;
                 long val_rs = 0;
                 if(regs.find(rs)!= regs.end())
                     val_rs = regs.find(rs)->second;
@@ -419,7 +416,7 @@ int main()
                         }
                         cout << out << endl;
                     }else{
-                        cout << "default value" << "00000000" << endl;
+                        cout /*<< "default value" */<< "00000000" << endl;
                     }
                 break;
                 }
@@ -462,7 +459,7 @@ int main()
                 //cout <<"im = " << bin_to_hex(im) << endl;
                 //cout << bin_to_int(im) << endl;
                 if(regs.find(rt)!= regs.end()){
-                    cout << "find rt" << endl;
+                    //cout << "find rt" << endl;
                     regs.at(rt) = bin_to_int(im);
                 }else{
                     //cout << "not find rt" << endl;
