@@ -3,5 +3,5 @@ addiu $20 $20 0xffff
 lui $21 0xffff
 addiu $21 $21 0xffff
 multu $21 $20
-mfl0 $2
+mflo $2
 jr $0
