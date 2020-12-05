@@ -1,3 +1,5 @@
+//`timescale 1ns/100ps
+
 module pcnext (
     input logic [31:0] pc,
     input logic [31:0] extended_imm,

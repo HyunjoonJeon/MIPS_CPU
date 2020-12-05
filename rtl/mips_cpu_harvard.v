@@ -33,10 +33,10 @@ module mips_cpu_harvard(
     // Intermediate signals
     logic [31:0] curr_pc, next_pc, link_pc, extended_imm, extended_data;
     logic [31:0] alu_input, aluout, reg_write_data, reg_data_a, reg_data_b;
-    logic [31:0] LO_alu2reg, LO_reg2alu, HI_alu2reg, HI_reg2alu;
+    logic [31:0] LO_alu2reg, LO_reg2alu, HI_alu2reg, HI_reg2alu, lwlr_data;
     logic [4:0] alu_control, shamt;
     logic [2:0] branch_cond;
-    logic [1:0] pc_sel, reg_addr_sel, reg_data_sel;
+    logic [1:0] pc_sel, reg_addr_sel, reg_data_sel, byte_offset, lwlr_sel;
     logic reg_write_enable, signextend_sel, branch_is_true, alu_sel, clken, act, LO_write_enable, HI_write_enable;
 
     // Initial settings
@@ -97,7 +97,8 @@ module mips_cpu_harvard(
         .reg_addr_sel(reg_addr_sel),
         .reg_data_sel(reg_data_sel),
         .alu_sel(alu_sel),
-        .signextend_sel(signextend_sel)
+        .signextend_sel(signextend_sel),
+        .lwlr_sel(lwlr_sel)
     );
 
     signextend signextend_1(
@@ -127,8 +128,10 @@ module mips_cpu_harvard(
         .data_readdata(data_readdata),
         .signextend_data(extended_data),
         .link_pc(link_pc),
+        .lwlr_data(lwlr_data),
         .select(reg_data_sel),
-        .reg_write_data(reg_write_data)
+        .reg_write_data(reg_write_data),
+        .islwlr(lwlr_sel[1])
     );
 
     ALU_decoder ALU_decoder_1(
@@ -151,7 +154,8 @@ module mips_cpu_harvard(
         .alu_result(aluout),
         .branch_cond_true(branch_is_true),
         .LO_output(LO_alu2reg),
-        .HI_output(HI_alu2reg)
+        .HI_output(HI_alu2reg),
+        .byte_offset(byte_offset)
     );
 
     reg_file_hi_lo reg_file_hi_lo_1(
@@ -178,6 +182,14 @@ module mips_cpu_harvard(
         .write_reg(reg_write_addr),
         .write_enable(reg_write_enable),
         .write_data(reg_write_data)
+    );
+
+    lwlr lwlr_1(
+        .reg_data_b(reg_data_b),
+        .data_readdata(data_readdata),
+        .byte_offset(byte_offset),
+        .lwl(lwlr_sel[0]),
+        .reg_write_data(lwlr_data)
     );
 
 endmodule
