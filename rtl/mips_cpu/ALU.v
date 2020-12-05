@@ -85,7 +85,7 @@ module ALU(
 
 	assign immediate_zero_extend = {16'd0,B[15:0]};
 	assign bitwise_and = (alu_control == CONTROL_ANDI) ? A & immediate_zero_extend : A & B;
-	assign bitwise_or = (alu_control == CONTROL_ORI) ? A & immediate_zero_extend : A | B;
+	assign bitwise_or = (alu_control == CONTROL_ORI) ? A | immediate_zero_extend : A | B;
 	assign bitwise_xor = (alu_control == CONTROL_XORI) ? A ^ immediate_zero_extend : A ^ B;
 	assign less_than_unsigned = (A < B) ? 32'd1 : 32'd0;
 	assign less_than_signed = $signed(A) < $signed(B) ? 32'd1 : 32'd0;
