@@ -19,10 +19,12 @@ module pcnext (
     output logic [31:0] pcnext
     );
 
-    wire [31:0] pc_increment;
+    logic [31:0] pc_increment;
+    logic [31:0] shifted_imm;
     assign pc_increment = pc + 4;
-
+    assign shifted_imm = extended_imm << 2;
     assign link_pc = pc + 8;
+
 
     typedef enum logic[1:0] {
         INCREMENT = 2'b00,
@@ -37,7 +39,7 @@ module pcnext (
                 pcnext = pc_increment;
             end
             BRANCH: begin
-                pcnext = is_true ? pc_increment + extended_imm << 2 : pc_increment;
+                pcnext = is_true ? pc_increment + shifted_imm[17:0] : pc_increment;
             end
             JUMP: begin
                 pcnext = j_addr << 2 | (pc_increment & 32'hf0000000);

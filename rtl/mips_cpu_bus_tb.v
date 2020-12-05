@@ -34,6 +34,8 @@ module mips_cpu_bus_tb();
     end
 
     initial begin
+        $dumpfile("test/mips_cpu_bus.vcd");
+        $dumpvars(0, mips_cpu_bus_tb);
         $display("");
         clk_enable=1;
         rst = 0;

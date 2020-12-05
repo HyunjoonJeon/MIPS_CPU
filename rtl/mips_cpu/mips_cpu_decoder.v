@@ -36,6 +36,7 @@ module decoder(
         OPCODE_J = 6'b000010,
         OPCODE_JAL = 6'b000011,
         OPCODE_BRANCH = 6'b000001,
+        OPCODE_BEQ = 6'b000100,
         OPCODE_BGTZ = 6'b000111,
         OPCODE_BLEZ = 6'b000110,
         OPCODE_BNE = 6'b000101,
@@ -119,7 +120,7 @@ module decoder(
                     byte_enable = 4'b1111;
                     lwlr_sel = 2'b00;
                 end
-                // BGTZ, BLEZ, BNE have the same controls
+                // BGTZ, BLEZ have the same controls
                 OPCODE_BGTZ: begin
                     alu_sel = 1'b1;
                     reg_write_enable = 1'b0;
@@ -138,8 +139,18 @@ module decoder(
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
                 end
+                // BNE and BEQ have same controls
                 OPCODE_BNE: begin
-                    alu_sel = 1'b1;
+                    alu_sel = 1'b0;
+                    reg_write_enable = 1'b0;
+                    pc_sel = is_true ? 2'b01 : 2'b00;
+                    byte_enable = 4'b1111;
+                    data_read = 1'b0;
+                    data_write = 1'b0;
+                    lwlr_sel = 2'b00;
+                end
+                OPCODE_BEQ: begin
+                    alu_sel = 1'b0;
                     reg_write_enable = 1'b0;
                     pc_sel = is_true ? 2'b01 : 2'b00;
                     byte_enable = 4'b1111;
