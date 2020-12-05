@@ -8,12 +8,12 @@ INSTR="$2"
 TESTCASE="$3"
 #TESTCASE_TYPE ="test/0-assembly/${INSTR}/*.asm.txt"
 
->&2 echo "Test CPU in directory ${DIRECTORY} of instruction ${INSTR}"
+#>&2 echo "Test CPU in directory ${DIRECTORY} of instruction ${INSTR}"
 
->&2 echo "1 - Assembling input file"
+#>&2 echo "1 - Assembling input file"
  bin/assembler <test/0-assembly/${INSTR}/${TESTCASE}.asm.txt >test/1-binary/${INSTR}/${TESTCASE}.hex.txt
 
->&2 echo "2 - Compiling test-bench"
+#>&2 echo "2 - Compiling test-bench"
 # Compile the cpu under specific directory and instructions.
 # -s specifies exactly which testbench should be top-level
 # The -P command is used to modify the RAM_INIT_FILE parameter on the test-bench at compile-time
@@ -24,7 +24,7 @@ iverilog -g 2012 \
    -o test/2-simulator/mips_cpu_bus_tb_${TESTCASE} \
    2>/dev/null
 
->&2 echo "3 - Running test-bench"
+#>&2 echo "3 - Running test-bench"
 # Run the simulator, and capture all output to a file
 # Use +e to disable automatic script failure if the command fails, as
 # it is possible the simulation might go wrong.
@@ -40,7 +40,7 @@ if [[ "${RESULT}" -ne 0 ]] ; then
    exit
 fi
 
->&2 echo "4 - Extracting result of testcases"
+#>&2 echo "4 - Extracting result of testcases"
 # This is the prefix for simulation output lines containing value of register_v0
 PATTERN="register_v0:"
 NOTHING=""
@@ -51,12 +51,12 @@ set -e
 # Use "sed" to replace "CPU : OUT   :" with nothing
 sed -e "s/${PATTERN}/${NOTHING}/g" test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.out-lines > test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.out
 
->&2 echo "5 - Running reference simulator"
+#>&2 echo "5 - Running reference simulator"
 # not complete, do not know how to come up with reference outputs
 bin/ref <test/1-binary/${INSTR}/${TESTCASE}.hex.txt >test/4-reference/${INSTR}/${TESTCASE}.out
 
 
->&2 echo "6 - Comparing output"
+#>&2 echo "6 - Comparing output"
 set +e
 diff -w test/4-reference/${INSTR}/${TESTCASE}.out test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.out
 RESULT=$?
