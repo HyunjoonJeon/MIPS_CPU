@@ -1,4 +1,4 @@
-addiu $8 $s1 10
+addiu $8 $8 10
 jal 0xbfc0001c
 addiu $8 $8 10
 jal 0xbfc00028
