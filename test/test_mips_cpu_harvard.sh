@@ -4,10 +4,11 @@ set -eou pipefail
 
 #>&2 echo "Checking if initialisation required..."
 if [ -e bin/tc ] && [ -e bin/assembler ] && [ -e bin/reference ] ;then
+    :
 #>&2 echo "......Done"
 else
 #>&2 echo "Initialising"
-./test/generate_bin.sh
+    ./test/generate_bin.sh
 #>&2 echo "......Done"
 fi
 
