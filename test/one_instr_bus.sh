@@ -53,8 +53,9 @@ sed -e "s/${PATTERN}/${NOTHING}/g" test/3-output/${INSTR}/mips_cpu_bus_tb_${TEST
 
 >&2 echo "5 - Running reference simulator"
 # not complete, do not know how to come up with reference outputs
+if [ ${INSTR} == 'lui' || ${INSTR} == 'addiu' || ${INSTR} == 'andi' || ${INSTR} == 'ori' || ${INSTR} == 'or' || ${INSTR} == 'and' || ${INSTR} == 'xori' || ${INSTR} == 'xor' || ${INSTR} == 'addu' || ${INSTR} == 'subu' || ${INSTR} == 'div' || ${INSTR} == 'divu' || ${INSTR} == 'mult' ];then
 bin/ref <test/1-binary/${INSTR}/${TESTCASE}.hex.txt >test/4-reference/${INSTR}/${TESTCASE}.out
-
+fi
 
 >&2 echo "6 - Comparing output"
 set +e

@@ -18,6 +18,9 @@ using namespace std;
 //divu 000000 f= 011011 DONE
 //mult 000000 f=011000 DONE
 //jr 000000 f = 001000 DONE
+//xor
+//xori
+//subu
 //multu 000000 f=011001 CANNOT DO HERE
 
 string hex_to_bin(string long_hex)
