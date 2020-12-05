@@ -230,7 +230,7 @@ uint32_t mips_opname_to_opcode(string s)
 {
     assert(mips_is_instruction(s));
     uint32_t opcode = 0;
-    if(mips_instruction_is_branch(s))
+    if(mips_instruction_is_branch_comparison(s))
     {
         opcode += (1<<26);
     }
