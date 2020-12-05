@@ -56,7 +56,9 @@ module ALU_decoder (
         FUNC_MTLO = 6'b010011,
         FUNC_MTHI = 6'b010001,
         FUNC_JALR = 6'b001001,
-        FUNC_JR = 6'b001000
+        FUNC_JR = 6'b001000,
+        FUNC_MFLO = 6'b010010,
+        FUNC_MFHI = 6'b010000
     } func_t;
 
     typedef enum logic[4:0] { // for Branch instructions (OPCODE = 000001)
@@ -90,7 +92,9 @@ module ALU_decoder (
         CONTROL_LUI = 5'b10100,
         CONTROL_MTLO = 5'b10101,
         CONTROL_MTHI = 5'b10110,
-        CONTROL_LWLR = 5'b10111
+        CONTROL_LWLR = 5'b10111,
+        CONTROL_MFLO = 5'b11000,
+        CONTROL_MFHI = 5'b11001
     } alu_control_t;
 
     opcode_t instr_opcode;
@@ -169,6 +173,12 @@ module ALU_decoder (
                 FUNC_MTLO: begin
                     alu_control = CONTROL_MTLO;
                 end
+                FUNC_MFLO: begin
+                    alu_control = CONTROL_MFLO;
+                end
+                FUNC_MFHI: begin
+                    alu_control = CONTROL_MFHI;
+                end
                 default: begin // jump instructions
                     // do nothing, no need to update alu_control
                 end
@@ -177,7 +187,7 @@ module ALU_decoder (
         else if (instr_opcode == OPCODE_BRANCH || instr_opcode == OPCODE_BEQ || instr_opcode == OPCODE_BGTZ || instr_opcode == OPCODE_BLEZ || instr_opcode == OPCODE_BNE) begin
             alu_control = CONTROL_ADD;
         end
-        else if (instr_opcode == OPCODE_ADDIU || instr_opcode == OPCODE_LB || instr_opcode == OPCODE_LBU || instr_opcode == OPCODE_LH || instr_opcode == OPCODE_LHU || instr_opcode == OPCODE_LW || instr_opcode == OPCODE_LWL || instr_opcode == OPCODE_LWR || instr_opcode == OPCODE_SB || instr_opcode == OPCODE_SH || instr_opcode == OPCODE_SW) begin
+        else if (instr_opcode == OPCODE_ADDIU || instr_opcode == OPCODE_LB || instr_opcode == OPCODE_LBU || instr_opcode == OPCODE_LH || instr_opcode == OPCODE_LHU || instr_opcode == OPCODE_LW || instr_opcode == OPCODE_SB || instr_opcode == OPCODE_SH || instr_opcode == OPCODE_SW) begin
             alu_control = CONTROL_ADD;
         end
         else if (instr_opcode == OPCODE_LWL || instr_opcode == OPCODE_LWR) begin
