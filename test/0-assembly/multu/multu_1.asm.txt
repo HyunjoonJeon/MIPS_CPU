@@ -1,0 +1,7 @@
+lui $20 0xffff
+addiu $20 $20 0xffff
+lui $21 0xffff
+addiu $21 $21 0xffff
+multu $21 $20
+mfhi $2
+jr $0
