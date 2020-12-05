@@ -1,0 +1,7 @@
+lui $20 0x1478
+addiu $20 $20 0x1234
+lui $21 0x347a
+addiu $21 $21 0xac4d
+multu $21 $20
+mfhi $2
+jr $0

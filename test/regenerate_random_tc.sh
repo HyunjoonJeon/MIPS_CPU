@@ -7,6 +7,8 @@ echo "andi" |  bin/tc
 echo "div" |  bin/tc 
 echo "divu" |  bin/tc 
 echo "mult" |  bin/tc 
-echo "multu" |  bin/tc 
 echo "or" |  bin/tc 
 echo "ori" |  bin/tc 
+echo "xor" |  bin/tc 
+echo "xori" |  bin/tc 
+echo "subu" |  bin/tc 
