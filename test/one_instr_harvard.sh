@@ -54,9 +54,13 @@ sed -e "s/${PATTERN}/${NOTHING}/g" test/3-output/${INSTR}/mips_cpu_harvard_tb_${
 #>&2 echo "5 - Running reference simulator"
 # not complete, do not know how to come up with reference outputs
 # auto generate ref when it is specific operations
-if [ ${INSTR} == 'lui' || ${INSTR} == 'addiu' || ${INSTR} == 'andi' || ${INSTR} == 'ori' || ${INSTR} == 'or' || ${INSTR} == 'and' || ${INSTR} == 'xori' || ${INSTR} == 'xor' || ${INSTR} == 'addu' || ${INSTR} == 'subu' || ${INSTR} == 'div' || ${INSTR} == 'divu' || ${INSTR} == 'mult' ];then
-bin/ref <test/1-binary/${INSTR}/${TESTCASE}.hex.txt >test/4-reference/${INSTR}/${TESTCASE}.out
+if [ ${INSTR} != 'lui' ] && [ ${INSTR} != 'addiu' ] && [ ${INSTR} != 'andi' ] && [ ${INSTR} != 'ori' ] && [ ${INSTR} != 'or' ] && [ ${INSTR} != 'and' ] && [ ${INSTR} != 'xori' ] && [ ${INSTR} != 'xor' ] && [ ${INSTR} != 'addu' ] && [ ${INSTR} != 'subu' ] && [ ${INSTR} != 'div' ] && [ ${INSTR} != 'divu' ] && [ ${INSTR} != 'mult' ];
+then
+    :
+else
+    bin/ref <test/1-binary/${INSTR}/${TESTCASE}.hex.txt >test/4-reference/${INSTR}/${TESTCASE}.out
 fi
+
 
 #>&2 echo "6 - Comparing output"
 set +e
