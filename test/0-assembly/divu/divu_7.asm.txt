@@ -1,7 +1,7 @@
-lui $20 46805
-addiu $20 $20 1877
-lui $8 7400
-addiu $8 $8 14929
-divu $20 $8
+lui $15 52199
+addiu $15 $15 -11628
+lui $9 15430
+addiu $9 $9 5324
+divu $15 $9
 mflo $2
 jr $0

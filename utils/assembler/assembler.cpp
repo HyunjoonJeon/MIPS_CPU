@@ -170,15 +170,15 @@ int main(){
                 }
             }else if(mips_instruction_is_branch(opname)){
                 assert(labels.find(instruction_set[i].s3)!=labels.end());
-                uint32_t address=labels[instruction_set[i].s3];
+                uint32_t address=labels[instruction_set[i].s3]-i-1;
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2) + address) << endl;
             }else if(mips_instruction_is_branch_comparison(opname)){
                 assert(labels.find(instruction_set[i].s2)!=labels.end());
-                uint32_t address=labels[instruction_set[i].s2];
+                uint32_t address=labels[instruction_set[i].s2]-i-1;
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + address) << endl;
             }else if(mips_instruction_is_jump(opname)){
                 assert(labels.find(instruction_set[i].s1)!=labels.end());
-                uint32_t address=labels[instruction_set[i].s1];
+                uint32_t address=labels[instruction_set[i].s1]-i-1;
                 cout << to_hex8(opcode + address);
             }else if(mips_instruction_is_memory_using_offset(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2) + stoi(instruction_set[i].s3)) << endl;

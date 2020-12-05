@@ -27,7 +27,8 @@ module decoder(
     output logic [1:0] reg_data_sel,
     output logic signextend_sel,
     // bit 1 is whether LWLR, bit 0 to select between
-    output logic [1:0] lwlr_sel
+    output logic [1:0] lwlr_sel,
+    output logic is_branch
     );
     
     // opcode for all type R instructions = 0
@@ -89,6 +90,7 @@ module decoder(
                     reg_write_enable = (funct_code == 6'b001000 || funct_code[5] == 1'b0 && funct_code[4] == 1'b1) ? 1'b0:1'b1;
                     // if its JR or uses HI & LO
                     if (funct_code == 6'b001000 || funct_code[5] == 1'b0 && funct_code[4] == 1'b1) begin 
+                        is_branch = (funct_code == 6'b001000) ? 1'b1 : 1'b0;
                         // if its not MFHI or MFLO
                         if (funct_code != 6'b010000 && funct_code != 6'b010010) begin
                             reg_write_enable = 1'b0;
@@ -119,6 +121,7 @@ module decoder(
                     data_write = 1'b0;
                     byte_enable = 4'b1111;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b1;
                 end
                 // BGTZ, BLEZ have the same controls
                 OPCODE_BGTZ: begin
@@ -129,6 +132,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b1;
                 end
                 OPCODE_BLEZ: begin
                     alu_sel = 1'b1;
@@ -138,6 +142,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b1;
                 end
                 // BNE and BEQ have same controls
                 OPCODE_BNE: begin
@@ -148,6 +153,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b1;
                 end
                 OPCODE_BEQ: begin
                     alu_sel = 1'b0;
@@ -157,6 +163,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b1;
                 end
                 OPCODE_LB: begin
                     reg_addr_sel = 2'b00;
@@ -169,6 +176,7 @@ module decoder(
                     data_write = 1'b0;
                     signextend_sel = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b0;
                 end
                 OPCODE_LH: begin
                     reg_addr_sel = 2'b00;
@@ -181,6 +189,7 @@ module decoder(
                     data_write = 1'b0;
                     signextend_sel = 1'b1;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b0;
                 end 
                 OPCODE_LBU: begin
                     reg_addr_sel = 2'b00;
@@ -192,6 +201,7 @@ module decoder(
                     data_read = 1'b1;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b0;
                 end
                 OPCODE_LHU: begin
                     reg_addr_sel = 2'b00;
@@ -203,6 +213,7 @@ module decoder(
                     data_read = 1'b1;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b0;
                 end
                 OPCODE_LW: begin
                     reg_addr_sel = 2'b00;
@@ -214,6 +225,7 @@ module decoder(
                     data_read = 1'b1;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b0;
                 end
                 OPCODE_LWL: begin
                     alu_sel = 1'b1;
@@ -225,6 +237,7 @@ module decoder(
                     data_read = 1'b1;
                     data_write = 1'b0;
                     lwlr_sel = 2'b11;
+                    is_branch = 1'b0;
                 end
                 OPCODE_LWR: begin
                     alu_sel = 1'b1;
@@ -236,6 +249,7 @@ module decoder(
                     data_read = 1'b1;
                     data_write = 1'b0;
                     lwlr_sel = 2'b10;
+                    is_branch = 1'b0;
                 end
                 OPCODE_SW: begin
                     alu_sel = 1'b1;
@@ -245,6 +259,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b1;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b0;
                 end
                 OPCODE_LB: begin
                     reg_addr_sel = 2'b00;
@@ -256,6 +271,7 @@ module decoder(
                     data_read = 1'b1;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b0;
                 end
                 OPCODE_SB: begin
                     alu_sel = 1'b1;
@@ -265,6 +281,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b1;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b0;
                 end
                 OPCODE_SH: begin
                     alu_sel = 1'b1;
@@ -274,6 +291,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b1;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b0;
                 end
                 OPCODE_J: begin
                     pc_sel = 2'b10;
@@ -282,6 +300,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b1;
                 end
                 OPCODE_JAL: begin
                     pc_sel = 2'b10;
@@ -292,6 +311,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b1;
                 end
                 // everything else (type I arithmetics: rt = alu)
                 default: begin
@@ -304,6 +324,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+                    is_branch = 1'b0;
                 end
             endcase
         end

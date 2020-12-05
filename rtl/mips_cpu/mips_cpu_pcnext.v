@@ -25,13 +25,16 @@ module pcnext (
     assign shifted_imm = extended_imm << 2;
     assign link_pc = pc + 8;
 
-
     typedef enum logic[1:0] {
         INCREMENT = 2'b00,
         BRANCH = 2'b01,
         JUMP = 2'b10,
         JR = 2'b11
     } select_t;
+
+    initial begin
+        pcnext = pc_increment;
+    end
 
     always_comb begin
         case(pc_sel)
