@@ -76,8 +76,8 @@ int main(){
                 cin >> rt;
                 cin >> operand;
                 int pos = operand.find("(");
-                string of = operand.substr(0, pos - 1);
-                string ba = operand.substr(pos + 1, operand.length() - 1);
+                string of = operand.substr(0, pos);
+                string ba = operand.substr(pos + 1, operand.length()-of.length()-2);
                 assert(!cin.fail());
                 instruction temp = {head, ba, rt, of};
                 instruction_set.push_back(temp);
@@ -165,8 +165,9 @@ int main(){
                 string temp2 = instruction_set[i].s3;
                 if(temp2[0] == '0' && temp2[1] == 'x'){
                     cout << temp1.substr(0, 4) + temp2.substr(2) << endl;
+                }else{
+                    cout << temp1.substr(0, 4) + to_hex8(stoi(temp2.substr(0))).substr(4, 4) << endl;
                 }
-                cout << temp1.substr(0, 4) + to_hex8(stoi(temp2.substr(0))).substr(4, 7) << endl;
             }else if(mips_instruction_is_branch(opname)){
                 assert(labels.find(instruction_set[i].s3)!=labels.end());
                 uint32_t address=labels[instruction_set[i].s3];
@@ -200,8 +201,9 @@ int main(){
                 string temp2 = instruction_set[i].s2;
                 if(temp2[0] == '0' && temp2[1] == 'x'){
                     cout << temp1.substr(0, 4) + temp2.substr(2) << endl;
+                }else{
+                    cout << temp1.substr(0, 4) + to_hex8(stoi(temp2.substr(0))).substr(4, 4) << endl;
                 }
-                cout << temp1.substr(0, 4) + to_hex8(stoi(temp2.substr(0))).substr(4, 7) << endl;
             }
 
     }
