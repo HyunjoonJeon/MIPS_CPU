@@ -1,4 +1,7 @@
-addiu $s1, $zero, 0xfabc
-addiu $s2, $zero, 0x5432
-subu $v0, $s1, $s2
-jr $zero
+lui $8 2569
+addiu $8 $8 23484
+lui $17 32825
+addiu $17 $17 16684
+subu $8 $8 $17
+addiu $2 $8 0
+jr $0
