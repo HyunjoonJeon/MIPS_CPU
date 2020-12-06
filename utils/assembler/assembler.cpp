@@ -164,7 +164,11 @@ int main(){
                 string temp1 = to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2));
                 string temp2 = instruction_set[i].s3;
                 if(temp2[0] == '0' && temp2[1] == 'x'){
-                    cout << temp1.substr(0, 4) + temp2.substr(2) << endl;
+                    string hexim = temp2.substr(2);
+                    while (hexim.length() != 4){
+                        hexim = '0' + hexim;    
+                    }
+                    cout << temp1.substr(0, 4) + hexim << endl;
                 }else{
                     cout << temp1.substr(0, 4) + to_hex8(stoi(temp2.substr(0))).substr(4, 4) << endl;
                 }
@@ -200,7 +204,12 @@ int main(){
                 string temp1 = to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 2));
                 string temp2 = instruction_set[i].s2;
                 if(temp2[0] == '0' && temp2[1] == 'x'){
-                    cout << temp1.substr(0, 4) + temp2.substr(2) << endl;
+                    string hexim = temp2.substr(2);
+                    while (hexim.length() != 4){
+                        hexim = '0' + hexim;    
+                    }
+                    cout << temp1.substr(0, 4) + hexim << endl;
+
                 }else{
                     cout << temp1.substr(0, 4) + to_hex8(stoi(temp2.substr(0))).substr(4, 4) << endl;
                 }
