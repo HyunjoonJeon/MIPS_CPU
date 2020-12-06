@@ -28,11 +28,13 @@ module reg_file_hi_lo(
 				LO_reg <= 0;
 				HI_reg <= 0;
 			end
-			else if (LO_write_enable == 1) begin
-				LO_reg <= LO_input;
-			end
-			else if (HI_write_enable == 1) begin
-				HI_reg <= HI_input;
+			else begin
+				if(LO_write_enable == 1) begin
+					LO_reg <= LO_input;
+				end
+				if(HI_write_enable == 1) begin
+					HI_reg <= HI_input;
+				end
 			end
 		end
 	end
