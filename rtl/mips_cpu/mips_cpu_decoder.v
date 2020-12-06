@@ -90,7 +90,6 @@ module decoder(
                     reg_write_enable = (funct_code == 6'b001000 || funct_code[5] == 1'b0 && funct_code[4] == 1'b1) ? 1'b0:1'b1;
                     // if its JR or uses HI & LO
                     if (funct_code == 6'b001000 || funct_code[5] == 1'b0 && funct_code[4] == 1'b1) begin 
-                        is_branch = (funct_code == 6'b001000) ? 1'b1 : 1'b0;
                         // if its not MFHI or MFLO
                         if (funct_code != 6'b010000 && funct_code != 6'b010010) begin
                             reg_write_enable = 1'b0;
@@ -109,7 +108,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
-		    is_branch = 1'b0;
+		            is_branch = (funct_code == 6'b001000) ? 1'b1 : 1'b0;
                 end
                 OPCODE_BRANCH: begin
                     // BGEZ and BLTZ (branch no link)
