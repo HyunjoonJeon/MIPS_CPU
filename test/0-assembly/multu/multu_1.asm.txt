@@ -1,7 +1,7 @@
-lui $20 0xffff
-addiu $20 $20 0xffff
-lui $21 0xffff
-addiu $21 $21 0xffff
+lui $20 65535
+addiu $20 $20 14560
+lui $21 65535
+addiu $21 $21 28394
 multu $21 $20
 mfhi $2
 jr $0
