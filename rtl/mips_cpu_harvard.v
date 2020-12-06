@@ -58,7 +58,7 @@ module mips_cpu_harvard(
         if(reset) begin
             act <= 1;
         end
-        else if(instr_address==0) begin
+        else if(instr_address==0 && clk_enable) begin
             act <= 0;
         end
     end
