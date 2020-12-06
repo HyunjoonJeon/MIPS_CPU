@@ -129,7 +129,7 @@ string int_to_hex(long n,int len){
     int y = 0;
     //cout << "n = " << x << endl;
     if(n < 0){
-        x += pow(2,len-1); 
+        x += pow(2,len); 
     }
     //cout << "x = " << x << endl;
     while(x!= 0){
@@ -302,6 +302,7 @@ int main()
                 if(regs.find(rs)!= regs.end())
                     val_rs = hex_to_bin(int_to_hex(regs.find(rs)->second,32));
                 //extend to 32 bit in case
+                //cout << "hex xor rs = " << int_to_hex(regs.find(rs)->second,32) << endl;
                 while(val_rs.size()<32){
                     val_rs = "0" + val_rs;
                 }
@@ -309,6 +310,7 @@ int main()
                 if(regs.find(rt)!= regs.end())
                     val_rt = hex_to_bin(int_to_hex(regs.find(rt)->second,32));
                 //extend to 32 bit in case
+                //cout << "hex xor rt = " << int_to_hex(regs.find(rt)->second,32) << endl;
                 while(val_rt.size()<32){
                     val_rt = "0" + val_rt;
                 }
@@ -316,7 +318,7 @@ int main()
                 assert(val_rs.size()==32 && val_rt.size()==32);
                 string res = "";
                 for(int i = 0; i<32;i++){
-                    if(val_rs.at(i)=='0'&& val_rt.at(i)=='0'){
+                    if((val_rs.at(i)=='0'&& val_rt.at(i)=='0')||(val_rs.at(i)=='1'&& val_rt.at(i)=='1')){
                         res = res + "0";
                     }else{
                         res = res + "1";
@@ -414,6 +416,7 @@ int main()
                     //OUTPUT
                     if (regs.find("00010") != regs.end()){
                         string out = int_to_hex(regs.find("00010")->second,32);
+                        //cout << "out = " << out << endl;
                         while(out.size()<8){
                             out = "0" + out;
                         }
@@ -434,7 +437,56 @@ int main()
                     val_rt = regs.find(rt)->second;
                 long pro = val_rs*val_rt;
 
-                string hex = int_to_hex(pro,64);
+                string hex = "";
+                if(pro < 0){
+                    //cout << "pro < 0 " << endl;
+                    hex = int_to_hex(pro*-1,64);
+                    while(hex.size()<16){
+                        hex = "0"+hex;
+                    }
+                    string bin = hex_to_bin(hex);
+                    assert(bin.size()==64);
+                    //cout << "bin befor bitwise = " << bin << endl;
+                    //do bit wise operation
+                    for(int i = 0;i < 64;i++){
+                        if(bin.at(i)=='0'){
+                            bin.at(i) = '1';
+                        }
+                        else{
+                            bin.at(i) = '0';
+                        }
+                    }
+                    //cout << "bin after bitwise = " << bin << endl;
+                    //then add 1
+                    int c = 1;
+                    for(int i = 63;i >= 0;i--){
+                        if(bin.at(i)== '0' && c == 0){
+                            bin.at(i) = '0';
+                            break;
+                        }else if(bin.at(i)== '0' && c == 1){
+                            bin.at(i) = '1';
+                            break;
+                        }else if(bin.at(i)=='1' && c == 0){
+                            bin.at(i) = '1';
+                            break;
+                        }else{
+                            //bin.at(i)=='1' && cout ==1
+                            bin.at(i) = '0';
+                            c = 1;
+                        }
+                    }
+                    //cout << "bin after add one = " << bin << endl;
+                    //convert back to hex
+                    hex = bin_to_hex(bin);
+                }else{
+                    hex = int_to_hex(pro,64);
+                }
+                //cout << "hex = " << hex << endl;
+                //cout << "hex size = " << hex.size() << endl;
+                if(hex.size()<16){
+                    //as the only case wehre hex.size is not 16 is when hex is positive
+                    hex = "0" + hex;
+                }
                 string hi = hex.substr(0,8);
                 string lo = hex.substr(8,8);
                 long hi_val = bin_to_int(hex_to_bin(hi));
