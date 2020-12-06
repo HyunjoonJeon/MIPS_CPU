@@ -23,21 +23,21 @@ module mips_cpu_harvard(
     logic [25:0] j_addr;
     logic [15:0] imm;
     logic [4:0] rs, rt, rd, reg_write_addr;
-    
-    assign j_addr = instr_readdata[25:0];
-    assign imm = instr_readdata[15:0];
-    assign rs = instr_readdata[25:21];
-    assign rt = instr_readdata[20:16];
-    assign rd = instr_readdata[15:11];
 
     // Intermediate signals
-    logic [31:0] curr_pc, next_pc, link_pc, extended_imm, extended_data;
+    logic [31:0] curr_pc, next_pc, link_pc, extended_imm, extended_data, curr_instr;
     logic [31:0] alu_input, aluout, reg_write_data, reg_data_a, reg_data_b;
     logic [31:0] LO_alu2reg, LO_reg2alu, HI_alu2reg, HI_reg2alu, lwlr_data;
     logic [4:0] alu_control, shamt;
     logic [2:0] branch_cond;
     logic [1:0] pc_sel, reg_addr_sel, reg_data_sel, byte_offset, lwlr_sel;
     logic reg_write_enable, signextend_sel, branch_is_true, alu_sel, clken, act, LO_write_enable, HI_write_enable, is_branch;
+
+    assign j_addr = curr_instr[25:0];
+    assign imm = curr_instr[15:0];
+    assign rs = curr_instr[25:21];
+    assign rt = curr_instr[20:16];
+    assign rd = curr_instr[15:11];
 
     // Initial settings
     initial begin
@@ -73,6 +73,14 @@ module mips_cpu_harvard(
         .is_branch(is_branch)
     );
 
+    instr_reg instr_reg_1(
+        .clk(clk),
+        .instr_readdata(instr_readdata),
+        .reset(reset),
+        .clk_enable(clken),
+        .curr_instr(curr_instr)
+    );
+
     pcnext pcnext_1(
         .pc(curr_pc),
         .extended_imm(extended_imm),
@@ -85,7 +93,7 @@ module mips_cpu_harvard(
     );
 
     decoder decoder_1(
-        .instr_readdata(instr_readdata),
+        .instr_readdata(curr_instr),
         .clk_enable(clken),    //changed clk_enable to clken
         .reset(reset),
         .active(active),
@@ -137,7 +145,7 @@ module mips_cpu_harvard(
     );
 
     ALU_decoder ALU_decoder_1(
-        .instr_readdata(instr_readdata),
+        .instr_readdata(curr_instr),
         .alu_control(alu_control),
         .branch_cond(branch_cond),
         .sa(shamt),
@@ -172,7 +180,7 @@ module mips_cpu_harvard(
         .HI_output(HI_reg2alu)
     );
 
-    register_file register_file_1(    // need to add reg_v0 output? and also need a clk_enable?
+    register_file register_file_1(
         .clk(clk),
 	    .clk_enable(clken),
         .reset(reset),
