@@ -140,6 +140,9 @@ module harvard_to_avalon(
                     if(read_dp) begin
                         dp_data<=bus_readdata;
                     end
+                    else if(write_dp) begin
+                        dp_data<=writedata;
+                    end
                     if(read_ip) begin
                         state<=CLEAR;
                     end
