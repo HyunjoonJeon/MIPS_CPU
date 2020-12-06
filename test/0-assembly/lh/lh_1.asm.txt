@@ -1,6 +1,9 @@
 addiu $17 $0 0xfff0
+addiu $5 $0 0x00ac
 lui $18 0xf123
 ori $18 $18 0xf937
-sh $18 0($17)
-lh $2 0($17)
+sh $18 0($5)
+lh $2 0($5)
 jr $0
+sll $0 $0 2
+addiu $2 $0 0x0340
