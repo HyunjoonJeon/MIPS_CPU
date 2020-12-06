@@ -1,7 +1,7 @@
-lui $18 12529
-addiu $18 $18 25062
-lui $9 9356
-addiu $9 $9 13160
-divu $18 $9
+lui $16 30783
+addiu $16 $16 -28314
+lui $8 23124
+addiu $8 $8 18590
+divu $16 $8
 mfhi $2
 jr $0
