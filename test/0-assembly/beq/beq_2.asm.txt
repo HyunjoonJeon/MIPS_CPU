@@ -3,7 +3,7 @@ addiu $18 $0 132
 beq $17 $18 Label1
 addiu $2 $0 999
 jr $0
-sll $0 $0 0
+addiu $0 $0 0
 
 Label1:
 addiu $2 $0 111
