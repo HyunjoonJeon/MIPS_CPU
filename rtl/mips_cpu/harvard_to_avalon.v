@@ -137,7 +137,9 @@ module harvard_to_avalon(
             end
             else if(state==DATA) begin
                 if(!bus_busy) begin
-                    dp_data<=bus_readdata;
+                    if(read_dp) begin
+                        dp_data<=bus_readdata;
+                    end
                     if(read_ip) begin
                         state<=CLEAR;
                     end
