@@ -31,7 +31,7 @@ module mips_cpu_harvard(
     logic [4:0] alu_control, shamt;
     logic [2:0] branch_cond;
     logic [1:0] pc_sel, reg_addr_sel, reg_data_sel, byte_offset, lwlr_sel;
-    logic reg_write_enable, signextend_sel, branch_is_true, alu_sel, clken, act, LO_write_enable, HI_write_enable, is_branch;
+    logic reg_write_enable, signextend_sel, branch_is_true, alu_sel, clken, act, LO_write_enable, HI_write_enable;
 
     assign j_addr = curr_instr[25:0];
     assign imm = curr_instr[15:0];
@@ -69,8 +69,7 @@ module mips_cpu_harvard(
         .reset(reset),
         .clk_enable(clken),    //changed clk_enable to clken
         .new_pc(next_pc),
-        .pc(curr_pc),
-        .is_branch(is_branch)
+        .pc(curr_pc)
     );
 
     instr_reg instr_reg_1(
@@ -107,8 +106,7 @@ module mips_cpu_harvard(
         .reg_data_sel(reg_data_sel),
         .alu_sel(alu_sel),
         .signextend_sel(signextend_sel),
-        .lwlr_sel(lwlr_sel),
-        .is_branch(is_branch)
+        .lwlr_sel(lwlr_sel)
     );
 
     signextend signextend_1(
