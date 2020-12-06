@@ -1,0 +1,6 @@
+loading instruction mem with test/1-binary/lhu/lhu_2.hex.txt
+WARNING: rtl/mem_harvard.v:51: $readmemh: Standard inconsistency, following 1364-2005.
+WARNING: rtl/mem_harvard.v:51: $readmemh(test/1-binary/lhu/lhu_2.hex.txt): Not enough words in the file for the requested range [0:2047].
+
+TB : finished; active=0
+register_v0:xxxxxxxx

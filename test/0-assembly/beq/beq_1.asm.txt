@@ -1,10 +1,10 @@
 addiu $17  $0 100
 addiu $18  $0 100
 beq $17 $18 Label1
-sll $zero $zero $zero
+sll $0 $0 $0
 addiu $2 $0  21
-jr $zero
-addiu $s3 $zero 230
+jr $0
+addiu $s3 $0 230
 
 Label1: 
 addiu $2 $0 123

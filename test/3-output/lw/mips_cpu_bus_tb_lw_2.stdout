@@ -1,0 +1,6 @@
+WARNING: rtl/avl_slave_mem.v:38: $readmemh: Standard inconsistency, following 1364-2005.
+WARNING: rtl/avl_slave_mem.v:38: $readmemh(test/1-binary/lw/lw_2.hex.txt): Not enough words in the file for the requested range [0:2047].
+VCD info: dumpfile test/mips_cpu_bus.vcd opened for output.
+
+TB : finished; active=0
+register_v0:xxxxxxxx
