@@ -1,4 +1,5 @@
-addiu $14 $0 85
-addiu $13 $0 16
-sllv $15 $14 $13
+lui $14 0x3523
+addiu $15 $14 0x2ec3
+addiu $16 0x13b0
+sll $2 $15 $16
 jr $0

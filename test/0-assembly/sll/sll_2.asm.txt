@@ -1,3 +1,4 @@
-addiu $s4, $zero, 0x0f0f
-sll $v0, $s4, 4
-jr $zero
+lui $14 0x5423
+addiu $15 $14 0xf0
+sll $2 $15 1
+jr $0
