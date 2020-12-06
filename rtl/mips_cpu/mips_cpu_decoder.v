@@ -77,257 +77,257 @@ module decoder(
     assign j_addr = instr_readdata[25:0];
 
     always_comb begin
-        if (clk_enable) begin
-            // general stuff 
-            case(instr_opcode)
-                OPCODE_R: begin
-                    alu_sel = 1'b0;
-                    // assume rd is implied = $31 if JALR 
-                    reg_addr_sel = 2'b01;
-                    // sel alu out unless JALR
-                    reg_data_sel = (funct_code == 6'b001001) ?  2'b11 : 2'b00;
-                    // write unless funct code == JR or starts with 01 -> uses HI and LO
-                    reg_write_enable = (funct_code == 6'b001000 || funct_code[5] == 1'b0 && funct_code[4] == 1'b1) ? 1'b0:1'b1;
-                    // if its JR or uses HI & LO
-                    if (funct_code == 6'b001000 || funct_code[5] == 1'b0 && funct_code[4] == 1'b1) begin 
-                        // if its not MFHI or MFLO
-                        if (funct_code != 6'b010000 && funct_code != 6'b010010) begin
-                            reg_write_enable = 1'b0;
-                        end
-                        // if it is MFHI or MFLO then write
-                        else begin
-                            reg_write_enable = 1'b1;
-                        end
+        // if (clk_enable) begin
+        // general stuff 
+        case(instr_opcode)
+            OPCODE_R: begin
+                alu_sel = 1'b0;
+                // assume rd is implied = $31 if JALR 
+                reg_addr_sel = 2'b01;
+                // sel alu out unless JALR
+                reg_data_sel = (funct_code == 6'b001001) ?  2'b11 : 2'b00;
+                // write unless funct code == JR or starts with 01 -> uses HI and LO
+                reg_write_enable = (funct_code == 6'b001000 || funct_code[5] == 1'b0 && funct_code[4] == 1'b1) ? 1'b0:1'b1;
+                // if its JR or uses HI & LO
+                if (funct_code == 6'b001000 || funct_code[5] == 1'b0 && funct_code[4] == 1'b1) begin 
+                    // if its not MFHI or MFLO
+                    if (funct_code != 6'b010000 && funct_code != 6'b010010) begin
+                        reg_write_enable = 1'b0;
                     end
+                    // if it is MFHI or MFLO then write
                     else begin
                         reg_write_enable = 1'b1;
                     end
-                    // pc_sel JR if JR or JALR else pc + 4
-                    pc_sel = (funct_code == 6'b001000 || funct_code == 6'b001001) ? 2'b11 : 2'b00;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b0;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-		            is_branch = (funct_code == 6'b001000 || funct_code == 6'b001001) ? 1'b1 : 1'b0;
                 end
-                OPCODE_BRANCH: begin
-                    // BGEZ and BLTZ (branch no link)
-                    reg_addr_sel = 2'b11;
-                    reg_data_sel = 2'b11;
-                    // condition for link
-                    reg_write_enable = (rt[4] == 1'b1 && is_true) ? 1'b1 : 1'b0;
-                    pc_sel = 2'b01;
-                    data_read = 1'b0;
-                    data_write = 1'b0;
-                    byte_enable = 4'b1111;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b1;
-                end
-                // BGTZ, BLEZ have the same controls
-                OPCODE_BGTZ: begin
-                    alu_sel = 1'b1;
-                    reg_write_enable = 1'b0;
-                    pc_sel = 2'b01;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b0;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b1;
-                end
-                OPCODE_BLEZ: begin
-                    alu_sel = 1'b1;
-                    reg_write_enable = 1'b0;
-                    pc_sel = 2'b01;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b0;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b1;
-                end
-                // BNE and BEQ have same controls
-                OPCODE_BNE: begin
-                    alu_sel = 1'b0;
-                    reg_write_enable = 1'b0;
-                    pc_sel = 2'b01;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b0;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b1;
-                end
-                OPCODE_BEQ: begin
-                    alu_sel = 1'b0;
-                    reg_write_enable = 1'b0;
-                    pc_sel = 2'b01;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b0;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b1;
-                end
-                OPCODE_LB: begin
-                    reg_addr_sel = 2'b00;
-                    reg_data_sel = 2'b10;
-                    alu_sel = 1'b1;
+                else begin
                     reg_write_enable = 1'b1;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b0001;
-                    data_read = 1'b1;
-                    data_write = 1'b0;
-                    signextend_sel = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b0;
                 end
-                OPCODE_LH: begin
-                    reg_addr_sel = 2'b00;
-                    reg_data_sel = 2'b10;
-                    alu_sel = 1'b1;
-                    reg_write_enable = 1'b1;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b0011;
-                    data_read = 1'b1;
-                    data_write = 1'b0;
-                    signextend_sel = 1'b1;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b0;
-                end 
-                OPCODE_LBU: begin
-                    reg_addr_sel = 2'b00;
-                    reg_data_sel = 2'b01;
-                    alu_sel = 1'b1;
-                    reg_write_enable = 1'b1;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b0001;
-                    data_read = 1'b1;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b0;
-                end
-                OPCODE_LHU: begin
-                    reg_addr_sel = 2'b00;
-                    reg_data_sel = 2'b01;
-                    alu_sel = 1'b1;
-                    reg_write_enable = 1'b1;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b0011;
-                    data_read = 1'b1;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b0;
-                end
-                OPCODE_LW: begin
-                    reg_addr_sel = 2'b00;
-                    reg_data_sel = 2'b01;
-                    alu_sel = 1'b1;
-                    reg_write_enable = 1'b1;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b1;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b0;
-                end
-                OPCODE_LWL: begin
-                    alu_sel = 1'b1;
-                    reg_addr_sel = 2'b00;
-                    reg_data_sel = 2'b00;
-                    reg_write_enable = 1'b1;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b1;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b11;
-                    is_branch = 1'b0;
-                end
-                OPCODE_LWR: begin
-                    alu_sel = 1'b1;
-                    reg_addr_sel = 2'b00;
-                    reg_data_sel = 2'b00;
-                    reg_write_enable = 1'b1;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b1;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b10;
-                    is_branch = 1'b0;
-                end
-                OPCODE_SW: begin
-                    alu_sel = 1'b1;
-                    reg_write_enable = 1'b0;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b0;
-                    data_write = 1'b1;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b0;
-                end
-                OPCODE_LB: begin
-                    reg_addr_sel = 2'b00;
-                    reg_data_sel = 2'b01;
-                    alu_sel = 1'b1;
-                    reg_write_enable = 1'b1;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b0001;
-                    data_read = 1'b1;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b0;
-                end
-                OPCODE_SB: begin
-                    alu_sel = 1'b1;
-                    reg_write_enable = 1'b0;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b0001;
-                    data_read = 1'b0;
-                    data_write = 1'b1;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b0;
-                end
-                OPCODE_SH: begin
-                    alu_sel = 1'b1;
-                    reg_write_enable = 1'b0;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b0011;
-                    data_read = 1'b0;
-                    data_write = 1'b1;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b0;
-                end
-                OPCODE_J: begin
-                    pc_sel = 2'b10;
-                    reg_write_enable = 0;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b0;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b1;
-                end
-                OPCODE_JAL: begin
-                    pc_sel = 2'b10;
-                    reg_addr_sel = 2'b11;
-                    reg_data_sel = 2'b11;
-                    reg_write_enable = 1'b1;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b0;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b1;
-                end
-                // everything else (type I arithmetics: rt = alu)
-                default: begin
-                    alu_sel = 1'b1;
-                    reg_addr_sel = 2'b00;
-                    reg_data_sel = 2'b00;
-                    reg_write_enable = 1'b1;
-                    pc_sel = 2'b00;
-                    byte_enable = 4'b1111;
-                    data_read = 1'b0;
-                    data_write = 1'b0;
-                    lwlr_sel = 2'b00;
-                    is_branch = 1'b0;
-                end
-            endcase
-        end
+                // pc_sel JR if JR or JALR else pc + 4
+                pc_sel = (funct_code == 6'b001000 || funct_code == 6'b001001) ? 2'b11 : 2'b00;
+                byte_enable = 4'b1111;
+                data_read = 1'b0;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = (funct_code == 6'b001000 || funct_code == 6'b001001) ? 1'b1 : 1'b0;
+            end
+            OPCODE_BRANCH: begin
+                // BGEZ and BLTZ (branch no link)
+                reg_addr_sel = 2'b11;
+                reg_data_sel = 2'b11;
+                // condition for link
+                reg_write_enable = (rt[4] == 1'b1 && is_true) ? 1'b1 : 1'b0;
+                pc_sel = 2'b01;
+                data_read = 1'b0;
+                data_write = 1'b0;
+                byte_enable = 4'b1111;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b1;
+            end
+            // BGTZ, BLEZ have the same controls
+            OPCODE_BGTZ: begin
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b0;
+                pc_sel = 2'b01;
+                byte_enable = 4'b1111;
+                data_read = 1'b0;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b1;
+            end
+            OPCODE_BLEZ: begin
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b0;
+                pc_sel = 2'b01;
+                byte_enable = 4'b1111;
+                data_read = 1'b0;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b1;
+            end
+            // BNE and BEQ have same controls
+            OPCODE_BNE: begin
+                alu_sel = 1'b0;
+                reg_write_enable = 1'b0;
+                pc_sel = 2'b01;
+                byte_enable = 4'b1111;
+                data_read = 1'b0;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b1;
+            end
+            OPCODE_BEQ: begin
+                alu_sel = 1'b0;
+                reg_write_enable = 1'b0;
+                pc_sel = 2'b01;
+                byte_enable = 4'b1111;
+                data_read = 1'b0;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b1;
+            end
+            OPCODE_LB: begin
+                reg_addr_sel = 2'b00;
+                reg_data_sel = 2'b10;
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b1;
+                pc_sel = 2'b00;
+                byte_enable = 4'b0001;
+                data_read = 1'b1;
+                data_write = 1'b0;
+                signextend_sel = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b0;
+            end
+            OPCODE_LH: begin
+                reg_addr_sel = 2'b00;
+                reg_data_sel = 2'b10;
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b1;
+                pc_sel = 2'b00;
+                byte_enable = 4'b0011;
+                data_read = 1'b1;
+                data_write = 1'b0;
+                signextend_sel = 1'b1;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b0;
+            end 
+            OPCODE_LBU: begin
+                reg_addr_sel = 2'b00;
+                reg_data_sel = 2'b01;
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b1;
+                pc_sel = 2'b00;
+                byte_enable = 4'b0001;
+                data_read = 1'b1;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b0;
+            end
+            OPCODE_LHU: begin
+                reg_addr_sel = 2'b00;
+                reg_data_sel = 2'b01;
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b1;
+                pc_sel = 2'b00;
+                byte_enable = 4'b0011;
+                data_read = 1'b1;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b0;
+            end
+            OPCODE_LW: begin
+                reg_addr_sel = 2'b00;
+                reg_data_sel = 2'b01;
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b1;
+                pc_sel = 2'b00;
+                byte_enable = 4'b1111;
+                data_read = 1'b1;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b0;
+            end
+            OPCODE_LWL: begin
+                alu_sel = 1'b1;
+                reg_addr_sel = 2'b00;
+                reg_data_sel = 2'b00;
+                reg_write_enable = 1'b1;
+                pc_sel = 2'b00;
+                byte_enable = 4'b1111;
+                data_read = 1'b1;
+                data_write = 1'b0;
+                lwlr_sel = 2'b11;
+                is_branch = 1'b0;
+            end
+            OPCODE_LWR: begin
+                alu_sel = 1'b1;
+                reg_addr_sel = 2'b00;
+                reg_data_sel = 2'b00;
+                reg_write_enable = 1'b1;
+                pc_sel = 2'b00;
+                byte_enable = 4'b1111;
+                data_read = 1'b1;
+                data_write = 1'b0;
+                lwlr_sel = 2'b10;
+                is_branch = 1'b0;
+            end
+            OPCODE_SW: begin
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b0;
+                pc_sel = 2'b00;
+                byte_enable = 4'b1111;
+                data_read = 1'b0;
+                data_write = 1'b1;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b0;
+            end
+            OPCODE_LB: begin
+                reg_addr_sel = 2'b00;
+                reg_data_sel = 2'b01;
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b1;
+                pc_sel = 2'b00;
+                byte_enable = 4'b0001;
+                data_read = 1'b1;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b0;
+            end
+            OPCODE_SB: begin
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b0;
+                pc_sel = 2'b00;
+                byte_enable = 4'b0001;
+                data_read = 1'b0;
+                data_write = 1'b1;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b0;
+            end
+            OPCODE_SH: begin
+                alu_sel = 1'b1;
+                reg_write_enable = 1'b0;
+                pc_sel = 2'b00;
+                byte_enable = 4'b0011;
+                data_read = 1'b0;
+                data_write = 1'b1;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b0;
+            end
+            OPCODE_J: begin
+                pc_sel = 2'b10;
+                reg_write_enable = 0;
+                byte_enable = 4'b1111;
+                data_read = 1'b0;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b1;
+            end
+            OPCODE_JAL: begin
+                pc_sel = 2'b10;
+                reg_addr_sel = 2'b11;
+                reg_data_sel = 2'b11;
+                reg_write_enable = 1'b1;
+                byte_enable = 4'b1111;
+                data_read = 1'b0;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b1;
+            end
+            // everything else (type I arithmetics: rt = alu)
+            default: begin
+                alu_sel = 1'b1;
+                reg_addr_sel = 2'b00;
+                reg_data_sel = 2'b00;
+                reg_write_enable = 1'b1;
+                pc_sel = 2'b00;
+                byte_enable = 4'b1111;
+                data_read = 1'b0;
+                data_write = 1'b0;
+                lwlr_sel = 2'b00;
+                is_branch = 1'b0;
+            end
+        endcase
     end
+    // end
 
 endmodule
