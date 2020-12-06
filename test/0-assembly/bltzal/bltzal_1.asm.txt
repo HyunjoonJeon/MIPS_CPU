@@ -1,7 +1,7 @@
 addiu $17 $0 0x0000
 bltzal $17 Label1
-addiu $2 $0 0x1000
 jr $0
+addiu $2 $0 0x1000
 
 Label1:
 addu $2 $31 $0
