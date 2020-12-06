@@ -483,10 +483,12 @@ int main()
                 }
                 //cout << "hex = " << hex << endl;
                 //cout << "hex size = " << hex.size() << endl;
-                if(hex.size()<16){
+                while(hex.size()<16){
                     //as the only case wehre hex.size is not 16 is when hex is positive
                     hex = "0" + hex;
                 }
+                //cout << "hex = " << hex << endl;
+                //cout << "hex size = " << hex.size() << endl;
                 string hi = hex.substr(0,8);
                 string lo = hex.substr(8,8);
                 long hi_val = bin_to_int(hex_to_bin(hi));
