@@ -109,6 +109,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
+		    is_branch = 1'b0;
                 end
                 OPCODE_BRANCH: begin
                     // BGEZ and BLTZ (branch no link)
