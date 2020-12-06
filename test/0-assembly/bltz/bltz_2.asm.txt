@@ -1,14 +1,15 @@
 addiu $17 $0 0x9999
 subu $18 $0 $17
-blez $18 Label1
+bltz $18 Label1
 addiu $2 $0 0x9999
 
 Label1:
-addiu $19 $17 0x1111
-blez $19 Label2
+addiu $19 $0 0x1111
+bltz $19 Label2
 addiu $2 $0 0x1000
 jr $0
 addiu $0 $0 0
 
 Label2:
 addiu $2 $0 0x8888
+jr $0
