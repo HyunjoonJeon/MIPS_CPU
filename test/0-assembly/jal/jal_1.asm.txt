@@ -1,11 +1,16 @@
 addiu $8 $8 10
-jal 0xbfc0001c
+jal book
 addiu $8 $8 10
-jal 0xbfc00028
+jal movie
 addiu $8 $8 10
 addiu $8 $8 10
-addiu $8 $8 10
+book:
+addiu $8 $8 7
+addiu $8 $8 7
 jr $31
 addiu $8 $8 10
+addiu $8 $8 10
+movie:
+addiu $8 $8 11
 addiu $2 $8 0
 jr $0
