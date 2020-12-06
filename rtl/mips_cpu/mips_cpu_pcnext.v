@@ -42,10 +42,10 @@ module pcnext (
                 pcnext = pc_increment;
             end
             BRANCH: begin
-                pcnext = is_true ? pc_increment + shifted_imm[17:0] : pc_increment;
+                pcnext = is_true ? pc + shifted_imm[17:0] : pc_increment;
             end
             JUMP: begin
-                pcnext = j_addr << 2 | (pc_increment & 32'hf0000000);
+                pcnext = j_addr << 2 | (pc & 32'hf0000000);
             end
             JR: begin
                 pcnext = reg_data_a;
