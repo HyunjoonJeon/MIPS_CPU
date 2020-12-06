@@ -1,9 +1,9 @@
 addiu $17 $0 0x0001
-subu $18 $17 0x1111
+subu $18 $0 $17
 bgez $18 Label1
 addiu $2 $0 123
 jr $0
-sll $0 $0 0
+addiu $0 $0 0
 
 Label1:
 addiu $2 $0 456

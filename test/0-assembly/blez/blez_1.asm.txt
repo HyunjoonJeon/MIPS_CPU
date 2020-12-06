@@ -3,10 +3,10 @@ blez  $17 Label1
 addiu $2 $0 0x9999
 
 Label1:
-subu $18 $0 0x0001
+subu $18 $0 $17
 blez $18 Label2
 addiu $2 $0 0x8888
 
 Label2:
-addu $2 $0 0x1111
+addiu $2 $0 0x1111
 jr $0

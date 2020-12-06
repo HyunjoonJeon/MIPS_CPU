@@ -1,8 +1,9 @@
 addiu $17 $0 0x1111
-subu $18 $17 0xffff
+subu $18 $0 $17
 bgezal $18 Label1
 addiu $2 $0 0x1111
 jr $0
+addiu $0 $0 0
 
 Label1:
 addu $2 $31 $0

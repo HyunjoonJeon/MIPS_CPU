@@ -1,4 +1,4 @@
-addiu $17 $0 0xff
+addiu $17 $0 0x00ff
 addiu $18 $0 0x9176
 sb $17 197($18)
 lb $2 197($18)

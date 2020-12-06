@@ -4,7 +4,7 @@ addiu $17 $0 0
 Label1:
 addiu $2 $0 0xffff
 bgez $2 Label2
-sll $0 $0 0
+addiu $0 $0 0
 
 Label2:
 addiu $2 $0 0x1119

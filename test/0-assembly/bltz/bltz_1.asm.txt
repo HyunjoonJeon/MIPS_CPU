@@ -2,7 +2,7 @@ addiu $17 $0 0x0000
 bltz  $17 Label1
 addiu $2 $0 0x1000
 jr $0
-sll $0 $0 0
+addiu $0 $0 0
 
 Label1:
 addiu $2 $0 0x9657
