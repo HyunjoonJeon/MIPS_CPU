@@ -3,14 +3,20 @@ j label
 addiu $12 $12 10
 addiu $12 $12 10
 jr $0
+addiu $12 $12 7
+addiu $12 $12 7
+addiu $12 $12 7
 label2:
+addiu $12 $12 3
+addiu $12 $12 3
 addiu $12 $12 3
 j ending
 addiu $12 $12 3
+addiu $12 $12 3
 label:
-addiu $12 $12 10
-addiu $12 $12 10
-addiu $12 $12 10
+addiu $12 $12 5
+addiu $12 $12 5
+addiu $12 $12 5
 j label2
 addiu $12 $12 10
 ending:
