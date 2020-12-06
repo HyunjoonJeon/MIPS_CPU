@@ -1,8 +1,0 @@
-# ignore all .vcd compiled waveforms
-*.vcd
-*.out
-*.out-lines
-*.stdout
-bin/
-2-simulator/
-!2-simulator/.gitignore

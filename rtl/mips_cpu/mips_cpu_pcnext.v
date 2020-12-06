@@ -23,7 +23,7 @@ module pcnext (
     logic [31:0] shifted_imm;
     assign pc_increment = pc + 4;
     assign shifted_imm = extended_imm << 2;
-    assign link_pc = pc + 8;
+    assign link_pc = pc + 4;
 
     typedef enum logic[1:0] {
         INCREMENT = 2'b00,
