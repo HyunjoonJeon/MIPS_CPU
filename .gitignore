@@ -1,5 +1,4 @@
 *.vcd
-*.out
 *.stdout
 *.out-lines
 
