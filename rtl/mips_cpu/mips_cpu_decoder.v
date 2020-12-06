@@ -108,7 +108,7 @@ module decoder(
                     data_read = 1'b0;
                     data_write = 1'b0;
                     lwlr_sel = 2'b00;
-		            is_branch = (funct_code == 6'b001000) ? 1'b1 : 1'b0;
+		            is_branch = (funct_code == 6'b001000 || funct_code == 6'b001001) ? 1'b1 : 1'b0;
                 end
                 OPCODE_BRANCH: begin
                     // BGEZ and BLTZ (branch no link)
@@ -127,7 +127,7 @@ module decoder(
                 OPCODE_BGTZ: begin
                     alu_sel = 1'b1;
                     reg_write_enable = 1'b0;
-                    pc_sel = is_true ? 2'b01 : 2'b00;
+                    pc_sel = 2'b01;
                     byte_enable = 4'b1111;
                     data_read = 1'b0;
                     data_write = 1'b0;
@@ -137,7 +137,7 @@ module decoder(
                 OPCODE_BLEZ: begin
                     alu_sel = 1'b1;
                     reg_write_enable = 1'b0;
-                    pc_sel = is_true ? 2'b01 : 2'b00;
+                    pc_sel = 2'b01;
                     byte_enable = 4'b1111;
                     data_read = 1'b0;
                     data_write = 1'b0;
@@ -148,7 +148,7 @@ module decoder(
                 OPCODE_BNE: begin
                     alu_sel = 1'b0;
                     reg_write_enable = 1'b0;
-                    pc_sel = is_true ? 2'b01 : 2'b00;
+                    pc_sel = 2'b01;
                     byte_enable = 4'b1111;
                     data_read = 1'b0;
                     data_write = 1'b0;
@@ -158,7 +158,7 @@ module decoder(
                 OPCODE_BEQ: begin
                     alu_sel = 1'b0;
                     reg_write_enable = 1'b0;
-                    pc_sel = is_true ? 2'b01 : 2'b00;
+                    pc_sel = 2'b01;
                     byte_enable = 4'b1111;
                     data_read = 1'b0;
                     data_write = 1'b0;
@@ -306,7 +306,7 @@ module decoder(
                     pc_sel = 2'b10;
                     reg_addr_sel = 2'b11;
                     reg_data_sel = 2'b11;
-                    reg_write_enable = 1;
+                    reg_write_enable = 1'b1;
                     byte_enable = 4'b1111;
                     data_read = 1'b0;
                     data_write = 1'b0;
