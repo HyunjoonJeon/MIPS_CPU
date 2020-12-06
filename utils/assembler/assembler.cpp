@@ -46,7 +46,7 @@ int main(){
                 assert(!cin.fail());
                 instruction temp = {head, rs, rt, im};
                 instruction_set.push_back(temp);
-            }else if(mips_instruction_is_branch(head)){
+            }else if(mips_instruction_is_branch_comparison(head)){
                 string rs;
                 string rt;
                 string la;
@@ -56,7 +56,7 @@ int main(){
                 assert(!cin.fail());
                 instruction temp = {head, rs, rt, la};
                 instruction_set.push_back(temp);
-            }else if(mips_instruction_is_branch_comparison(head)){
+            }else if(mips_instruction_is_branch(head)){
                 string rs;
                 string la;
                 cin >> rs;
@@ -172,11 +172,11 @@ int main(){
                 }else{
                     cout << temp1.substr(0, 4) + to_hex8(stoi(temp2.substr(0))).substr(4, 4) << endl;
                 }
-            }else if(mips_instruction_is_branch(opname)){
+            }else if(mips_instruction_is_branch_comparison(opname)){
                 assert(labels.find(instruction_set[i].s3)!=labels.end());
                 uint32_t address=labels[instruction_set[i].s3]-i-1;
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2) + address) << endl;
-            }else if(mips_instruction_is_branch_comparison(opname)){
+            }else if(mips_instruction_is_branch(opname)){
                 assert(labels.find(instruction_set[i].s2)!=labels.end());
                 uint32_t address=labels[instruction_set[i].s2]-i-1;
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + address) << endl;
