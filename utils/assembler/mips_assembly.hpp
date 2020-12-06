@@ -102,13 +102,13 @@ bool mips_is_register(string s)
         return false;
     }
 
-    // for(int i=1; i<s.size()-1; i++)
-    // {
-    //     if(!isalnum(s[i]))
-    //     {
-    //         return false;
-    //     }
-    // }
+    for(int i=1; i<s.size()-1; i++)
+    {
+        if(!isalnum(s[i]))
+        {
+            return false;
+        }
+    }
 
     return true;   
 }
