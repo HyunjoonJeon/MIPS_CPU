@@ -8,6 +8,7 @@ addiu $19 $s1 0x1111
 blez $19 Label2
 addiu $2 $0 0x1000
 jr $0
+sll $0 $0 0
 
 Label2:
 addu $2 $0 0x8888

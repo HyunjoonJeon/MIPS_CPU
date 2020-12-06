@@ -1,9 +1,10 @@
 addiu $17 $0 0x1234
 subu $18 $17 0x4567
 bgtz $18 Label1
-addiu $2 $0 0xffff
 jr $0
+addiu $2 $0 0xffff
 
 Label1:
 addiu $2 $0 0x1111
+jr $0
 
