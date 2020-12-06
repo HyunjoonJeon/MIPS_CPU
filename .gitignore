@@ -4,3 +4,5 @@
 *.out-lines
 *.stdout
 bin/
+2-simulator/
+!2-simulator/.gitignore
