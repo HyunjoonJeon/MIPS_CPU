@@ -138,7 +138,7 @@ bool mips_instruction_is_function_immediate(string s)
     return false;
 }
 
-bool mips_instruction_is_branch(string s)
+bool mips_instruction_is_branch_comparison(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="beq") return true;
@@ -146,7 +146,7 @@ bool mips_instruction_is_branch(string s)
     return false;
 }
 
-bool mips_instruction_is_branch_comparison(string s)
+bool mips_instruction_is_branch(string s)
 {
     assert(mips_is_instruction(s));
     if(s=="bgez") return true;
@@ -230,7 +230,7 @@ uint32_t mips_opname_to_opcode(string s)
 {
     assert(mips_is_instruction(s));
     uint32_t opcode = 0;
-    if(mips_instruction_is_branch_comparison(s))
+    if(s == "bgez" || s == "bgezal" || s == "bltz" || s == "bltzal")
     {
         opcode += (1<<26);
     }
