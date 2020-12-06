@@ -28,12 +28,7 @@ module pc (
                 branching <= 1'b1;
             end
             else if (branching) begin
-                if (pc == intermediate_pc) begin
-                    pc <= new_pc;
-                end
-                else begin
-                    pc <= intermediate_pc;
-                end
+                pc <= (pc == intermediate_pc) ? new_pc : intermediate_pc; 
                 branching <= 1'b0;
             end
             else begin
