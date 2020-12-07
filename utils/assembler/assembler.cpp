@@ -193,7 +193,7 @@ int main(){
             }else if(mips_instruction_is_MulDiv(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2)) << endl;
             }else if(mips_instruction_is_shift(opname)){
-                uint32_t temp = stoi(instruction_set[i].s3));
+                uint32_t temp = stoi(instruction_set[i].s3);
                 uint32_t sa = temp << 6;
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 2) + mips_regname_to_regcode(instruction_set[i].s2, 3) + sa) << endl;
             }else if(mips_instruction_is_shift_variable(opname)){
