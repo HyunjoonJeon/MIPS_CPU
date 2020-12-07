@@ -2,7 +2,7 @@ lui $8 0xbfc0
 addiu $12 $8 0x002c
 addiu $9 $8 0x0024
 addiu $10 $10 20
-jalr $9
+jalr $31 $9
 addiu $10 $10 2
 addiu $10 $10 2
 jr $12
