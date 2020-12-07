@@ -1,0 +1,8 @@
+lui $15 0x0011
+ori $16 $15 0x2233
+lui $17 0xaabb
+ori $2 $17 0xccdd
+addiu $5 $0 0x0604
+sw $16 0($5)
+lwl $2 2($5)
+jr $0
