@@ -3,4 +3,4 @@ WARNING: rtl/avl_slave_mem.v:38: $readmemh(test/1-binary/lwl/lwl_1.hex.txt): Not
 VCD info: dumpfile test/mips_cpu_bus.vcd opened for output.
 
 TB : finished; active=0
-register_v0:00001100
+register_v0:02030404
