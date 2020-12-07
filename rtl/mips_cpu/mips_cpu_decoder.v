@@ -218,7 +218,7 @@ module decoder(
             OPCODE_LWL: begin
                 alu_sel = 1'b1;
                 reg_addr_sel = 2'b00;
-                reg_data_sel = 2'b00;
+                reg_data_sel = 2'b01;
                 reg_write_enable = 1'b1;
                 pc_sel = 2'b00;
                 byte_enable = 4'b1111;
@@ -229,7 +229,7 @@ module decoder(
             OPCODE_LWR: begin
                 alu_sel = 1'b1;
                 reg_addr_sel = 2'b00;
-                reg_data_sel = 2'b00;
+                reg_data_sel = 2'b01;
                 reg_write_enable = 1'b1;
                 pc_sel = 2'b00;
                 byte_enable = 4'b1111;
