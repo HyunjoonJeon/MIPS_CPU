@@ -10,6 +10,10 @@ TESTCASE="$3"
 
 #>&2 echo "Test CPU in directory ${DIRECTORY} of instruction ${INSTR}"
 
+if [[ ! -d test/1-binary/${INSTR} ]] ; then
+   mkdir test/1-binary/${INSTR}
+fi
+
 #>&2 echo "1 - Assembling input file"
  bin/assembler <test/0-assembly/${INSTR}/${TESTCASE}.asm.txt >test/1-binary/${INSTR}/${TESTCASE}.hex.txt
 
@@ -29,6 +33,11 @@ iverilog -g 2012 \
 # Use +e to disable automatic script failure if the command fails, as
 # it is possible the simulation might go wrong.
 set +e
+
+if [[ ! -d test/3-output/${INSTR} ]] ; then
+   mkdir test/3-output/${INSTR}
+fi
+
 test/2-simulator/mips_cpu_bus_tb_${TESTCASE} > test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.stdout
 # Capture the exit code of the simulator in a variable
 RESULT=$?
