@@ -1,2 +1,2 @@
-sltiu $2 $0 $0xf234
+sltiu $2 $0 0xf234
 jr $0
