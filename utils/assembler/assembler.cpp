@@ -125,14 +125,8 @@ int main(){
                 string rd;
                 string rs;
                 cin >> rd;
-                if(cin.fail()){
-                    cin >> rs;
-                }else{
-                    rs = rd;
-                    rd = "$31";
-                }
-                assert(!cin.fail());
-                instruction temp = {head, rd, rs, "0"};
+                cin >> rs;
+                instruction temp = {head, rs, rd, "0"};
                 instruction_set.push_back(temp);
             }else if(head == "jr"){
                 string rs;
