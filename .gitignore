@@ -5,8 +5,8 @@
 bin/*
 !bin/.gitkeep
 test/2-simulator/*
-!test/2-simulator/.gitignore
+!test/2-simulator/.gitkeep
 test/3-output/**
-test/1-binary/**
-
-!**.gitignore
+!test/3-output/.gitkeep
+test/1-binary
+!test/1-binary/.gitkeep

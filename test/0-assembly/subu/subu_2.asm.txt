@@ -1,7 +1,7 @@
-lui $10 76
-addiu $10 $10 11161
-lui $9 58061
-addiu $9 $9 22359
-subu $10 $10 $9
-addiu $2 $10 0
+lui $9 19463
+addiu $9 $9 -12095
+lui $20 58067
+addiu $20 $20 12899
+subu $9 $9 $20
+addiu $2 $9 0
 jr $0
