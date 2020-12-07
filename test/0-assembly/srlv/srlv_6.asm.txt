@@ -1,0 +1,5 @@
+lui $14 0x18ef
+addiu $15 $14 0x2d8f
+addiu $16 $0 31
+srlv $2 $15 $16
+jr $0

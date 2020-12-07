@@ -1,0 +1,5 @@
+lui $14 0x9423
+addiu $15 $14 0xf0
+addiu $16 $0 1
+srav $2 $15 $16
+jr $0
