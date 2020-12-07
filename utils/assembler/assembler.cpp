@@ -125,7 +125,7 @@ int main(){
                 string rd;
                 string rs;
                 cin >> rd;
-                if(!cin.fail()){
+                if(cin.fail()){
                     cin >> rs;
                 }else{
                     rs = rd;
