@@ -1,7 +1,7 @@
-lui $8 43539
-addiu $8 $8 2019
-lui $23 33604
-addiu $23 $23 -5028
-addu $8 $8 $23
-addiu $2 $8 0
+lui $10 50278
+addiu $10 $10 -6197
+lui $9 46455
+addiu $9 $9 7902
+addu $10 $10 $9
+addiu $2 $10 0
 jr $0

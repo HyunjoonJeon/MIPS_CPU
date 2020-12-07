@@ -1,7 +1,7 @@
-lui $17 60837
-addiu $17 $17 10618
-lui $13 4668
-addiu $13 $13 -9803
-divu $17 $13
+lui $20 40428
+addiu $20 $20 28818
+lui $8 37
+addiu $8 $8 22278
+divu $20 $8
 mflo $2
 jr $0
