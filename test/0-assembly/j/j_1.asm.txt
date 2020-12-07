@@ -3,6 +3,7 @@ j label
 addiu $12 $12 10
 addiu $12 $12 10
 jr $0
+sll $0 $0 0
 
 label:
 addiu $12 $12 10
