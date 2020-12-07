@@ -1,5 +1,8 @@
-addiu $14 $0 124
-addiu $16 $9 0xFFFF
+addiu $14 $0 0xf01b
+lui $16 0xbfc0
+ori $16 $16 0x0ef1
 sw $14 40($16)
 lw $2 40($16)
 jr $0
+sll $0 $0 18
+ori $2 $0 0x0512

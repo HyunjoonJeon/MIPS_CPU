@@ -1,5 +1,7 @@
-addiu $14 $0 124
+addiu $14 $0 0xca71
 addiu $16 $9 0x0000
 sw $14 40($16)
 lw $2 40($16)
 jr $0
+addiu $22 $14 0x2941
+addiu $2 $0 0x0340
