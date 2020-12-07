@@ -183,7 +183,7 @@ int main(){
             }else if(mips_instruction_is_jump(opname)){
                 assert(labels.find(instruction_set[i].s1)!=labels.end());
                 uint32_t address=labels[instruction_set[i].s1];
-                cout << to_hex8(opcode + address);
+                cout << to_hex8(opcode + address) << endl;
             }else if(mips_instruction_is_memory_using_offset(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2) + stoi(instruction_set[i].s3)) << endl;
             }else if(mips_instruction_is_HiLo_mt(opname)){
