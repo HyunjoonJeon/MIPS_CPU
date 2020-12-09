@@ -7,4 +7,5 @@ jr $0
 addiu $0 $0 0
 
 Label1:
+jr $0
 addu $2 $31 $0

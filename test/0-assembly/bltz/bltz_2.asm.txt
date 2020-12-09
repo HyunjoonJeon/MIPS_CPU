@@ -1,14 +1,13 @@
-# branch when reg < 0, do not branch when reg > 0; check for branch delay slot
+# branch when reg < 0, do not branch when reg > 0
 addiu $17 $0 0x9999
-bltz $18 Label1
+bltz $17 Label1
 subu $18 $0 $17
 addiu $2 $0 0x9999
 jr $0
 addiu $0 $0 0
 
 Label1:
-addiu $19 $0 0x1111
-bltz $19 Label2
+bltz $18 Label2
 addiu $2 $0 0x1000
 jr $0
 addiu $0 $0 0

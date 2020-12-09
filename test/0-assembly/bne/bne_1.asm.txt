@@ -2,11 +2,10 @@
 addiu $17 $0 0xffff
 addiu $18 $0 0xffff
 bne $17 $18 Label1
-addiu $2 $0 0x0021
-addiu $2 $0 0x4729
-addiu $2 $0 0x1111
+addiu $0 $0 0
 jr $0
 addiu $2 $0 0x8264
 
 Label1:
+jr $0
 addiu $2 $0 0x0573
