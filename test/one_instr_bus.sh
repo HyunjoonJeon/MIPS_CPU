@@ -6,6 +6,7 @@ set -eou pipefail
 DIRECTORY="$1"
 INSTR="$2"
 TESTCASE="$3"
+COMMENT=$(grep '#' test/0-assembly/${INSTR}/${TESTCASE}.asm.txt)
 #TESTCASE_TYPE ="test/0-assembly/${INSTR}/*.asm.txt"
 
 #>&2 echo "Test CPU in directory ${DIRECTORY} of instruction ${INSTR}"
@@ -77,9 +78,9 @@ set -e
 
 # Based on whether differences were found, either pass or fail
 if [[ "${RESULT}" -ne 0 ]] ; then
-   echo "  ${TESTCASE} ${INSTR} FAIL"
+   echo "  ${TESTCASE} ${INSTR} FAIL" ${COMMENT}
 else
-   echo "  ${TESTCASE} ${INSTR} PASS"
+   echo "  ${TESTCASE} ${INSTR} PASS" ${COMMENT}
 fi
 
 
