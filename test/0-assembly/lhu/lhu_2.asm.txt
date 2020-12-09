@@ -1,3 +1,4 @@
+# load half unsigned with zero extension
 addiu $17 $0 0x1000
 lui $18 0xf192
 ori $18 $18 0xff23
