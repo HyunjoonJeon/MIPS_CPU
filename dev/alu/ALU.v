@@ -91,9 +91,9 @@ module ALU(
 	assign less_than_signed = $signed(A) < $signed(B) ? 32'd1 : 32'd0;
 	assign adder_B = (alu_control == CONTROL_SUB) ? ~B+1 : B;
 	assign adder_result = A + adder_B;
-	assign shift_left_logical = (alu_control == CONTROL_SLL) ? B << sa : B << A;
-	assign shift_right_logical = (alu_control == CONTROL_SRL) ? B >> sa : B >> A;
-	assign shift_right_arithmetic = (alu_control == CONTROL_SRA) ? $signed(B) >>> sa : $signed(B) >>> A;
+	assign shift_left_logical = (alu_control == CONTROL_SLL) ? B << sa : B << A[4:0];
+	assign shift_right_logical = (alu_control == CONTROL_SRL) ? B >> sa : B >> A[4:0];
+	assign shift_right_arithmetic = (alu_control == CONTROL_SRA) ? $signed(B) >>> sa : $signed(B) >>> A[4:0];
 	assign signed_product = $signed(A) * $signed(B);
 	assign unsigned_product = $unsigned(A) * $unsigned(B);
 	assign product_hi = (alu_control == CONTROL_MULT) ? signed_product[63:32] : unsigned_product[63:32];

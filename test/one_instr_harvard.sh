@@ -39,7 +39,7 @@ set -e
 
 # Check whether the simulator returned a failure code, and immediately quit
 if [[ "${RESULT}" -ne 0 ]] ; then
-   echo "  ${TESTCASE} ${INSTR} FAIL"
+   echo "  ${TESTCASE} ${INSTR} FAIL  Simulator returned an error code"
    exit
 fi
 
@@ -73,7 +73,7 @@ set -e
 
 # Based on whether differences were found, either pass or fail
 if [[ "${RESULT}" -ne 0 ]] ; then
-   echo "  ${TESTCASE} ${INSTR} FAIL" ${COMMENT}
+   echo "  ${TESTCASE} ${INSTR} FAIL  Output of CPU & Ref does not match" ${COMMENT}
 else
    echo "  ${TESTCASE} ${INSTR} PASS" ${COMMENT}
 fi
