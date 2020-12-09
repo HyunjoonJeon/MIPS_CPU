@@ -6,7 +6,9 @@ set -eou pipefail
 DIRECTORY="$1"
 INSTR="$2"
 TESTCASE="$3"
+set +e
 COMMENT=$(grep '#' test/0-assembly/${INSTR}/${TESTCASE}.asm.txt)
+set -e
 #TESTCASE_TYPE ="test/0-assembly/${INSTR}/*.asm.txt"
 
 #>&2 echo "Test CPU in directory ${DIRECTORY} of instruction ${INSTR}"
