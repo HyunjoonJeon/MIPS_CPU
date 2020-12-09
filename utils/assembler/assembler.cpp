@@ -25,6 +25,10 @@ int main(){
             assert(labels.find(head)==labels.end());
             labels[head]=instruction_set.size();
 
+        }else if(head.at(0)=='#'){
+            //when the read in line is a comment, ignore it
+            continue;
+
         }else if(mips_is_instruction(head)){
             if(mips_instruction_is_function(head)){
                 string rd;
