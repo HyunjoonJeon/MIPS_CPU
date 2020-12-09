@@ -165,5 +165,26 @@ int main()
             outfile << "jr $0" << endl;
             outfile.close();
         }
+        if(instr == "mult"){
+            //added special case for multiplying by 0
+            int r1 = rand() % 17 + 8;
+            int r2 = rand() % 17 + 8;
+            outfile.open(position+ instr + "/" + instr + "_9.asm.txt",ios::trunc);
+            outfile << "lui $" << r1 << " " << to_string(rand() % 65535);
+            outfile << "addiu $" << r1 << " $" << r1 << " " << to_string((rand() % 65535)-32768);
+            outfile << "addiu $" << r2 << " $" << r2 << " 0";
+            outfile << instr << " $" << r1 << " $" << r2 << endl;
+            outfile << "mfhi $2" << endl;
+            outfile << "jr $0" << endl;
+            outfile.close();
+            outfile.open(position+ instr + "/" + instr + "_10.asm.txt",ios::trunc);
+            outfile << "lui $" << r1 << " " << to_string(rand() % 65535);
+            outfile << "addiu $" << r1 << " $" << r1 << " " << to_string((rand() % 65535)-32768);
+            outfile << "addiu $" << r2 << " $" << r2 << " 0";
+            outfile << instr << " $" << r1 << " $" << r2 << endl;
+            outfile << "mflo $2" << endl;
+            outfile << "jr $0" << endl;
+            outfile.close();
+        }
     }
 }
