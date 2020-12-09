@@ -16,6 +16,7 @@ struct instruction{
 int main(){
     vector<instruction> instruction_set;
     map<string, int> labels;
+    string tmp;
 
 //Collecting the instructions from the .txt file
     string head;
@@ -27,6 +28,7 @@ int main(){
 
         }else if(head.at(0)=='#'){
             //when the read in line is a comment, ignore it
+	    getline(cin,tmp);
             continue;
 
         }else if(mips_is_instruction(head)){
