@@ -170,6 +170,7 @@ int main()
             int r1 = rand() % 17 + 8;
             int r2 = rand() % 17 + 8;
             outfile.open(position+ instr + "/" + instr + "_9.asm.txt",ios::trunc);
+            outfile << "# Multiplying by 0(hi)";
             outfile << "lui $" << r1 << " " << to_string(rand() % 65535);
             outfile << "addiu $" << r1 << " $" << r1 << " " << to_string((rand() % 65535)-32768);
             outfile << "addiu $" << r2 << " $" << r2 << " 0";
@@ -178,6 +179,7 @@ int main()
             outfile << "jr $0" << endl;
             outfile.close();
             outfile.open(position+ instr + "/" + instr + "_10.asm.txt",ios::trunc);
+            outfile << "# Multiplying by 0(lo)";
             outfile << "lui $" << r1 << " " << to_string(rand() % 65535);
             outfile << "addiu $" << r1 << " $" << r1 << " " << to_string((rand() % 65535)-32768);
             outfile << "addiu $" << r2 << " $" << r2 << " 0";
