@@ -1,3 +1,4 @@
+# do not branch when reg = 0
 addiu $17 $0 0x0000
 bltzal $17 Label1
 jr $0

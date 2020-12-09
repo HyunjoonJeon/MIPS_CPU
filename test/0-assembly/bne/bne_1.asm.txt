@@ -1,3 +1,4 @@
+# do not branch when reg1 = reg2
 addiu $17 $0 0xffff
 addiu $18 $0 0xffff
 bne $17 $18 Label1

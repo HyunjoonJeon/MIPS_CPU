@@ -1,3 +1,4 @@
+# branch twice when reg > 0 and when reg = 0, return $ra
 addiu $17 $0 0x1111
 bgezal $17 Label1
 addiu $2 $0 0x0001

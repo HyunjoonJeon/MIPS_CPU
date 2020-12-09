@@ -1,3 +1,4 @@
+# do not when reg1 != reg2
 addiu $17 $0 32
 addiu $18 $0 132
 beq $17 $18 Label1

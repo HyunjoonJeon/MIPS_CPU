@@ -1,3 +1,4 @@
+# branch when reg1 = reg2
 addiu $17 $0 100
 addiu $18 $0 100
 beq $17 $18 Label1

@@ -1,3 +1,4 @@
+# do not branch when reg < 0
 addiu $17 $0 0x1234
 subu $18 $0 $17
 bgtz $18 Label1
