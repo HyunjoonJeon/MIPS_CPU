@@ -45,7 +45,7 @@ module pcnext (
                 pcnext = is_true ? pc + shifted_imm[17:0] : pc_increment;
             end
             JUMP: begin
-                pcnext = j_addr << 2 | (pc & 32'hf0000000);
+                pcnext = {pc[31:28], j_addr, 2'b00};
             end
             JR: begin
                 pcnext = reg_data_a;

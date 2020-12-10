@@ -1,3 +1,4 @@
+# directly mtlo then mflo
 addiu $17 $0 0xaabc
 mtlo $17
 mflo $2

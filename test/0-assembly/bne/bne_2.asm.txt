@@ -1,7 +1,9 @@
+# branch when reg1 != reg2
 addiu $17 $0 0x2578
 subu $18 $0 $17
 bne $17 $18 Label1
 addiu $v0 $0 0x1234
+jr $0
 
 Label1:
 jr $0

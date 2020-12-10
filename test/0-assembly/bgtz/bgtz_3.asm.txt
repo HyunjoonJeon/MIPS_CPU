@@ -1,0 +1,11 @@
+# testing branch delay slot
+addiu $17 $0 0x1234
+bgtz $17 Label1
+addiu $2 $0 0x4930
+jr $0
+addiu $2 $0 0xffff
+
+Label1:
+addiu $17 $0 0x1111
+jr $0
+

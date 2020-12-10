@@ -56,27 +56,12 @@ module decoder(
 
     assign instr_opcode = instr_readdata[31:26];
 
-    logic[4:0] rs;
-    logic[4:0] rt;
-    logic[4:0] rd;
-    wire[5:0] funct_code;
+    logic [5:0] funct_code;
 
     // type R
-    assign rs = instr_readdata[25:21];
-    assign rt = instr_readdata[20:16];
-    assign rd = instr_readdata[15:11];
     assign funct_code = instr_readdata[5:0];
 
-    // type I
-    logic[15:0] immediate;
-    assign immediate = instr_readdata[15:0];
-    
-    //type J
-    logic[25:0] j_addr;
-    assign j_addr = instr_readdata[25:0];
-
     always_comb begin
-        // if (clk_enable) begin
         // general stuff 
         case(instr_opcode)
             OPCODE_R: begin
@@ -113,7 +98,7 @@ module decoder(
                 reg_addr_sel = 2'b11;
                 reg_data_sel = 2'b11;
                 // condition for link
-                reg_write_enable = (rt[4] == 1'b1 && is_true) ? 1'b1 : 1'b0;
+                reg_write_enable = (instr_readdata[20] == 1'b1 && is_true) ? 1'b1 : 1'b0;
                 pc_sel = 2'b01;
                 data_read = 1'b0;
                 data_write = 1'b0;
@@ -277,7 +262,7 @@ module decoder(
             end
             OPCODE_J: begin
                 pc_sel = 2'b10;
-                reg_write_enable = 0;
+                reg_write_enable = 1'b0;
                 byte_enable = 4'b1111;
                 data_read = 1'b0;
                 data_write = 1'b0;
@@ -307,6 +292,5 @@ module decoder(
             end
         endcase
     end
-    // end
 
 endmodule

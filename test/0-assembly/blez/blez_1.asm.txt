@@ -1,11 +1,14 @@
+# branch when reg = 0 and when reg < 0
 addiu $17 $0 0x0000
 blez  $17 Label1
 addiu $2 $0 0x9999
+jr $0 
 
 Label1:
 subu $18 $0 $17
 blez $18 Label2
 addiu $2 $0 0x8888
+jr $0
 
 Label2:
 addiu $2 $0 0x1111
