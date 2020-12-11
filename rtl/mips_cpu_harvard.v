@@ -42,6 +42,7 @@ module mips_cpu_harvard(
     // Initial settings
     initial begin
         act = 0;
+        curr_instr = 0;
     end
 
     // active logic (use clk_enable to halt the execution of instructions when the program ends)
@@ -52,14 +53,24 @@ module mips_cpu_harvard(
         instr_read=1;
         data_writedata = reg_data_b;
         data_address = aluout;
+
+        // mux1, reg addr mux
+        reg_write_addr = reg_addr_sel[1] ? 31 : (reg_addr_sel[0] ? rd : rt );
+
+        // mux2, alu input mux
+        alu_input = alu_sel ? extended_imm : reg_data_b;
     end
 
     always_ff @(posedge clk) begin
         if(reset) begin
             act <= 1;
+            curr_instr <= 0;
         end
         else if(instr_address==0 && clk_enable) begin
             act <= 0;
+        end
+        else if (clken) begin
+            curr_instr <= instr_readdata;
         end
     end
 
@@ -70,14 +81,6 @@ module mips_cpu_harvard(
         .clk_enable(clken),    //changed clk_enable to clken
         .new_pc(next_pc),
         .pc(curr_pc)
-    );
-
-    instr_reg instr_reg_1(
-        .clk(clk),
-        .instr_readdata(instr_readdata),
-        .reset(reset),
-        .clk_enable(clken),
-        .curr_instr(curr_instr)
     );
 
     pcnext pcnext_1(
@@ -115,20 +118,6 @@ module mips_cpu_harvard(
         .select(signextend_sel),
         .extended_imm(extended_imm),
         .extended_data(extended_data)
-    );
-
-    mux1 mux1_1(
-        .rt(rt),
-        .rd(rd),
-        .select(reg_addr_sel),
-        .reg_write_addr(reg_write_addr)
-    );
-
-    mux2 mux2_1(
-        .reg_data_b(reg_data_b),
-        .extended_imm(extended_imm),
-        .select(alu_sel),
-        .alu_input(alu_input)
     );
 
     mux3 mux3_1(
