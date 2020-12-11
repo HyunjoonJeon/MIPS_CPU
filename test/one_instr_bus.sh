@@ -18,19 +18,34 @@ if [[ ! -d test/1-binary/${INSTR} ]] ; then
 fi
 
 #>&2 echo "1 - Assembling input file"
+set +e
  bin/assembler <test/0-assembly/${INSTR}/${TESTCASE}.asm.txt >test/1-binary/${INSTR}/${TESTCASE}.hex.txt
+ RESULT=$?
+set -e 
+
+if [[ "${RESULT}" -ne 0 ]] ; then
+   echo "  ${TESTCASE} ${INSTR} Fail  Fail to assemble the input file"
+   exit
+fi
 
 #>&2 echo "2 - Compiling test-bench"
 # Compile the cpu under specific directory and instructions.
 # -s specifies exactly which testbench should be top-level
 # The -P command is used to modify the RAM_INIT_FILE parameter on the test-bench at compile-time
+set +e
 iverilog -g 2012 \
-   ${DIRECTORY}/mips_cpu_bus.v ${DIRECTORY}/mips_cpu_harvard.v ${DIRECTORY}/mips_cpu_bus_tb.v ${DIRECTORY}/avl_slave_mem.v ${DIRECTORY}/mips_cpu/*.v \
+   ${DIRECTORY}/mips_cpu_*.v ${DIRECTORY}/mips_cpu/*.v \
    -s mips_cpu_bus_tb \
    -P mips_cpu_bus_tb.INSTR_INIT_FILE=\"test/1-binary/${INSTR}/${TESTCASE}.hex.txt\" \
    -o test/2-simulator/mips_cpu_bus_tb_${TESTCASE} \
    2>/dev/null
+RESULT=$?
+set -e
 
+if [[ "${RESULT}" -ne 0 ]] ; then
+   echo "  ${TESTCASE} ${INSTR} Fail  Fail to compile the CPU"
+   exit
+fi
 #>&2 echo "3 - Running test-bench"
 # Run the simulator, and capture all output to a file
 # Use +e to disable automatic script failure if the command fails, as

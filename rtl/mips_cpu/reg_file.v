@@ -30,7 +30,7 @@ module register_file(
 					reg_file[index] <=0;
 				end
 			end
-			else if (write_enable == 1) begin
+			else if (write_enable == 1 && write_reg != 0) begin
 				reg_file[write_reg] <= write_data;
 			end
 		end
