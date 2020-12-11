@@ -24,7 +24,7 @@ set +e
 set -e 
 
 if [[ "${RESULT}" -ne 0 ]] ; then
-   echo "  ${TESTCASE} ${INSTR} FAIL  Fail to assemble the input file"
+   echo "  ${TESTCASE} ${INSTR} Fail  Fail to assemble the input file"
    exit
 fi
 
@@ -43,7 +43,7 @@ RESULT=$?
 set -e
 
 if [[ "${RESULT}" -ne 0 ]] ; then
-   echo "  ${TESTCASE} ${INSTR} FAIL  Fail to compile the CPU"
+   echo "  ${TESTCASE} ${INSTR} Fail  Fail to compile the CPU"
    exit
 fi
 #>&2 echo "3 - Running test-bench"
