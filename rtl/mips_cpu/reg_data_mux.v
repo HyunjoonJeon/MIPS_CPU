@@ -1,4 +1,4 @@
-module mux3 (
+module reg_data_mux (
     input logic [31:0] aluout,
     input logic [31:0] data_readdata,
     input logic [31:0] lwlr_data,

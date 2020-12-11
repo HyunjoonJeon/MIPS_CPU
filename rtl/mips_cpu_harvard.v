@@ -120,7 +120,7 @@ module mips_cpu_harvard(
         .extended_data(extended_data)
     );
 
-    mux3 mux3_1(
+    reg_data_mux reg_data_mux_1(
         .aluout(aluout),
         .data_readdata(data_readdata),
         .signextend_data(extended_data),
