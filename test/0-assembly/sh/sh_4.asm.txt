@@ -1,3 +1,4 @@
+# alignment offset 0, checking for spillover into next word
 lui $9 0x4102
 addiu $9 $9 0x4304
 addiu $15 $0 0x0512

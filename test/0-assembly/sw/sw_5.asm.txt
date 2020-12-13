@@ -1,3 +1,4 @@
+# alignment offset 0
 lui $9 0x481c
 addiu $9 $9 0x7a89
 addiu $15 $0 0xfffc
