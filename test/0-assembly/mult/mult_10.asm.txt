@@ -1,7 +1,0 @@
-# Multiplying by 0(lo)
-lui $23 44700
-addiu $23 $23 8613
-addiu $24 $24 0
-mult $23 $24
-mflo $2
-jr $0
