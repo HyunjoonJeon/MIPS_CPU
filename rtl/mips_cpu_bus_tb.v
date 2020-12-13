@@ -1,9 +1,9 @@
 module mips_cpu_bus_tb();
     timeunit 1ns / 100ps; //time unit and precision
 
-    parameter INSTR_INIT_FILE = "test/1-binary/sll/sll_3.hex.txt";
+    parameter INSTR_INIT_FILE = "";
     parameter DATA_INIT_FILE = "";
-    parameter TIMEOUT_CYCLES = 500;
+    parameter TIMEOUT_CYCLES = 500000;
 
     logic clk;
     logic rst;
@@ -58,7 +58,7 @@ module mips_cpu_bus_tb();
         
     end
 
-    avl_slave_mem #(.INSTR_INIT_FILE(INSTR_INIT_FILE), .DATA_INIT_FILE(DATA_INIT_FILE), .BLOCK_SIZE(8192)) avlMem(
+    avl_slave_mem_2 #(.INSTR_INIT_FILE(INSTR_INIT_FILE), .DATA_INIT_FILE(DATA_INIT_FILE), .BLOCK_SIZE(8192)) avlMem(
         .clk(clk),
         .rst(rst),
         .address(address),
