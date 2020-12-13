@@ -2,7 +2,7 @@ lui $15 0x0011
 addiu $16 $15 0x2233
 addiu $5 $0 0x0604
 sw $16 0($5)
-lwl $2 2($5)
+lwl $2 1($5)
 jr $0
 sll $0 $0 0
 addiu $2 $0 0x0340
