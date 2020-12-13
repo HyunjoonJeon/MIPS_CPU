@@ -42,9 +42,10 @@ module ALU(
 		CONTROL_LUI = 5'b10100,
 		CONTROL_MTLO = 5'b10101,
 		CONTROL_MTHI = 5'b10110,
-		CONTROL_LWLR = 5'b10111,
+		CONTROL_WORD = 5'b10111,
 		CONTROL_MFLO = 5'b11000,
-		CONTROL_MFHI = 5'b11001
+		CONTROL_MFHI = 5'b11001,
+		CONTROL_HALF = 5'b11010
 	} control_t;
 
 	typedef enum logic[2:0] {
@@ -74,7 +75,8 @@ module ALU(
 	wire [31:0] quotient; // register LO
 	wire [31:0] remainder; // register HI
 	wire [31:0] immediate_zero_extend; // zero extend the immediate for logical operations
-	wire [31:0] lwlr_addr;
+	wire [31:0] word_addr;
+	wire [31:0] half_addr;
 
 	initial begin // initialise all values to zero
 		alu_result = 32'd0;
@@ -100,7 +102,8 @@ module ALU(
 	assign product_lo = (alu_control == CONTROL_MULT) ? signed_product[31:0] : unsigned_product[31:0];
 	assign quotient = (alu_control == CONTROL_DIV) ? $signed($signed(A) / $signed(B)) : $unsigned(A) / $unsigned(B);
 	assign remainder = (alu_control == CONTROL_DIV) ? $signed($signed(A) % $signed(B)) : $unsigned(A) % $unsigned(B);
-	assign lwlr_addr = {adder_result[31:2], 2'b00};
+	assign word_addr = {adder_result[31:2], 2'b00};
+	assign half_addr = {adder_result[31:1], 1'b0};
 	assign byte_offset = adder_result[1:0];
 
 	always_comb begin
@@ -156,14 +159,17 @@ module ALU(
 			CONTROL_LUI: begin
 				alu_result = B << 16;
 			end
-			CONTROL_LWLR: begin
-				alu_result = lwlr_addr;
+			CONTROL_WORD: begin
+				alu_result = word_addr;
 			end
 			CONTROL_MFLO: begin
 				alu_result = LO_input;
 			end
 			CONTROL_MFHI: begin
 				alu_result = HI_input;
+			end
+			CONTROL_HALF: begin
+				alu_result = half_addr;
 			end
 			default: begin // for BRANCH, MULT/MULTU, DIV/DIVU, MTLO, MTHI
 				alu_result = adder_result;

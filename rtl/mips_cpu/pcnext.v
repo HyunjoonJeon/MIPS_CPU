@@ -48,7 +48,7 @@ module pcnext (
                 pcnext = {pc[31:28], j_addr, 2'b00};
             end
             JR: begin
-                pcnext = reg_data_a;
+                pcnext = {reg_data_a[31:2], 2'b00};
             end
         endcase
     end
