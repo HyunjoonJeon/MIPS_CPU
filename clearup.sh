@@ -9,7 +9,6 @@ rm ./test/0-assembly/addu/addu_3.asm.txt
 rm ./test/0-assembly/addu/addu_4.asm.txt
 
 rm -r ./test/0-assembly/and*.txt
-mkdir -p ./test/0-assembly/and
 
 rm ./test/0-assembly/andi/andi_1.asm.txt
 rm ./test/0-assembly/andi/andi_2.asm.txt
