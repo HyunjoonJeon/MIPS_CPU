@@ -17,10 +17,12 @@ int main(){
     vector<instruction> instruction_set;
     map<string, int> labels;
     string tmp;
+    int error = -1;
 
 //Collecting the instructions from the .txt file
     string head;
     while(cin >> head){
+        error ++;
         if(mips_is_label_decl(head)){
             head.pop_back();
             assert(labels.find(head)==labels.end());
@@ -152,6 +154,7 @@ int main(){
             }
         }else{
             cerr<<"Couldn't parse '"<<head<<"'\n";
+            cerr<<"Check line " <<error << endl;
             exit(1);
         }
 }
