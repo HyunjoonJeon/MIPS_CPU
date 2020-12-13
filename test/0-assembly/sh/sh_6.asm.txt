@@ -1,0 +1,9 @@
+lui $9 0xa0a1
+addiu $9 $9 0xa2a3
+addiu $15 $0 0xfffe
+addiu $14 $0 0
+sh $9 0($15)
+lw $2 0($14)
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340

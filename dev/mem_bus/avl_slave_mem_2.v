@@ -43,7 +43,7 @@ module avl_slave_mem_2(
         for(i=0; i<BLOCK_SIZE; i++) begin     //change initial values back to 0 after testing
             data[i]=0;
             instr[i]=0;
-            block3[i]=i;
+            block3[i]=0;
         end
         for(i=0; i<(BLOCK_SIZE/4);i++) begin
             init_b1[i]=0;
