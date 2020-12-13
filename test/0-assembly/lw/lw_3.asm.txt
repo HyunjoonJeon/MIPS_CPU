@@ -1,0 +1,5 @@
+# edge case : load from 0($0)
+addiu $18 $0 0x1111
+sw $18 0($0)
+lw $2 0($0)
+jr $0

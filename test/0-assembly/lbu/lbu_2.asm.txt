@@ -1,5 +1,6 @@
+# zero extension; offset 97
 addiu $17 $0 0x1111
 addiu $18 $0 0xf7
-sb $18 100($17)
-lbu $2 100($17)
+sb $18 97($17)
+lbu $2 97($17)
 jr $0
