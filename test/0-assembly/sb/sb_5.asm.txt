@@ -1,0 +1,9 @@
+# store to last byte in memory
+lui $9 0x1122
+addiu $9 $9 0x3344
+addiu $15 $0 0xffff
+sb $9 0($15)
+lw $2 0($15)
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340
