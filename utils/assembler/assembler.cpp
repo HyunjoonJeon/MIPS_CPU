@@ -191,7 +191,7 @@ int main(){
                 uint32_t address=labels[instruction_set[i].s1]+ 66060288;
                 cout << to_hex8(opcode + address) << endl;
             }else if(mips_instruction_is_memory_using_offset(opname)){
-                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2) + stoi(instruction_set[i].s3)) << endl;
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2)).substr(0,4) + to_hex8(stoi(instruction_set[i].s3)).substr(4,4) << endl;
             }else if(mips_instruction_is_HiLo_mt(opname)){
                 cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1)) << endl;
             }else if(mips_instruction_is_HiLo_mf(opname)){
