@@ -1,0 +1,8 @@
+# edge case : jump to branch delay slot
+j Label1
+
+Label1:
+addiu $2 $2 0x1111
+jr $0
+addiu $0 $0 0
+

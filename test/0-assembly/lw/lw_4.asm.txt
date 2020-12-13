@@ -1,0 +1,6 @@
+# negative offset -8
+addiu $17 $0 0x0110
+addiu $18 $0 0x1111
+sw $18 -8($17)
+lw $2 -8($17)
+jr $0

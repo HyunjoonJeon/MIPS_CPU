@@ -1,0 +1,9 @@
+# edge case : branch to branch delay slot
+addiu $17 $0 100
+addiu $18 $0 100
+beq $17 $18 Label1
+
+Label1: 
+addiu $2 $2 0x1111
+jr $0
+sll $0 $0 0
