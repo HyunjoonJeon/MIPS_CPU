@@ -1,3 +1,3 @@
-# Check for sign extend when immediate is ffff
+# Check for sign extend (ffff)
 addiu $2 $2 0xffff
 jr $0
