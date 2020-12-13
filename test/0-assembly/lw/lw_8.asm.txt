@@ -1,0 +1,9 @@
+# offset with wraparound
+addiu $9 $0 0xf12a
+addiu $15 $0 0x0004
+addiu $14 $0 0xfffc
+sw $9 0($15)
+lw $2 10($14)
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340
