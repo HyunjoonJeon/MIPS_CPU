@@ -1,5 +1,5 @@
 # Double check for the sign extend (00ff)
 addiu $20 0xffff
-addi $20 $20 0x00ff
-andi $2 $20
+andi $20 $20 0x00ff
+addiu $2 $20 0
 jr $0
