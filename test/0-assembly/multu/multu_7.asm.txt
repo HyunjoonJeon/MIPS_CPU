@@ -1,0 +1,6 @@
+# Multiplying ffffffff with ffffffff(hi)
+addiu $23 $23 0xffff
+addiu $24 $24 0xffff
+multu $23 $24
+mfhi $2
+jr $0

@@ -1,0 +1,7 @@
+# Multiplying by 0(lo)
+lui $23 9297
+addiu $23 $23 -26763
+addiu $24 $24 0
+multu $23 $24
+mflo $2
+jr $0
