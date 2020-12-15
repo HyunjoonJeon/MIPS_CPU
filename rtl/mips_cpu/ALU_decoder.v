@@ -98,9 +98,9 @@ module ALU_decoder (
         CONTROL_HALF = 5'b11010
     } alu_control_t;
 
-    opcode_t instr_opcode;
-    func_t func_code;
-    branch_t branch_field;
+    logic[5:0] instr_opcode;    // opcode_t instr_opcode;
+    logic[5:0] func_code;   // func_t func_code;
+    logic[4:0] branch_field; // branch_t branch_field;
     
     initial begin
         alu_control = 5'd0;
