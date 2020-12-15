@@ -3,7 +3,7 @@ module mips_cpu_bus_tb();
 
     parameter INSTR_INIT_FILE = "";
     parameter DATA_INIT_FILE = "";
-    parameter TIMEOUT_CYCLES = 500000;
+    parameter TIMEOUT_CYCLES = 999999;
 
     logic clk;
     logic rst;

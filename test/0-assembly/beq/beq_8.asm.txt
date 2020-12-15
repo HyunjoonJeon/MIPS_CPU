@@ -1,0 +1,38 @@
+# triple nested loop (7140 iterations)
+addiu $13 $0 0x0022
+addiu $14 $0 0x0015
+addiu $15 $0 0x000a
+addiu $2 $0 0
+addiu $3 $0 0
+addiu $4 $0 0
+addiu $5 $0 0
+sll $0 $0 0
+sll $0 $0 0
+loop1:
+addiu $3 $3 1
+beq $3 $13 p1
+addiu $2 $2 1
+sll $0 $0 0
+j loop1
+sll $0 $0 0
+sll $0 $0 0
+p1:
+addiu $4 $4 1
+addiu $3 $0 0
+beq $4 $14 p2
+sll $0 $0 0
+j loop1
+sll $0 $0 0
+p2:
+addiu $5 $5 1
+beq $5 $15 exit
+addiu $4 $0 0
+sll $0 $0 0
+j loop1
+sll $0 $0 0
+sll $0 $0 0
+sll $0 $0 0
+exit:
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340

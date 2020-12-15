@@ -1,0 +1,28 @@
+# double nested loop (1850 iterations)
+addiu $14 $0 0x0025
+addiu $15 $0 0x0032
+addiu $2 $0 0
+addiu $4 $0 0
+addiu $5 $0 0
+sll $0 $0 0
+loop1:
+addiu $2 $2 1
+addiu $4 $4 1
+beq $4 $14 f1
+sll $0 $0 0
+j loop1
+sll $0 $0 0
+sll $0 $0 0
+f1:
+addiu $4 $0 0
+addiu $5 $5 1
+beq $5 $15 exit
+sll $0 $0 0
+j loop1
+sll $0 $0 0
+sll $0 $0 0
+sll $0 $0 0
+exit:
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340

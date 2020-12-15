@@ -1,4 +1,4 @@
-# simple iterative loop
+# simple iterative loop (593 iterations)
 addiu $9 $0 0x0251
 addiu $2 $0 0
 loop1:
