@@ -99,7 +99,6 @@ module mips_cpu_harvard(
         .clk_enable(clken),    //changed clk_enable to clken
         .reset(reset),
         .active(active),
-        .is_true(branch_is_true),
         .pc_sel(pc_sel),
         .data_write(data_write),
         .data_read(data_read),

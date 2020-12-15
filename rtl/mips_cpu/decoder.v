@@ -6,9 +6,6 @@ module decoder(
     input logic reset,
     input logic active,
 
-    // logic from ALU that says if condition for branch is true
-    input logic is_true,
-
     // PC
     output logic [1:0] pc_sel,
     
@@ -98,7 +95,7 @@ module decoder(
                 reg_addr_sel = 2'b11;
                 reg_data_sel = 2'b11;
                 // condition for link
-                reg_write_enable = (instr_readdata[20] == 1'b1 && is_true) ? 1'b1 : 1'b0;
+                reg_write_enable = (instr_readdata[20] == 1'b1) ? 1'b1 : 1'b0;
                 pc_sel = 2'b01;
                 data_read = 1'b0;
                 data_write = 1'b0;

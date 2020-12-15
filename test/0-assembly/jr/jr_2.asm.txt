@@ -1,4 +1,4 @@
-# jump to not aligned address
+# jump to unaligned address
 addiu $28 $0 0x0025
 lui $29 0xbfc0
 addu $27 $29 $28
