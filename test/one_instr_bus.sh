@@ -33,12 +33,23 @@ fi
 # -s specifies exactly which testbench should be top-level
 # The -P command is used to modify the RAM_INIT_FILE parameter on the test-bench at compile-time
 set +e
+
+if [ -d "${DIRECTORY}/mips_cpu/" ] 
+then 
 iverilog -g 2012 \
    ${DIRECTORY}/mips_cpu_*.v ${DIRECTORY}/mips_cpu/*.v test/5-testbench/mips_cpu*.v \
    -s mips_cpu_bus_tb \
    -P mips_cpu_bus_tb.INSTR_INIT_FILE=\"test/1-binary/${INSTR}/${TESTCASE}.hex.txt\" \
    -o test/2-simulator/mips_cpu_bus_tb_${TESTCASE} \
    2>/dev/null
+else
+iverilog -g 2012 \
+   ${DIRECTORY}/mips_cpu_*.v test/5-testbench/mips_cpu*.v \
+   -s mips_cpu_bus_tb \
+   -P mips_cpu_bus_tb.INSTR_INIT_FILE=\"test/1-binary/${INSTR}/${TESTCASE}.hex.txt\" \
+   -o test/2-simulator/mips_cpu_bus_tb_${TESTCASE} \
+   2>/dev/null
+fi
 RESULT=$?
 set -e
 
