@@ -1,0 +1,15 @@
+# simple iterative loop
+addiu $9 $0 0x0251
+addiu $2 $0 0
+loop1:
+addiu $2 $2 1
+beq $2 $9 exit
+sll $0 $0 0
+j loop1
+sll $0 $0 0
+sll $0 $0 0
+sll $0 $0 0
+exit:
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340
