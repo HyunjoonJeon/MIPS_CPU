@@ -1,9 +1,0 @@
-# load lower half of mem word, alignment offset 1 (with sign extension)
-lui $9 0xa1a2
-ori $9 $9 0xa3a4
-addiu $15 $0 0xfffc
-sw $9 0($15)
-lh $2 1($15)
-jr $0
-sll $0 $0 0
-addiu $2 $0 0x0340

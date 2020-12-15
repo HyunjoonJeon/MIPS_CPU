@@ -49,7 +49,7 @@ module decoder(
         OPCODE_SH = 6'b101001
     } opcode_t;
 
-    opcode_t instr_opcode;
+    logic[5:0] instr_opcode;    // opcode_t instr_opcode;
 
     assign instr_opcode = instr_readdata[31:26];
 
