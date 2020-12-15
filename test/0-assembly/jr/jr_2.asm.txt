@@ -5,8 +5,8 @@ addu $27 $29 $28
 addiu $15 $0 0x1111
 jr $27
 addiu $14 $0 0x1100
-addiu $2 0x1020
+addiu $2 $0 0x1020
 jr $0
 sll $0 $0 0
-addiu $2 0xf039
+addiu $2 $0 0xf039
 jr $0
