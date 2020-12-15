@@ -1,6 +1,5 @@
-# simple iterative loop 2 (65957 iterations)
-lui $9 0x001
-addiu $9 $9 0x01a5
+# simple iterative loop 2 (12287 iterations)
+addiu $9 $0 0x2fff
 addiu $2 $0 0
 loop1:
 addiu $2 $2 1
