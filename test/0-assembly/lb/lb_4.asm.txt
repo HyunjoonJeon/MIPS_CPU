@@ -1,0 +1,9 @@
+# load from mem word byte 0 (no sign extension)
+lui $9 0x5152
+ori $9 $9 0x5354
+addiu $15 $0 0xfffc
+sw $9 0($15)
+lb $2 0($15)
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340

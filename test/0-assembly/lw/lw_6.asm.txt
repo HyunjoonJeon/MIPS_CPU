@@ -1,0 +1,9 @@
+# alignment offset 2
+lui $9 0xa1a2
+addiu $9 $9 0x03a4
+addiu $15 $0 0xff14
+sw $9 0($15)
+lw $2 2($15)
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340
