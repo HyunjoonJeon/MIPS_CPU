@@ -32,15 +32,3 @@ MIPS_LDFLAGS = -nostdlib -Wl,-melf32btsmip -march=mips1 -nostartfiles -mno-check
 # Disassemble linked object file (.elf), pulling out instructions as MIPS assembly file (.s)
 %.mips.s : %.mips.elf
 	$(MIPS_OBJDUMP) -j .text -D $< > $@
-
-# Build simulator
-bin/mips_simulator: src/simulator.cpp
-	mkdir -p bin
-	$(CC) $(CPPFLAGS) src/simulator.cpp -o bin/mips_simulator
-
-# Dummy for build simulator to conform to spec
-simulator: bin/mips_simulator
-
-# Dummy for build testbench to conform to spec. Could do nothing
-testbench:
-	@echo "Nothing to do"

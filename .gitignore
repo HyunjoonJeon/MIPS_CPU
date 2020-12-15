@@ -1,6 +1,10 @@
 *.vcd
 *.stdout
 *.out-lines
+*.elf
+*.o
+*.s
+*.bin
 
 bin/*
 !bin/.gitkeep
