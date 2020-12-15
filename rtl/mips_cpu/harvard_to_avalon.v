@@ -164,7 +164,7 @@ module harvard_to_avalon(
     end
 
     //////// bus controller /////////////////////////////////////////////
-    avl_master_bc bus_con(
+    avl_master_bc_2 bus_con(
         clk,
         rst,
         avl_readdata,
