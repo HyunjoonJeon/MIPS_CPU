@@ -22,7 +22,6 @@ module pcnext (
     logic [31:0] pc_increment;
     logic [31:0] shifted_imm;
     assign pc_increment = pc + 4;
-    assign shifted_imm = extended_imm << 2;
     assign link_pc = pc + 4;
 
     typedef enum logic[1:0] {
@@ -42,7 +41,7 @@ module pcnext (
                 pcnext = pc_increment;
             end
             BRANCH: begin
-                pcnext = is_true ? pc + shifted_imm[17:0] : pc_increment;
+                pcnext = is_true ? $signed(pc) + $signed(extended_imm << 2) : pc_increment;
             end
             JUMP: begin
                 pcnext = {pc[31:28], j_addr, 2'b00};
