@@ -1,5 +1,4 @@
 # simple iterative loop 2
-lui $9 0x00f1
 addiu $9 $9 0x025c
 addiu $2 $0 0
 loop1:
