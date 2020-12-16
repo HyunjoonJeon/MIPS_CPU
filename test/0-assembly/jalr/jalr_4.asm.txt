@@ -1,0 +1,11 @@
+# test return address
+lui $8 0xbfc0
+addiu $12 $8 0x0018
+jalr $31 $12
+addiu $0 $0 0
+addiu $2 $0 0x1239
+jr $0 
+addu $2 $31 $0
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x334f

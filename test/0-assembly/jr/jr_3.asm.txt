@@ -1,0 +1,8 @@
+# jumping to branch slot 
+addiu $5 $0 0x0010
+lui $3 0xbfc0
+addu $3 $3 $5
+jr $3
+addiu $2 $2 0x0004
+addiu $3 $0 0x0003
+jr $0

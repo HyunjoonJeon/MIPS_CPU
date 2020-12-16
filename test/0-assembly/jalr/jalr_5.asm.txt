@@ -1,0 +1,14 @@
+# loop using $ra
+lui $8 0xbfc0
+addiu $12 $8 0x001c
+jalr $31 $12
+addiu $0 $0 10
+addiu $2 $2 10
+addiu $2 $2 10
+jr $0
+addiu $2 $2 10
+jr $31
+addiu $0 $0 0
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x334f
