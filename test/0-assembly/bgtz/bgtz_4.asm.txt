@@ -1,0 +1,10 @@
+# test backwards branch (negative branch offset)
+addiu $1 $0 1
+p1:
+addiu $2 $2 7
+bgtz $1 p1
+subu $1 $1 $1
+sll $0 $0 0
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340
