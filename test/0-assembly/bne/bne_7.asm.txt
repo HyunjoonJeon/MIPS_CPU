@@ -1,9 +1,7 @@
-# double nested loop (1850 iterations)
+# triple nested loop (9250 iterations)
 addiu $17 $0 0x0032
 addiu $18 $0 0x0025
-addiu $7 $0 0
-addiu $8 $0 0
-addiu $2 $0 0
+addiu $19 $0 0x0005
 loop1:
 addiu $7 $7 1
 bne $7 $17 loop1
@@ -11,6 +9,10 @@ addiu $2 $2 1
 addiu $8 $8 1
 bne $8 $18 loop1
 addiu $7 $0 0
+addiu $9 $9 1
+bne $9 $19 loop1
+addiu $8 $0 0
+sll $0 $0 0
 jr $0
 sll $0 $0 0
 addiu $2 $0 0x0340

@@ -6,7 +6,7 @@ sll $0 $0 0
 loop1:
 addiu $2 $2 1
 addiu $8 $8 1
-bne $8 $19 loop1
+bne $8 $18 loop1
 sll $0 $0 0
 jr $0
 sll $0 $0 0

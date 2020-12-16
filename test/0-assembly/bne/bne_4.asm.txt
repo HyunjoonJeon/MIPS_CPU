@@ -7,7 +7,7 @@ sll $0 $0 0
 p1:
 addiu $2 $2 1
 addiu $12 $12 1
-bne $12 $19 p1
+bne $12 $18 p1
 sll $0 $0 0
 sll $0 $0 0
 addiu $21 $0 0
