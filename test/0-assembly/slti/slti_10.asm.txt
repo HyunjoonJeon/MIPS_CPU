@@ -1,0 +1,4 @@
+#Comparing two identical positive numbers
+addiu $13 $13 0x0001
+slti $2 $13 0x0001
+jr $0

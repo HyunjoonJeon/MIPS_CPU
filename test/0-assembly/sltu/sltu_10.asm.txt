@@ -1,0 +1,5 @@
+#Comparing two identical positive numbers
+lui $13 0x7143
+addiu $13 $13 0x4abc
+sltu $2 $13 $13
+jr $0

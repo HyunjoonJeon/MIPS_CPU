@@ -1,0 +1,4 @@
+#Comparing two identical negative numbers
+addiu $13 $13 0xffff
+sltiu $2 $13 0xffff
+jr $0
