@@ -6,7 +6,12 @@ set -eou pipefail
 DIRECTORY="$1"
 INSTR="$2"
 TESTCASE="$3"
-ISBIN="$4"
+
+if [[ $# -eq 3 ]]; then 
+   ISBIN=false
+else
+   ISBIN="$4"
+fi
 
 if [[ ! -d test/1-binary/${INSTR} ]] ; then
    mkdir test/1-binary/${INSTR}
