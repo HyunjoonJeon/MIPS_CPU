@@ -1,0 +1,22 @@
+# test backwards branch 2 (negative branch offset)
+addiu $12 $0 0x0015
+p1:
+beq $2 $12 exit
+addiu $2 $2 1
+sll $0 $0 0
+sll $0 $0 0
+sll $0 $0 0
+beq $0 $0 p1
+sll $0 $0 0
+sll $0 $0 0
+sll $0 $0 0
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0215
+sll $0 $0 0
+sll $0 $0 0
+sll $0 $0 0
+exit:
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340
