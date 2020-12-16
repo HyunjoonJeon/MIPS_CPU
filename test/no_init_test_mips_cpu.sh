@@ -8,23 +8,43 @@ TYPE="$2"
 if [ 3 -eq "$#" ];then
     #run all test cases for $2 particular instr
     INSTR="$3"
+
     TESTCASES="test/0-assembly/${INSTR}/${INSTR}*.asm.txt"
-    for i in ${TESTCASES} ; do
+    CCASES="test/0-assembly/${INSTR}/${INSTR}*.mips.bin"
+
+    for i in ${TESTCASES}; do
     # Extract just the testcase name from the filename. See `man basename` for what this command does.
     TESTNAME=$(basename ${i} .asm.txt)
-    #echo "$2 ${TESTNAME} "
     # Dispatch to the main test-case script
     SUB=$((${#TESTNAME}-${#INSTR}))
     if [ 1 -eq ${SUB} ];then
-    echo "Testcase not exist for ${INSTR} ${TESTNAME}"
+        for c in ${CCASES}; do
+            TESTNAME=$(basename ${c} .mips.bin)
+            # Dispatch to the main test-case script
+            SUB=$((${#TESTNAME}-${#INSTR}))
+            if [ 1 -eq ${SUB} ];then
+                echo "Testcase doesn't exist for ${INSTR} ${TESTNAME}"
+            else
+                ISBIN=true
+                if [ ${TYPE} == 'harvard' ];then
+                #echo "harvard !"
+                    ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
+                fi
+                if [ ${TYPE} == 'bus' ];then
+                #echo "bus"
+                    ./test/one_instr_bus.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
+                fi
+            fi
+        done
     else
+        ISBIN=false
         if [ ${TYPE} == 'harvard' ];then
         #echo "harvard !"
-        ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
+        ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
         fi
         if [ ${TYPE} == 'bus' ];then
         #echo "bus"
-        ./test/one_instr_bus.sh ${ADR} ${INSTR} ${TESTNAME}
+        ./test/one_instr_bus.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
         fi
     fi
     done

@@ -12,6 +12,12 @@ else
 #>&2 echo "......Done"
 fi
 
+if [[ $# -eq 0 ]]; then 
+    echo "Missing argument: path to CPU folder"
+    echo "Example usage: ./test/test_mips_bus.sh rtl"
+    exit
+fi
+
 ADDRESS="$1"
 
 #>&2 echo "Test CPU In Folder: $1"

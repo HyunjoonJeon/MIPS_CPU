@@ -1,7 +1,0 @@
-# Multiplying by 0(hi)
-lui $18 45442
-addiu $18 $18 -29013
-addiu $12 $12 0
-mult $18 $12
-mfhi $2
-jr $0

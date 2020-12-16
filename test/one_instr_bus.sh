@@ -6,26 +6,34 @@ set -eou pipefail
 DIRECTORY="$1"
 INSTR="$2"
 TESTCASE="$3"
-set +e
-COMMENT=$(grep '#' test/0-assembly/${INSTR}/${TESTCASE}.asm.txt)
-set -e
-#TESTCASE_TYPE ="test/0-assembly/${INSTR}/*.asm.txt"
-
-#>&2 echo "Test CPU in directory ${DIRECTORY} of instruction ${INSTR}"
+ISBIN="$4"
 
 if [[ ! -d test/1-binary/${INSTR} ]] ; then
    mkdir test/1-binary/${INSTR}
 fi
 
-#>&2 echo "1 - Assembling input file"
 set +e
- bin/assembler <test/0-assembly/${INSTR}/${TESTCASE}.asm.txt >test/1-binary/${INSTR}/${TESTCASE}.hex.txt
- RESULT=$?
-set -e 
+if [[ ${ISBIN} == false ]]; then 
+   COMMENT=$(grep '#' test/0-assembly/${INSTR}/${TESTCASE}.asm.txt)
+else 
+   COMMENT=$(grep '//' test/0-assembly/${INSTR}/${TESTCASE}.mips.bin)
+fi
+set -e
+#TESTCASE_TYPE ="test/0-assembly/${INSTR}/*.asm.txt"
 
-if [[ "${RESULT}" -ne 0 ]] ; then
-   echo "  ${TESTCASE} ${INSTR} Fail  Fail to assemble the input file"
-   exit
+#>&2 echo "Test CPU in directory ${DIRECTORY} of instruction ${INSTR}"
+
+#>&2 echo "1 - Assembling input file"
+if [[ ${ISBIN} == false ]]; then
+   set +e
+      bin/assembler <test/0-assembly/${INSTR}/${TESTCASE}.asm.txt >test/1-binary/${INSTR}/${TESTCASE}.hex.txt
+      RESULT=$?
+   set -e 
+
+   if [[ "${RESULT}" -ne 0 ]] ; then
+      echo "  ${TESTCASE} ${INSTR} Fail  Fail to assemble the input file"
+      exit
+   fi
 fi
 
 #>&2 echo "2 - Compiling test-bench"
@@ -34,8 +42,7 @@ fi
 # The -P command is used to modify the RAM_INIT_FILE parameter on the test-bench at compile-time
 set +e
 
-if [ -d "${DIRECTORY}/mips_cpu/" ] 
-then 
+if [ -d "${DIRECTORY}/mips_cpu/" ]; then 
 iverilog -g 2012 \
    ${DIRECTORY}/mips_cpu_*.v ${DIRECTORY}/mips_cpu/*.v test/5-testbench/mips_cpu*.v \
    -s mips_cpu_bus_tb \
