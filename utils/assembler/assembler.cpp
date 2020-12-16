@@ -184,11 +184,11 @@ int main(){
             }else if(mips_instruction_is_branch_comparison(opname)){
                 assert(labels.find(instruction_set[i].s3)!=labels.end());
                 uint32_t address=labels[instruction_set[i].s3]-i-1;
-                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2) + address) << endl;
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + mips_regname_to_regcode(instruction_set[i].s2, 2)).substr(0,4) + to_hex8(address).substr(4,4) << endl;
             }else if(mips_instruction_is_branch(opname)){
                 assert(labels.find(instruction_set[i].s2)!=labels.end());
                 uint32_t address=labels[instruction_set[i].s2]-i-1;
-                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1) + address) << endl;
+                cout << to_hex8(opcode + mips_regname_to_regcode(instruction_set[i].s1, 1)).substr(0,4) + to_hex8(address).substr(4,4) << endl;
             }else if(mips_instruction_is_jump(opname)){
                 assert(labels.find(instruction_set[i].s1)!=labels.end());
                 uint32_t address=labels[instruction_set[i].s1]+ 66060288;
