@@ -1,0 +1,4 @@
+#Comparing two positive numbers
+addiu $13 $13 0x748a
+sltiu $2 $13 0x749a
+jr $0

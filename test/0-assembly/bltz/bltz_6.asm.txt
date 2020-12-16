@@ -1,0 +1,13 @@
+# double nested loop (1850 iterations)
+addiu $8 $0 -50
+addiu $9 $0 -37
+loop1:
+addiu $8 $8 1
+bltz $8 loop1
+addiu $2 $2 1
+addiu $9 $9 1
+bltz $9 loop1
+addiu $8 $0 -50
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340

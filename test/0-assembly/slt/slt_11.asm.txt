@@ -1,0 +1,7 @@
+#Comparing two positive numbers
+lui $13 0x0683
+addiu $13 $13 0x74a3
+lui $14 0x0683
+addiu $14 $14 0x74a2
+slt $2 $13 $14
+jr $0
