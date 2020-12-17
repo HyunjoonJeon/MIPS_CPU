@@ -1,0 +1,13 @@
+# unaligned rs with offset
+addiu $16 $16 0x1100
+addiu $17 $17 0x0102
+addiu $18 $18 0x0304
+addiu $21 $16 1
+sll $17 $17 16
+addu $19 $17 $18
+addu $2 $17 $18
+sw $19 0($16)
+lwl $2 1($21)
+jr $0
+addiu $0 $0 0
+addiu $2 $0 384
