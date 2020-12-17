@@ -1,0 +1,9 @@
+addiu $11 $0 0xf541
+addiu $21 $0 0x0008
+sw $11 0($21)
+addiu $5 $0 0x7c85
+lw $6 0($21)
+addiu $2 $6 0x00a2
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340

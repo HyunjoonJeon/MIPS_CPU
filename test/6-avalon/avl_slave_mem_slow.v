@@ -1,4 +1,4 @@
-module avl_slave_mem_2(
+module avl_slave_mem_slow(
     input logic clk,
     input logic rst,
     input logic[31:0] address,
@@ -18,12 +18,17 @@ module avl_slave_mem_2(
     parameter INSTR_INIT_FILE = "";
     parameter DATA_INIT_FILE = "";
     parameter BLOCK_SIZE = 8192;
+    
+    parameter DELAY = 100;
 
     logic[1:0] state;
 
     logic[7:0] data[BLOCK_SIZE-1:0];
     logic[7:0] instr[BLOCK_SIZE-1:0];
     logic[7:0] block3[BLOCK_SIZE-1:0];
+
+    logic[31:0] counter;
+    logic[31:0] next_counter;
 
     parameter b3_start = 32'hffffffff-(BLOCK_SIZE-1);
 
@@ -39,6 +44,8 @@ module avl_slave_mem_2(
     assign b2_address = address+2;
     assign b3_address = address+3;
     assign offset = address[1:0];
+
+    assign next_counter=counter+1;
 
     initial begin
         integer i;
@@ -72,6 +79,7 @@ module avl_slave_mem_2(
         readdata=0;
         waitrequest=0;
         state=IDLE;
+        counter=0;
     end
 
     always @* begin     //avalon address alignment and read/write checks
@@ -105,41 +113,47 @@ module avl_slave_mem_2(
                 end
                 BUSY: begin
                     //perform mem op here
-                    if(read==1 && write==0) begin   //read
-                        readdata[7:0] <= !byteenable[0] ? 8'h00 : (b0_address<32'hbfc00000) ? data[b0_address] : (b0_address<b3_start) ? instr[b0_address-32'hbfc00000] : block3[b0_address-b3_start];
-                        readdata[15:8] <= !byteenable[1] ? 8'h00 : (b1_address<32'hbfc00000) ? data[b1_address] : (b1_address<b3_start) ? instr[b1_address-32'hbfc00000] : block3[b1_address-b3_start];
-                        readdata[23:16] <= !byteenable[2] ? 8'h00 : (b2_address<32'hbfc00000) ? data[b2_address] : (b2_address<b3_start) ? instr[b2_address-32'hbfc00000] : block3[b2_address-b3_start];
-                        readdata[31:24] <= !byteenable[3] ? 8'h00 : (b3_address<32'hbfc00000) ? data[b3_address] : (b3_address<b3_start) ? instr[b3_address-32'hbfc00000] : block3[b3_address-b3_start];                        
+                    if(counter<DELAY) begin
+                        counter<=next_counter;
                     end
-                    else if(read==0 && write==1) begin  //write
-                        if(byteenable[0]) begin
-                            if(b0_address<32'hbfc00000) data[b0_address] <= writedata[7:0];
-                            else if(b0_address<b3_start) instr[b0_address-32'hbfc00000] <= writedata[7:0];
-                            else block3[b0_address-b3_start] <= writedata[7:0];
+                    else begin
+                        if(read==1 && write==0) begin   //read
+                            readdata[7:0] <= !byteenable[0] ? 8'h00 : (b0_address<32'hbfc00000) ? data[b0_address] : (b0_address<b3_start) ? instr[b0_address-32'hbfc00000] : block3[b0_address-b3_start];
+                            readdata[15:8] <= !byteenable[1] ? 8'h00 : (b1_address<32'hbfc00000) ? data[b1_address] : (b1_address<b3_start) ? instr[b1_address-32'hbfc00000] : block3[b1_address-b3_start];
+                            readdata[23:16] <= !byteenable[2] ? 8'h00 : (b2_address<32'hbfc00000) ? data[b2_address] : (b2_address<b3_start) ? instr[b2_address-32'hbfc00000] : block3[b2_address-b3_start];
+                            readdata[31:24] <= !byteenable[3] ? 8'h00 : (b3_address<32'hbfc00000) ? data[b3_address] : (b3_address<b3_start) ? instr[b3_address-32'hbfc00000] : block3[b3_address-b3_start];                        
                         end
+                        else if(read==0 && write==1) begin  //write
+                            if(byteenable[0]) begin
+                                if(b0_address<32'hbfc00000) data[b0_address] <= writedata[7:0];
+                                else if(b0_address<b3_start) instr[b0_address-32'hbfc00000] <= writedata[7:0];
+                                else block3[b0_address-b3_start] <= writedata[7:0];
+                            end
 
-                        if(byteenable[1]) begin
-                            if(b1_address<32'hbfc00000) data[b1_address] <= writedata[15:8];
-                            else if(b1_address<b3_start) instr[b1_address-32'hbfc00000] <= writedata[15:8];
-                            else block3[b1_address-b3_start] <= writedata[15:8];
-                        end
+                            if(byteenable[1]) begin
+                                if(b1_address<32'hbfc00000) data[b1_address] <= writedata[15:8];
+                                else if(b1_address<b3_start) instr[b1_address-32'hbfc00000] <= writedata[15:8];
+                                else block3[b1_address-b3_start] <= writedata[15:8];
+                            end
 
-                        if(byteenable[2]) begin
-                            if(b2_address<32'hbfc00000) data[b2_address] <= writedata[23:16];
-                            else if(b2_address<b3_start) instr[b2_address-32'hbfc00000] <= writedata[23:16];
-                            else block3[b2_address-b3_start] <= writedata[23:16];
-                        end
+                            if(byteenable[2]) begin
+                                if(b2_address<32'hbfc00000) data[b2_address] <= writedata[23:16];
+                                else if(b2_address<b3_start) instr[b2_address-32'hbfc00000] <= writedata[23:16];
+                                else block3[b2_address-b3_start] <= writedata[23:16];
+                            end
 
-                        if(byteenable[3]) begin
-                            if(b3_address<32'hbfc00000) data[b3_address] <= writedata[31:24];
-                            else if(b3_address<b3_start) instr[b3_address-32'hbfc00000] <= writedata[31:24];
-                            else block3[b3_address-b3_start] <= writedata[31:24];
+                            if(byteenable[3]) begin
+                                if(b3_address<32'hbfc00000) data[b3_address] <= writedata[31:24];
+                                else if(b3_address<b3_start) instr[b3_address-32'hbfc00000] <= writedata[31:24];
+                                else block3[b3_address-b3_start] <= writedata[31:24];
+                            end
                         end
+                        //end mem op
+                        state<=CHILL;
                     end
-                    //end mem op
-                    state<=CHILL;
                 end
                 CHILL: begin
+                    counter<=0;
                     state<=IDLE;
                 end
             endcase

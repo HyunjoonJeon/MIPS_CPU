@@ -1,0 +1,7 @@
+WARNING: test/6-avalon/avl_slave_mem_2.v:55: $readmemh: The behaviour for reg[...] mem[N:0]; $readmemh("...", mem); changed in the 1364-2005 standard. To avoid ambiguity, use mem[0:N] or explicit range parameters $readmemh("...", mem, start, stop);. Defaulting to 1364-2005 behavior.
+WARNING: test/6-avalon/avl_slave_mem_2.v:55: $readmemh(test/6-avalon/avalon_test_program.hex.txt): Not enough words in the file for the requested range [0:2047].
+VCD info: dumpfile test/6-avalon/logs/avalon_basic_tb.vcd opened for output.
+
+TB : finished; active=0
+register_v0:fffff5e3
+cycles;         46

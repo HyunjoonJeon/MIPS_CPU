@@ -76,7 +76,7 @@ module avl_slave_mem_2(
 
     always @* begin     //avalon address alignment and read/write checks
         if(read & write) $fatal(2,"Avalon Read and Write asserted simultaneously! Transaction address:%h",address);
-        if(offset!=0 && (read^write)) $fatal(3,"Attempted to access non word-aligned memory address:%h",address);
+        if(offset!=0 && (read^write)) $fatal(2,"Attempted to access non word-aligned memory address:%h",address);
     end
 
     always_comb begin

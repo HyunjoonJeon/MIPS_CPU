@@ -50,7 +50,7 @@ module mips_cpu_harvard(
         clken = act & clk_enable | reset;   //& !(instr_readdata==32'h00000008); //!(instr_address==0);
         active = act | reset;
         instr_address = curr_pc;
-        instr_read=1;
+        instr_read = act;
         data_writedata = reg_data_b;
         data_address = aluout;
 
