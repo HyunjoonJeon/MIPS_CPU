@@ -1,3 +1,4 @@
+# shifting 1 bit
 lui $14 0x5423
 addiu $15 $14 0xf0
 sll $2 $15 1

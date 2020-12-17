@@ -1,3 +1,4 @@
+# shifting 31 bits
 lui $14 0x98ef
 addiu $15 $14 0x2d8f
 sll $2 $15 31
