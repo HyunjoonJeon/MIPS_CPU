@@ -1,4 +1,4 @@
-# lwr with offset 6
+# offset = 6
 lui $17 0xffee
 ori $17 $17 0xddcc
 lui $18 0x0a0b

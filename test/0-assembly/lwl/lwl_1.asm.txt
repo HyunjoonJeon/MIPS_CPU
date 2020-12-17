@@ -1,3 +1,4 @@
+# offset = 2
 addiu $16 $16 0x1100
 addiu $17 $17 0x0102
 addiu $18 $18 0x0304
