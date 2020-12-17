@@ -1,0 +1,6 @@
+#Multiplying 80000000 with ffffffff (hi)
+lui $23 0x8000
+addiu $24 $24 0xffff
+mult $23 $24
+mfhi $2
+jr $0
