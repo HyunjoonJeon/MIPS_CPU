@@ -32,11 +32,13 @@ module avl_slave_mem_2(
     logic[31:0] init_b2 [(BLOCK_SIZE/4)-1:0];
 
     logic[31:0] b0_address, b1_address, b2_address, b3_address;
+    logic[1:0] offset;
 
     assign b0_address = address;
     assign b1_address = address+1;
     assign b2_address = address+2;
     assign b3_address = address+3;
+    assign offset = address[1:0];
 
     initial begin
         integer i;
@@ -70,6 +72,11 @@ module avl_slave_mem_2(
         readdata=0;
         waitrequest=0;
         state=IDLE;
+    end
+
+    always @* begin     //avalon address alignment and read/write checks
+        if(read & write) $fatal(2,"Avalon Read and Write asserted simultaneously! Transaction address:%h",address);
+        if(offset!=0 && (read^write)) $fatal(3,"Attempted to access non word-aligned memory address:%h",address);
     end
 
     always_comb begin
