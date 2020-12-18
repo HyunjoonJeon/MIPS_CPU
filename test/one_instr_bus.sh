@@ -112,13 +112,15 @@ fi
 
 #>&2 echo "6 - Comparing output"
 set +e
-diff -w test/4-reference/${INSTR}/${TESTCASE}.out test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.out
+COMPARE=$(diff -w test/4-reference/${INSTR}/${TESTCASE}.out test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.out)
 RESULT=$?
 set -e
 
 # Based on whether differences were found, either pass or fail
 if [[ "${RESULT}" -ne 0 ]] ; then
-   echo "${TESTCASE} ${INSTR} Fail Output of CPU & Ref does not match" ${COMMENT}
+   EXPECTED=$(echo $COMPARE | grep "<" | awk -F "< " '{print $2}' | cut -d " " -f 1)
+   REG_V0=$(echo $COMPARE | grep ">" | awk -F "> " '{print $2}')
+   echo "${TESTCASE} ${INSTR} Fail Output of CPU & Ref does not match | register_v0:" ${REG_V0} " Expected:" ${EXPECTED} " " ${COMMENT}
 else
    echo "${TESTCASE} ${INSTR} Pass" ${COMMENT}
 fi
