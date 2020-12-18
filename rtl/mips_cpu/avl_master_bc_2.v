@@ -87,7 +87,7 @@ module avl_master_bc_2(
             avl_writedata=proc_writedata;
             proc_readdata=tmp_rdata;
             avl_read=read_select & !rst;
-            avl_write=write_select & !rst;
+            avl_write=write_select & !rst;  
             avl_byteenable=proc_ben;
             busy=0;
         end
