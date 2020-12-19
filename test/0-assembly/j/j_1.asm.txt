@@ -1,9 +1,10 @@
+# jumping forward
 addiu $12 $12 10
 j label
 addiu $12 $12 10
 addiu $12 $12 10
 jr $0
-sll $0 $0 0
+sll $0 $0 0ing
 
 label:
 addiu $12 $12 10
