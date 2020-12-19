@@ -1,9 +1,8 @@
-# load from mem word byte 3 (with sign extension)
-lui $9 0xa1a2
-ori $9 $9 0xa3a4
-addiu $15 $0 0xfffc
-sw $9 0($15)
-lb $2 3($15)
+# load from mem word byte 3, offset 0 (with sign extension)
+lui $22 0x8a22
+sw $22 0($0)
+addiu $15 $0 0x0003
+lb $2 0($15)
 jr $0
 sll $0 $0 0
 addiu $2 $0 0x0340
