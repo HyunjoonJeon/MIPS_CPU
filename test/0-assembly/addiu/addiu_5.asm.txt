@@ -1,3 +1,0 @@
-# Check for sign extend (ffff)
-addiu $2 $2 0xffff
-jr $0
