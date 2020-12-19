@@ -25,8 +25,8 @@ if [ 2 -eq "$#" ];then
     if [ -d test/0-assembly/$2 ]; then
     echo $2 | bin/tc
     else
-    mkdir -p /test/0-assembly/$2
-    echo $2 | bin/tc
+    echo "No such instruction in MIPS I"
+    exit
     fi
     ./test/no_init_test_mips_cpu.sh $1 "bus" $2
 else
