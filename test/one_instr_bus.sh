@@ -21,7 +21,7 @@ set +e
 if [[ ${ISBIN} == false ]]; then 
    COMMENT=$(grep '#' test/0-assembly/${INSTR}/${TESTCASE}.asm.txt)
 else 
-   COMMENT=$(grep '//' test/0-assembly/${INSTR}/${TESTCASE}.mips.bin)
+   COMMENT=$(grep '#' test/0-assembly/${INSTR}/${TESTCASE}.hex.txt)
 fi
 set -e
 #TESTCASE_TYPE ="test/0-assembly/${INSTR}/*.asm.txt"
@@ -105,12 +105,13 @@ set -e
 sed -e "s/${PATTERN}/${NOTHING}/g" test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.out-lines > test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.out
 
 #>&2 echo "5 - Running reference simulator"
-# not complete, do not know how to come up with reference outputs
 if [ ${INSTR} != 'lui' ] && [ ${INSTR} != 'addiu' ] && [ ${INSTR} != 'andi' ] && [ ${INSTR} != 'ori' ] && [ ${INSTR} != 'or' ] && [ ${INSTR} != 'and' ] && [ ${INSTR} != 'xori' ] && [ ${INSTR} != 'xor' ] && [ ${INSTR} != 'addu' ] && [ ${INSTR} != 'subu' ] && [ ${INSTR} != 'div' ] && [ ${INSTR} != 'divu' ] && [ ${INSTR} != 'mult' ];
 then
     :
 else
-    bin/ref <test/1-binary/${INSTR}/${TESTCASE}.hex.txt >test/4-reference/${INSTR}/${TESTCASE}.out
+    if [ ${TESTCASE} != 'mult_factorial' ];then
+      bin/ref <test/1-binary/${INSTR}/${TESTCASE}.hex.txt >test/4-reference/${INSTR}/${TESTCASE}.out
+   fi
 fi
 
 #>&2 echo "6 - Comparing output"
