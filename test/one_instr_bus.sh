@@ -79,14 +79,17 @@ if [[ ! -d test/3-output/${INSTR} ]] ; then
    mkdir test/3-output/${INSTR}
 fi
 
-test/2-simulator/mips_cpu_bus_tb_${TESTCASE} > test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.stdout
+# test/2-simulator/mips_cpu_bus_tb_${TESTCASE} > test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.stdout
+SIM_OUTPUT=$(test/2-simulator/mips_cpu_bus_tb_${TESTCASE})
 # Capture the exit code of the simulator in a variable
 RESULT=$?
+echo "${SIM_OUTPUT}" > test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.stdout
 set -e
 
 # Check whether the simulator returned a failure code, and immediately quit
 if [[ "${RESULT}" -ne 0 ]] ; then
-   echo "${TESTCASE} ${INSTR} Fail Simulator returned an error code"
+   SIM_ERROR=$(echo "${SIM_OUTPUT}" | grep "FATAL" | awk -F ": " '{print $3}')
+   echo "${TESTCASE} ${INSTR} Fail Simulator returned an error code | ${SIM_ERROR}"
    exit
 fi
 
@@ -112,13 +115,15 @@ fi
 
 #>&2 echo "6 - Comparing output"
 set +e
-diff -w test/4-reference/${INSTR}/${TESTCASE}.out test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.out
+COMPARE=$(diff -w test/4-reference/${INSTR}/${TESTCASE}.out test/3-output/${INSTR}/mips_cpu_bus_tb_${TESTCASE}.out)
 RESULT=$?
 set -e
 
 # Based on whether differences were found, either pass or fail
 if [[ "${RESULT}" -ne 0 ]] ; then
-   echo "${TESTCASE} ${INSTR} Fail Output of CPU & Ref does not match" ${COMMENT}
+   EXPECTED=$(echo $COMPARE | grep "<" | awk -F "< " '{print $2}' | cut -d " " -f 1)
+   REG_V0=$(echo $COMPARE | grep ">" | awk -F "> " '{print $2}')
+   echo "${TESTCASE} ${INSTR} Fail Output of CPU & Ref does not match | register_v0:" ${REG_V0} " Expected:" ${EXPECTED} " " ${COMMENT}
 else
    echo "${TESTCASE} ${INSTR} Pass" ${COMMENT}
 fi

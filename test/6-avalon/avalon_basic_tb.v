@@ -30,7 +30,8 @@ module avalon_basic_tb();
             clk = !clk;
             counter++;
         end
-        $fatal(2, "Simulation did not finish within %d cycles.", TIMEOUT_CYCLES);    end
+        $fatal(2, "Simulation did not finish within %d cycles.", TIMEOUT_CYCLES);    
+    end
 
     initial begin
         $dumpfile("test/6-avalon/logs/avalon_basic_tb.vcd");

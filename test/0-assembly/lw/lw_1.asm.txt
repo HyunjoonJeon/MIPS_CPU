@@ -1,5 +1,5 @@
 addiu $17 $0 0xff00
-addiu $5 $0 0x0045
+addiu $5 $0 0x0044
 sw $17 0($5)
 lw $2 0($5)
 jr $0
