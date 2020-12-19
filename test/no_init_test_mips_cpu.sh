@@ -50,6 +50,7 @@ if [ 3 -eq "$#" ];then
     done
 
 else
+    ISBIN=false
     #first run the 5 basic test cases that needed to be tested
     ./test/no_init_test_mips_cpu.sh ${ADR} ${TYPE} "lui"
     ./test/no_init_test_mips_cpu.sh ${ADR} ${TYPE} "addiu" 
@@ -69,11 +70,11 @@ else
     then
         if [ ${TYPE} == 'harvard' ];then
         #echo "harvard !"
-        ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
+        ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
         fi
         if [ ${TYPE} == 'bus' ];then
         #echo "bus"
-        ./test/one_instr_bus.sh ${ADR} ${INSTR} ${TESTNAME}
+        ./test/one_instr_bus.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
         fi
     fi
     done
