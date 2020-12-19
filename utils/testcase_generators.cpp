@@ -79,14 +79,16 @@ int main()
     if (instr == "addiu")
     {   //
         //the immediate here should be signed
+        string first = hex_random_generator(3);
+        string second = hex_random_generator(3);
         outfile.open(position + instr + "/" + instr + "_1.asm.txt",ios::trunc);
-        outfile << "# Check for sign extend (ffff)" << endl;
-        outfile << "addiu $2 $2 0xf" << hex_random_generator(3) << endl;
+        outfile << "# Check for sign extend (f" << first << ")" << endl;
+        outfile << "addiu $2 $2 0xf" << first << endl;
         outfile << "jr $0" << endl;
         outfile.close();
         outfile.open(position + instr + "/" + instr + "_2.asm.txt",ios::trunc);
-        outfile << "# Check for sign extend (0001)" << endl;
-        outfile << "addiu $2 $2 0x0" <<hex_random_generator(3) << endl;
+        outfile << "# Check for sign extend (0"<< second << ")" << endl;
+        outfile << "addiu $2 $2 0x0" << second << endl;
         outfile << "jr $0" << endl;
         outfile.close();
         
