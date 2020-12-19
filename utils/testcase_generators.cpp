@@ -66,14 +66,16 @@ int main()
     if (instr == "lui") //this instruction should be tested first
     // the immediate should not be signed  so only positive value allowed
     {
-        outfile.open(position + instr + "/"+ instr + "_1.asm.txt",ios::trunc);
+        for(int i = 1;i <= 3;i++){
+        outfile.open(position + instr + "/"+ instr + "_" + to_string(i) +".asm.txt",ios::trunc);
         outfile << instr << " $2 " << rand() % 32767 << endl;
         outfile << "jr $0" << endl;
         outfile.close();
-        outfile.open(position + instr + "/"+ instr + "_2.asm.txt",ios::trunc);
+        outfile.open(position + instr + "/"+ instr + "_" +  to_string(i+3)+".asm.txt",ios::trunc);
         outfile << instr << " $2 " << to_string((rand() % 32767)+32768) << endl;
         outfile << "jr $0" << endl;
         outfile.close();
+        }
     }
 
     if (instr == "addiu")
@@ -116,29 +118,47 @@ int main()
 
     if (instr == "ori" || instr == "andi" || instr == "xori")
     {
+        string one = hex_random_generator(3);
+        string two = hex_random_generator(3);
+        outfile.open(position+ instr + "/" + instr + "_1.asm.txt",ios::trunc);
+        outfile << "# Check for sign extend (f" << one << ")" << endl; 
+        outfile << "addiu $20 $0 0xffff" << endl;
+        outfile << instr << " $2 $20 0xf" << one << endl;
+        outfile << "jr $0" << endl;
+        outfile.close();
+        outfile.open(position+ instr + "/" + instr + "_2.asm.txt",ios::trunc);  
+        outfile << "# Check for sign extend (0" << two << ")" << endl; 
+        outfile << "addiu $20 $0 0xffff" << endl;
+        outfile << instr << " $2 $20 0xf" << two << endl;
+        outfile << "jr $0" << endl;
+        outfile.close();
+
+        for(int i = 3; i <= 5;i++){
         int r1 = rand() % 17 + 8;
         int r2 = rand() % 17 + 8;
-        outfile.open(position+ instr + "/" + instr + "_1.asm.txt",ios::trunc);
+        outfile.open(position + instr + "/" + instr + "_" + to_string(i) + ".asm.txt",ios::trunc);
         outfile << assign_reg(1,"upper", r1) << endl;
         outfile << assign_reg(1,"lower", r1) << endl;
         outfile << instr << " $" << r1 << " $" << r1 << " " << rand() % 32767 << endl;
         outfile << "addiu $2 $" << r1 << " 0" << endl;
         outfile << "jr $0" << endl;
         outfile.close();
-        outfile.open(position+ instr + "/" + instr + "_2.asm.txt",ios::trunc);
+        outfile.open(position + instr + "/" + instr + "_" + to_string(i+3) + ".asm.txt",ios::trunc);
         outfile << assign_reg(2,"upper", r2) << endl;
         outfile << assign_reg(2,"lower", r2) << endl;
         outfile << instr << " $" << r2 << " $" << r2 << " " << (rand() % 32767) * -1 - 1 << endl;
         outfile << "addiu $2 $" << r2 << " 0" << endl;
         outfile << "jr $0" << endl;
         outfile.close();
+        }
     }
 
     if (instr == "and" || instr == "or" || instr == "xor")
     {
+        for(int i = 1; i <= 5;i++){
         int r1 = rand() % 17 + 8;
         int r2 = rand() % 17 + 8;
-        outfile.open(position+ instr + "/" + instr + "_1.asm.txt",ios::trunc);
+        outfile.open(position + instr + "/" + instr + "_" + to_string(i) + ".asm.txt",ios::trunc);
         outfile << assign_reg(1,"upper",r1) << endl;
         outfile << assign_reg(1,"lower",r1) << endl;
         outfile << assign_reg(2,"upper",r2) << endl;
@@ -147,21 +167,22 @@ int main()
         outfile << "addiu $2 $" << r1 << " 0" << endl;
         outfile << "jr $0" << endl;
         outfile.close();
+        }
     }
 
     if (instr == "addu" || instr == "subu")
     {
-        for (int i = 1; i <= 4; i++)
+        for (int i = 1; i <= 8; i++)
         {
             //11 12 21 22
             outfile.open(position+ instr + "/" + instr + "_" + to_string(i) + ".asm.txt",ios::trunc);
             int r1 = rand() % 17 + 8;
             int r2 = rand() % 17 + 8;
             int c1,c2;
-            if(i == 1){c1 = c2 = 1;}
-            if(i == 2){c1 = 1; c2 = 2;}
-            if(i == 3){c1= 2;c2 = 1;}
-            if(i == 4){c1 = c2 = 2;}
+            if(i == 1|| i == 5){c1 = c2 = 1;}
+            if(i == 2|| i == 6){c1 = 1; c2 = 2;}
+            if(i == 3|| i == 7){c1= 2;c2 = 1;}
+            if(i == 4|| i == 8){c1 = c2 = 2;}
             outfile << assign_reg(c1,"upper", r1) << endl;
             outfile << assign_reg(c1,"lower", r1) << endl;
             outfile << assign_reg(c2,"upper", r2) << endl;
@@ -169,6 +190,16 @@ int main()
             outfile << instr << " $" << r1 << " $" << r1 << " $" << r2 << endl;
             outfile << "addiu $2 $" << r1 << " 0" << endl;
             outfile << "jr $0" << endl;
+            outfile.close();
+        }
+        if(instr == "addu"){
+            outfile.open(position+ instr + "/" + instr + "_9.asm.txt",ios::trunc);
+            outfile <<"# Adding extreme numbers ffffffff + ffffffff" << endl;
+            outfile <<"addiu $17 $17 0xffff" << endl;
+            outfile <<"addiu $23 $23 0xffff" << endl;
+            outfile <<"addu $17 $17 $23 " << endl;
+            outfile <<"addiu $2 $17 0" << endl;
+            outfile <<"jr $0" << endl;
             outfile.close();
         }
     }
@@ -225,6 +256,27 @@ int main()
             outfile << "mflo $2" << endl;
             outfile << "jr $0" << endl;
             outfile.close();
+        }
+        if(instr == "div" || instr == "divu"){
+            outfile.open(position+ instr + "/" + instr + "_9.asm.txt",ios::trunc);
+            outfile << "# Divide when numerator is zero(lo)" << endl;
+            outfile << "lui $15 " << to_string((rand() % 32767)+32768) << endl;
+            outfile << "addiu $15 $15 " << to_string((rand() % 65535)-32768)<< endl;
+            outfile << "addiu $14 $14 0"<< endl;
+            outfile << instr << " $15 $14 $15" << endl;
+            outfile << "mflo $2" << endl;
+            outfile << "jr $0" << endl;
+            outfile.close();
+            outfile.open(position+ instr + "/" + instr + "_10.asm.txt",ios::trunc);
+            outfile << "# Divide when numerator is zero(hi)" << endl;
+            outfile << "lui $15 " << to_string((rand() % 32767)+32768) << endl;
+            outfile << "addiu $15 $15 " << to_string((rand() % 65535)-32768)<< endl;
+            outfile << "addiu $14 $14 0"<< endl;
+            outfile << instr << " $15 $14 $15" << endl;
+            outfile << "mfhi $2" << endl;
+            outfile << "jr $0" << endl;
+            outfile.close(); 
+
         }
     }
 }

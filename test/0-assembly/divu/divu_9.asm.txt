@@ -1,8 +1,0 @@
-# divide when numerator is zero(lo)
-lui $13 35173
-addiu $13 $13 23232
-lui $12 0
-addiu $12 $12 0
-divu $12 $13
-mflo $2
-jr $0
