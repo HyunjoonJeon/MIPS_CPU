@@ -1,5 +1,5 @@
 # offset -13
-addiu $17 $0 0x1111
+addiu $17 $0 0x111c
 addiu $18 $0 0xf7
 sb $18 -13($17)
 lbu $2 -13($17)
