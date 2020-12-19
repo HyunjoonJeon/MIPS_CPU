@@ -28,7 +28,7 @@ if [ 3 -eq "$#" ];then
                 ISBIN=true
                 if [ ${TYPE} == 'harvard' ];then
                 #echo "harvard !"
-                    ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
+                    ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
                 fi
                 if [ ${TYPE} == 'bus' ];then
                 #echo "bus"
@@ -40,7 +40,7 @@ if [ 3 -eq "$#" ];then
         ISBIN=false
         if [ ${TYPE} == 'harvard' ];then
         #echo "harvard !"
-        ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
+        ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
         fi
         if [ ${TYPE} == 'bus' ];then
         #echo "bus"
@@ -70,7 +70,7 @@ else
     then
         if [ ${TYPE} == 'harvard' ];then
         #echo "harvard !"
-        ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
+        ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
         fi
         if [ ${TYPE} == 'bus' ];then
         #echo "bus"
