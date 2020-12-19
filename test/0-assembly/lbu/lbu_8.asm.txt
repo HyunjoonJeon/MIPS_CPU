@@ -1,0 +1,10 @@
+# load mem word byte 0, positive offset
+sll $0 $0 0
+sll $0 $0 0
+sll $0 $0 0
+addiu $29 $0 0x1234
+lui $15 0xbfc0
+lbu $2 12($15)
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340

@@ -1,8 +1,6 @@
-# load mem word byte 0
-lui $9 0xa1a2
-ori $9 $9 0xa3a4
-addiu $15 $0 0xfffc
-sw $9 0($15)
+# load mem word byte 0, offset 0
+addiu $29 $0 0x1234
+lui $15 0xbfc0
 lbu $2 0($15)
 jr $0
 sll $0 $0 0
