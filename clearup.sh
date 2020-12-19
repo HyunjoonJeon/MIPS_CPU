@@ -1,7 +1,4 @@
-rm ./test/0-assembly/addiu/addiu_1.asm.txt
-rm ./test/0-assembly/addiu/addiu_2.asm.txt
-rm ./test/0-assembly/addiu/addiu_3.asm.txt
-rm ./test/0-assembly/addiu/addiu_4.asm.txt
+rm ./test/0-assembly/addiu/addiu*.asm.txt
 
 rm ./test/0-assembly/addu/addu_1.asm.txt
 rm ./test/0-assembly/addu/addu_2.asm.txt
