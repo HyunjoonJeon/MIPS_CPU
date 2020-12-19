@@ -51,7 +51,6 @@ if [ 3 -eq "$#" ];then
     done
 
 else
-    ISBIN=false
     #first run the 5 basic test cases that needed to be tested
     ./test/no_init_test_mips_cpu.sh ${ADR} ${TYPE} "lui"
     ./test/no_init_test_mips_cpu.sh ${ADR} ${TYPE} "addiu" 
@@ -61,23 +60,40 @@ else
 
     #run all testcase for all test cases
     TESTCASES="test/0-assembly/*/*.asm.txt"
+    CCASES="test/0-assembly/*/*.hex.txt"
     for i in ${TESTCASES} ; do
-    # Extract just the testcase name from the filename. See `man basename` for what this command does.
-    TESTNAME=$(basename ${i} .asm.txt)
-    INSTR=${TESTNAME%%_*}
-    #echo "${TESTNAME} ${INSTR}"
-    # Dispatch to the main test-case script
-    if [ ${INSTR} != 'lui' ] && [ ${INSTR} != 'addiu' ] && [ ${INSTR} != 'lw' ] && [ ${INSTR} != 'sw' ] && [ ${INSTR} != 'jr' ];
-    then
+        ISBIN=false
+        # Extract just the testcase name from the filename. See `man basename` for what this command does.
+        TESTNAME=$(basename ${i} .asm.txt)
+        INSTR=${TESTNAME%%_*}
+        #echo "${TESTNAME} ${INSTR}"
+        # Dispatch to the main test-case script
+        if [ ${INSTR} != 'lui' ] && [ ${INSTR} != 'addiu' ] && [ ${INSTR} != 'lw' ] && [ ${INSTR} != 'sw' ] && [ ${INSTR} != 'jr' ];then
+            if [ ${TYPE} == 'harvard' ];then
+            #echo "harvard !"
+            ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
+            fi
+            if [ ${TYPE} == 'bus' ];then
+            #echo "bus"
+            ./test/one_instr_bus.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
+            fi
+        fi
+    done
+
+    for i in ${CCASES} ; do
+        ISBIN=true
+        # Extract just the testcase name from the filename. See `man basename` for what this command does.
+        TESTNAME=$(basename ${i} .hex.txt)
+        INSTR=${TESTNAME%%_*}
+        # Dispatch to the main test-case script
         if [ ${TYPE} == 'harvard' ];then
-        #echo "harvard !"
-        ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
+            #echo "harvard !"
+            ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
         fi
         if [ ${TYPE} == 'bus' ];then
-        #echo "bus"
-        ./test/one_instr_bus.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
+            #echo "bus"
+            ./test/one_instr_bus.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
         fi
-    fi
     done
 
 fi
