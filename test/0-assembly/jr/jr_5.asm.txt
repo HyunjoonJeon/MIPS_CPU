@@ -1,0 +1,16 @@
+lui $12 0xbfc0
+addiu $8 $12 0x0024
+addiu $9 $12 0x0034
+addiu $10 $12 0x0018
+addiu $11 $11 10
+jr $8 
+addiu $11 $11 10
+addiu $11 $11 10
+jr $9
+addiu $11 $11 10
+addiu $11 $11 10
+jr $10
+addiu $11 $11 10
+addiu $11 $11 10
+addiu $2 $11 0
+jr $0
