@@ -3,7 +3,6 @@
 *.out-lines
 *.elf
 *.o
-*.s
 *.bin
 
 bin/*
