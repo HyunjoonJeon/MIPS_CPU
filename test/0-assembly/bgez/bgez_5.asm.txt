@@ -1,0 +1,11 @@
+# simple iterative loop (10 iterations)
+addiu $8 $0 0x0024
+addiu $4 $0 0x0004
+loop1:
+subu $8 $8 $4
+addiu $2 $2 1
+bgez $8 loop1
+sll $0 $0 0
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340

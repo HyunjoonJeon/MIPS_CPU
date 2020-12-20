@@ -1,14 +1,21 @@
-# jupming backwards
-lui $20 0xbfc0
-addiu $21 $20 0x0014
-addiu $22 $20 0x0020
-jr $22
+# jumping while chaning address
+lui $23 0xbfc0
+addiu $23 $23 0x0008
+addiu $23 $23 8
 addiu $2 $2 0
-addiu $2 $2 10
+addiu $2 $2 0
+addiu $2 $2 0
+addiu $2 $2 0
+addiu $2 $2 0
+addiu $2 $2 0
+addiu $2 $2 0
+addiu $2 $2 0
+addiu $2 $2 0
+addiu $2 $2 0
+addiu $2 $2 0
+addiu $2 $2 0
+addiu $10 $10 1
+addiu $23 $23 8
+jr $23
+addiu $2 $10 0
 jr $0
-addiu $0 $0 0
-jr $21
-addiu $2 $2 20
-jr $0 
-addiu $0 $0 0
-addiu $2 $0 34

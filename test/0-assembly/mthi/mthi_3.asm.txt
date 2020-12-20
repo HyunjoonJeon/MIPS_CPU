@@ -1,0 +1,4 @@
+addiu $19 $0 0xf123
+mthi $19
+mfhi $2
+jr $0
