@@ -1,0 +1,7 @@
+addiu $17 $0 0xffff
+addiu $18 $0 0xffff
+mult $17 $18
+mfhi $20
+mtlo $20
+mflo $2
+jr $0

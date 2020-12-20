@@ -1,9 +1,7 @@
-# load lower half of mem word, alignment offset 0
-lui $9 0xa1a2
-ori $9 $9 0xf3f4
-addiu $15 $0 0xfffc
-sw $9 0($15)
-lhu $2 0($15)
+# load half unsigned with zero extension, offset 2
+addiu $17 $0 0x1000
+lui $18 0xf192
+addiu $18 $18 0x1123
+sw $18 0($17)
+lhu $2 2($17)
 jr $0
-sll $0 $0 0
-addiu $2 $0 0x0340

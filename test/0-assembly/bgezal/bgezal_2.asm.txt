@@ -2,8 +2,8 @@
 addiu $17 $0 0x1111
 bgezal $17 Label1
 addiu $2 $0 0x0001
-andi $2 $0 0
-or $0 $0 $0
+sll $2 $0 0
+addu $0 $0 $0
 jr $0
 sll $0 $5 3
 ori $0 $0 0x1234
@@ -11,8 +11,8 @@ ori $0 $0 0x1234
 Label1:
 addiu $18 $0 0x0000
 bgezal $18 Label2
-or $2 $17 $18
-and $9 $0 $0
+addu $2 $17 $18
+sll $9 $0 0
 jr $0
 sll $0 $0 7
 addiu $0 $0 68

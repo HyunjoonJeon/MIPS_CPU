@@ -1,0 +1,5 @@
+# mtlo and mfhi
+addiu $19 $0 0xf123
+mtlo $19
+mfhi $2
+jr $0
