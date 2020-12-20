@@ -1,0 +1,10 @@
+# do not branch when reg > 0, test branch delay slot
+addiu $17 $0 0x1111
+bltzal $17 Label1
+addiu $2 $0 0x1111
+jr $0
+addiu $2 $0 0x1234
+
+Label1:
+jr $0
+addu $17 $31 $0
