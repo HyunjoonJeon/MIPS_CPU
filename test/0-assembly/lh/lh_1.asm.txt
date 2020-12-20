@@ -1,8 +1,10 @@
-# load half with sign extention
+# load lower half with sign extention
 addiu $5 $0 0x00ac
-lui $18 0xf123
-ori $18 $18 0xf937
-sh $18 0($5)
+addiu $18 $0 0xf123
+sll $18 $18 16
+addiu $18 $18 0x7937
+addiu $18 $18 0x5000
+sw $18 0($5)
 lh $2 0($5)
 jr $0
 

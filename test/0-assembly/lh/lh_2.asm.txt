@@ -1,6 +1,7 @@
 addiu $17 $0 0x0144
-lui $18 0xfff1
-ori $18 $18 0x7301
+addiu $18 $0 0xfff1
+sll $18 $18 16
+addiu $18 $18 0x7301
 sw $18 200($17)
 lh $2 200($17)
 jr $0

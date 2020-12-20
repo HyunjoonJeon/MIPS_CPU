@@ -1,0 +1,15 @@
+# load upper half of mem word, positive offset (with sign extension)
+sll $0 $0 0
+sll $0 $0 0
+sll $0 $0 0 
+addiu $29 $7 0x1234
+addiu $15 $0 0xbfc0
+sll $15 $15 16
+addiu $15 $15 0x0002
+addiu $14 $0 0x000c
+addiu $8 $0 0x0002
+sw $15 0($14)
+lh $2 12($8)
+jr $0 
+sll $0 $0 0
+addiu $2 $0 0x0340

@@ -1,10 +1,11 @@
-# load upper half of mem word, alignment offset 0 (no sign extension)
-lui $9 0x5152
-addiu $9 $9 0x5354
+# load lower half of mem word, offset 0 (with sign extension)
+addiu $9 $0 0xa1a2
+sll $9 $9 16
+addiu $9 $9 0x73a4
+addiu $9 $9 0x3000
 addiu $15 $0 0xfffc
-addiu $14 $0 0xfffe
 sw $9 0($15)
-lh $2 0($14)
+lh $2 0($15)
 jr $0
 sll $0 $0 0
 addiu $2 $0 0x0340

@@ -1,0 +1,9 @@
+# load lower half of mem word, negative offset (with sign extension)
+addiu $29 $7 0x94a7
+addiu $15 $0 0xbfc0
+sll $15 $15 16
+addiu $15 $15 0x032c
+lh $2 -812($15)
+jr $0 
+sll $0 $0 0
+addiu $2 $0 0x0340

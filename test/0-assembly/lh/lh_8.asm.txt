@@ -1,10 +1,11 @@
-# load lower half of mem word, positive offset (no sign extension)
+# load upper half of mem word, positive offset (no sign extension)
 sll $0 $0 0
 sll $0 $0 0
 sll $0 $0 0 
 addiu $29 $7 0x1234
 addiu $15 $0 0xbfc0
 sll $15 $15 16
+addiu $15 $15 0x0002
 lh $2 12($15)
 jr $0 
 sll $0 $0 0
