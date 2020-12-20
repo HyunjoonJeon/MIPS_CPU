@@ -1,0 +1,8 @@
+# load from mem word byte 1, negative offset (no sign extension)
+addiu $29 $0 0x1234
+lui $15 0xbfc0
+addiu $15 $15 0x0211
+lb $2 -528($15)
+jr $0
+sll $0 $0 0
+addiu $2 $0 0x0340

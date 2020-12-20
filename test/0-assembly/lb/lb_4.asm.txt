@@ -1,8 +1,6 @@
-# load from mem word byte 0 (no sign extension)
-lui $9 0x5152
-ori $9 $9 0x5354
-addiu $15 $0 0xfffc
-sw $9 0($15)
+# load from mem word byte 0, offset 0 (no sign extension)
+addiu $29 $0 0x1234
+lui $15 0xbfc0
 lb $2 0($15)
 jr $0
 sll $0 $0 0
