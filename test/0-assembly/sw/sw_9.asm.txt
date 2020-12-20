@@ -1,9 +1,9 @@
-# alignment offset 2, checking for spillover into next word
+# alignment offset 4, checking for spillover into next word
 lui $9 0x481c
 addiu $9 $9 0x7a89
-addiu $15 $0 0xfffc
+addiu $15 $0 0xfff8
 addiu $14 $0 0
-sw $9 2($15)
+sw $9 4($15)
 lw $2 0($14)
 jr $0
 sll $0 $0 0
