@@ -1,6 +1,7 @@
 # load from mem word byte 2, negative offset (with sign extension)
 addiu $29 $7 0xabcd
-lui $15 0xbfc0
+addiu $15 $15 0xbfc0
+sll $15 $15 16
 addiu $15 $15 0x02a2
 lb $2 -672($15)
 jr $0

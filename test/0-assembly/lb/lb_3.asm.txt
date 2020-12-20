@@ -1,6 +1,7 @@
 # offset 123
-addiu $17 $0 0x00ff
+addiu $17 $0 0xff00
+sll $17 $17 16
 addiu $18 $0 0x0248
-sb $17 123($18)
+sw $17 120($18)
 lb $2 123($18)
 jr $0

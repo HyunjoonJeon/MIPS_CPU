@@ -1,6 +1,7 @@
 # offset -13
 addiu $17 $0 0x111c
-addiu $18 $0 0xf7
-sb $18 -13($17)
+addiu $18 $0 0xf700
+sll $18 $18 16
+sw $18 -16($17)
 lbu $2 -13($17)
 jr $0
