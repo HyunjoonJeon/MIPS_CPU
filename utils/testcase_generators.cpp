@@ -263,7 +263,7 @@ int main()
             outfile << "lui $15 " << to_string((rand() % 32767)+32768) << endl;
             outfile << "addiu $15 $15 " << to_string((rand() % 65535)-32768)<< endl;
             outfile << "addiu $14 $14 0"<< endl;
-            outfile << instr << " $15 $14 $15" << endl;
+            outfile << instr << " $14 $15" << endl;
             outfile << "mflo $2" << endl;
             outfile << "jr $0" << endl;
             outfile.close();
@@ -272,7 +272,7 @@ int main()
             outfile << "lui $15 " << to_string((rand() % 32767)+32768) << endl;
             outfile << "addiu $15 $15 " << to_string((rand() % 65535)-32768)<< endl;
             outfile << "addiu $14 $14 0"<< endl;
-            outfile << instr << " $15 $14 $15" << endl;
+            outfile << instr << " $14 $15" << endl;
             outfile << "mfhi $2" << endl;
             outfile << "jr $0" << endl;
             outfile.close(); 
