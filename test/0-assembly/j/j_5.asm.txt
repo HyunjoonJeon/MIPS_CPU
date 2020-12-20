@@ -1,0 +1,28 @@
+addiu $15 $15 100
+addiu $18 $18 0x4500
+j oring
+addiu $2 $15 0
+jr $0
+anding:
+andi $16 $15 0x003f
+and $16 $16 $18
+j xoring
+addiu $2 $16 0
+jr $0
+xoring:
+xori $17 $16 0x040d
+xor $17 $17 $18
+addiu $2 $17 0
+j ending
+addiu $2 $17 0
+jr $0
+oring:
+ori $15 $15 0xf0f0
+or $15 $15 $18
+j anding
+addiu $2 $15 0
+jr $0
+ending:
+jr $0
+
+

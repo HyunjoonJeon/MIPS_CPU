@@ -1,0 +1,14 @@
+# looping
+addiu $19 $19 121
+addiu $20 $20 11
+addiu $8 $8 11
+start:
+subu $19 $19 $8
+addu $20 $20 $8
+beq $20 $19 end
+addiu $2 $2 0
+j start
+addiu $2 $2 0
+end:
+addiu $2 $20 0
+jr $0
