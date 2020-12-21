@@ -41,7 +41,7 @@ if [ 3 -eq "$#" ];then
             cp ${c} test/1-binary/${INSTR}/${TESTNAME}.hex.txt
             if [ ${TYPE} == 'harvard' ];then
             #echo "harvard !"
-                ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
+                ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
             fi
             if [ ${TYPE} == 'bus' ];then
             #echo "bus"
@@ -71,7 +71,7 @@ else
         if [ ${INSTR} != 'lui' ] && [ ${INSTR} != 'addiu' ] && [ ${INSTR} != 'lw' ] && [ ${INSTR} != 'sw' ] && [ ${INSTR} != 'jr' ];then
             if [ ${TYPE} == 'harvard' ];then
             #echo "harvard !"
-            ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
+            ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
             fi
             if [ ${TYPE} == 'bus' ];then
             #echo "bus"
