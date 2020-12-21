@@ -127,8 +127,7 @@ int main()
         }else{ 
             outfile << "addiu $20 $0 0xffff" << endl;
         }
-        outfile << instr << " $20 $20 0xf" << one << endl;
-        outfile << "addiu $2 $20 0" << endl;
+        outfile << instr << " $2 $20 0xf" << one << endl;
         outfile << "jr $0" << endl;
         outfile.close();
         outfile.open(position+ instr + "/" + instr + "_2.asm.txt",ios::trunc);  
@@ -138,8 +137,7 @@ int main()
         }else{ 
             outfile << "addiu $20 $0 0xffff" << endl;
         }
-        outfile << instr << " $20 $20 0x0" << two << endl;
-        outfile << "addiu $2 $20 0" << endl;
+        outfile << instr << " $2 $20 0x0" << two << endl;
         outfile << "jr $0" << endl;
         outfile.close();
 
