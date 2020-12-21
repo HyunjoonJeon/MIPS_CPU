@@ -23,7 +23,7 @@ if [ 3 -eq "$#" ];then
             ISBIN=false
             if [ ${TYPE} == 'harvard' ];then
             #echo "harvard !"
-            ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
+            ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
             fi
             if [ ${TYPE} == 'bus' ];then
             #echo "bus"
@@ -89,7 +89,7 @@ else
         # Dispatch to the main test-case script
         if [ ${TYPE} == 'harvard' ];then
             #echo "harvard !"
-            ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME}
+            ./test/one_instr_harvard.sh ${ADR} ${INSTR} ${TESTNAME} ${ISBIN}
         fi
         if [ ${TYPE} == 'bus' ];then
             #echo "bus"
