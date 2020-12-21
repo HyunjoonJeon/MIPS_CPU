@@ -122,14 +122,24 @@ int main()
         string two = hex_random_generator(3);
         outfile.open(position+ instr + "/" + instr + "_1.asm.txt",ios::trunc);
         outfile << "# Check for sign extend (f" << one << ")" << endl; 
-        outfile << "addiu $20 $0 0xffff" << endl;
-        outfile << instr << " $2 $20 0xf" << one << endl;
+        if(instr == "ori"){
+            outfile << "addiu $20 $20 0x00ff" << endl;
+        }else{ 
+            outfile << "addiu $20 $0 0xffff" << endl;
+        }
+        outfile << instr << " $20 $20 0xf" << one << endl;
+        outfile << "addiu $2 $20 0" << endl;
         outfile << "jr $0" << endl;
         outfile.close();
         outfile.open(position+ instr + "/" + instr + "_2.asm.txt",ios::trunc);  
         outfile << "# Check for sign extend (0" << two << ")" << endl; 
-        outfile << "addiu $20 $0 0xffff" << endl;
-        outfile << instr << " $2 $20 0xf" << two << endl;
+        if(instr == "ori"){
+            outfile << "addiu $20 $20 0x00ff" << endl;
+        }else{ 
+            outfile << "addiu $20 $0 0xffff" << endl;
+        }
+        outfile << instr << " $20 $20 0x0" << two << endl;
+        outfile << "addiu $2 $20 0" << endl;
         outfile << "jr $0" << endl;
         outfile.close();
 
