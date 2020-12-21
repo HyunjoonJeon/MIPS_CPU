@@ -1,5 +1,6 @@
 # store to last byte in memory
-lui $9 0x1122
+addiu $9 $0 0x1122
+sll $9 $9 16
 addiu $9 $9 0x3344
 addiu $15 $0 0xffff
 sb $9 0($15)
