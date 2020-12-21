@@ -1,4 +1,6 @@
 lui $17 0xffff
 mthi $17
+sll $0 $0 0
+addiu $4 $4 0
 mfhi $2
 jr $0

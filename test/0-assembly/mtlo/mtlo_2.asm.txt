@@ -1,5 +1,7 @@
 # directly mtlo then mflo
 addiu $17 $0 0xaabc
 mtlo $17
+addiu $3 $0 0
+addiu $4 $0 2
 mflo $2
 jr $0

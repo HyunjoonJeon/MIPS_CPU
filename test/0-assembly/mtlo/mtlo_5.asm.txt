@@ -1,7 +1,11 @@
 addiu $17 $0 0xffff
 addiu $18 $0 0xffff
 mult $17 $18
-mfhi $20
+mflo $20
+addiu $14 $14 1
+addiu $14 $14 1
 mtlo $20
+addiu $14 $14 1
+addiu $14 $14 1
 mflo $2
 jr $0

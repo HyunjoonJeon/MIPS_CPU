@@ -1,4 +1,6 @@
 addiu $17 $0 0xffff
 mthi $17
+addiu $4 $0 0
+addiu $3 $0 1
 mfhi $2
 jr $0

@@ -2,7 +2,10 @@
 lui $17 0xf100
 lui $18 0x10cc
 mult $17 $18
+mfhi $2
+addiu $4 $0 123
+addiu $4 $0 456
 mthi $18
-mfhi $19
-addu $2 $19 $0
+addiu $3 $0 0
+mfhi $2
 jr $0

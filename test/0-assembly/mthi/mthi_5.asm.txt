@@ -1,8 +1,11 @@
+# mfhi and mthi should be splitted by two instr
 addiu $17 $0 0xffff
 addiu $18 $0 0xffff
 addiu $19 $0 0x1111
 mult $17 $18
 mfhi $2
+sll $0 $0 0
+sll $0 $0 0
 mthi $19
 mfhi $2
 jr $0

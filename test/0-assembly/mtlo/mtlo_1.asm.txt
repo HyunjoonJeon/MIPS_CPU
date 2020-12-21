@@ -1,10 +1,14 @@
-# exchange the value in hi and lo
+# mflo and mtlo should be splitted by 2 intr
 lui $17 0xffff
-ori $17 $17 0x10cc
+addiu $17 $17 0x10cc
 lui $18 0xdef1
+addiu $19 $0 0x1ee3
 mult $17 $18
-mfhi $19
+mflo $2
+addiu $3 $0 0
+addiu $3 $3 1
 mtlo $19
-mflo $20
-addu $2 $20 $0
+addiu $3 $3 1
+addiu $3 $3 1
+mflo $2
 jr $0

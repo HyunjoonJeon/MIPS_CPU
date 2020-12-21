@@ -1,4 +1,6 @@
 lui $17 0xffff
 mtlo $17
+addiu $5 $0 123
+addiu $5 $5 456
 mflo $2
 jr $0
