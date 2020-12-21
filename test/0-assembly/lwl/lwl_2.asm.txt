@@ -5,7 +5,7 @@ addiu $18 $18 0x0304
 sll $17 $17 16
 addu $19 $17 $18
 lui $20 0x0a0b
-ori $2 $20 0x0c0d
+addiu $2 $20 0x0c0d
 sw $19 0($16)
 lwl $2 1($16)
 jr $0

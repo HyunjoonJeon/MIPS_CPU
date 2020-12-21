@@ -1,8 +1,9 @@
 # bigger offsets
 lui $17 0xffee
-ori $17 $17 0xddcc
+addiu $17 $17 0x7dcc
+addiu $17 $17 0x6000
 lui $18 0x0a0b
-ori $2 $18 0x0c0d
+addiu $2 $18 0x0c0d
 addiu $19 $0 0x1000
 addiu $21 $19 121
 sw $17 124($19)
