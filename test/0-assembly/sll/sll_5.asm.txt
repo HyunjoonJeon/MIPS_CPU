@@ -1,4 +1,4 @@
-# shifting by 32 bits
+# shifting 32 bits
 lui $14 0x1234
 addiu $15 $14 0x5687
 jr $0

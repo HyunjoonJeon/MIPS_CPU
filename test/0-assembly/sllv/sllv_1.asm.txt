@@ -1,3 +1,4 @@
+# shifting 0 bits
 addiu $15 $0 0xf0
 sllv $2 $15 $0
 jr $0
