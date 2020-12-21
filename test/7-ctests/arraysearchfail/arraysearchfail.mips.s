@@ -1,5 +1,5 @@
 
-7-ctests/arraysearchn/arraysearchn.mips.elf:     file format elf32-tradlittlemips
+7-ctests/arraysearchfail/arraysearchfail.mips.elf:     file format elf32-tradlittlemips
 
 
 Disassembly of section .text:

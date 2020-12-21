@@ -1,3 +1,4 @@
+# shifting 1 bits
 lui $14 0x5423
 addiu $15 $14 0xf0
 addiu $16 $0 0xfcc1
